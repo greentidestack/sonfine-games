@@ -596,6 +596,85 @@
     flex-shrink: 0;
     outline: none;
 }
+
+.grid-card {
+    position: relative;
+}
+
+.fav-star {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px); 
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: background-color 0.2s;
+}
+
+.fav-star:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.star-outline {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.star-filled {
+    display: none;
+    color: var(--accent);
+}
+
+.fav-star.active .star-outline {
+    display: none;
+}
+
+.fav-star.active .star-filled {
+    display: inline;
+}
+.favorites-section {
+    margin-bottom: 20px;
+}
+
+.favorites-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px 14px;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-ui);
+    font-weight: bold;
+    user-select: none;
+}
+
+.favorites-chevron {
+    transition: transform 0.2s ease;
+    font-size: 0.85rem;
+    color: var(--text-sub);
+}
+
+.favorites-chevron.rotated {
+    transform: rotate(90deg);
+}
+
+.favorites-count {
+    color: var(--text-sub);
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+.favorites-content {
+    margin-top: 12px;
+}
     </style>
 </head>
 <body>
@@ -633,6 +712,19 @@
 
 <div id="view-games" class="view">
     <h2 class="section-header">Games</h2>
+
+    <div class="favorites-section" id="favorites-section">
+        <div class="favorites-header" onclick="toggleFavoritesSection()">
+            <i class="fa-solid fa-chevron-right favorites-chevron" id="favorites-chevron"></i>
+            <i class="fa-solid fa-star" style="color: gold;"></i>
+            <span>Favorites</span>
+            <span class="favorites-count" id="favorites-count"></span>
+        </div>
+        <div class="favorites-content" id="favorites-content" style="display:none;">
+            <div class="grid-container" id="favorites-grid"></div>
+        </div>
+    </div>
+
     <input type="text" class="omnibox" id="games-search" placeholder="Search games..." oninput="filterGrid(LeGames, 'recommended-games-grid', this.value)" style="margin-bottom: 20px; max-width: 1200px;">
     <div class="grid-container" id="recommended-games-grid"></div>
 </div>
@@ -690,6 +782,17 @@
     <div class="config-btn-group">
         <button class="config-toggle-btn active" id="btn-sort-default" onclick="pickSortMode('default')">Default</button>
         <button class="config-toggle-btn" id="btn-sort-alpha" onclick="pickSortMode('alpha')">A-Z</button>
+    </div>
+</div>
+
+<div class="settings-card square">
+    <div>
+        <h3><i class="fa-solid fa-star" style="margin-right: 5px;"></i>Open Favorites by Default</h3>
+        <p>Automatically expand the Favorites section when you open the Games tab</p>
+    </div>
+    <div class="config-btn-group">
+        <button class="config-toggle-btn active" id="btn-fav-open-on" onclick="pickFavoritesDefault(true)">On</button>
+        <button class="config-toggle-btn" id="btn-fav-open-off" onclick="pickFavoritesDefault(false)">Off</button>
     </div>
 </div>
 
@@ -945,6 +1048,7 @@ function rollSplash() {
       let accentMode = 'default';
       let sortMode = 'default';
       let customAccentHex = '#4a90e2';
+      let favoritesOpenByDefault = true;
 const ACCENT_COLORS = {
     default: { base: '#4a90e2', soft: '#254a75' },
     green:   { base: '#39d353', soft: '#1e4a2c' },
@@ -974,14 +1078,96 @@ function goToView(name, e) {
         buildGrid(sortMode === 'alpha' ? sortGames(LeGames) : LeGames, 'recommended-games-grid');
         gridsBuilt.games = true;
     }
-  
+
+    if (name === 'games') {
+        renderFavoritesSection();
+    }
+
     if (name === 'apps' && !gridsBuilt.apps) {
         buildGrid(apps, 'apps-grid');
         gridsBuilt.apps = true;
     }
 }
 
+let favorites = [];
+
+function loadFavorites() {
+    try {
+        const raw = localStorage.getItem('sonfine_favorites');
+        favorites = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+        favorites = [];
+    }
+}
+
+function saveFavorites() {
+    try {
+        localStorage.setItem('sonfine_favorites', JSON.stringify(favorites));
+    } catch (e) {
+        console.warn('couldnt save favorites', e);
+    }
+}
+
+function isFavorite(name) {
+    return favorites.some(f => f.name === name);
+}
+
+function toggleFavorite(item) {
+    const idx = favorites.findIndex(f => f.name === item.name);
+    if (idx >= 0) {
+        favorites.splice(idx, 1);
+    } else {
+        favorites.push({ name: item.name, url: item.url, image: item.image, servers: item.servers });
+    }
+    saveFavorites();
+}
+
+function updateStarIcon(btn, name) {
+    btn.classList.toggle('active', isFavorite(name));
+}
+
+function toggleFavoritesSection() {
+    const content = document.getElementById('favorites-content');
+    const chevron = document.getElementById('favorites-chevron');
+    if (!content || !chevron) return;
+
+    const isOpen = content.style.display !== 'none';
+    content.style.display = isOpen ? 'none' : 'block';
+    chevron.classList.toggle('rotated', !isOpen);
+}
+
+let favoritesSectionInitialized = false;
+
+function renderFavoritesSection() {
+    const countEl = document.getElementById('favorites-count');
+    const gridEl = document.getElementById('favorites-grid');
+    if (!countEl || !gridEl) return;
+
+    countEl.textContent = favorites.length ? `(${favorites.length})` : '';
+
+    if (favorites.length === 0) {
+        gridEl.innerHTML = '<p style="color: var(--text-sub); font-size: 0.9rem;">No favorites yet — click the star on any game to add it here.</p>';
+    } else {
+        buildGrid(favorites, 'favorites-grid');
+    }
+
+    if (!favoritesSectionInitialized) {
+        favoritesSectionInitialized = true;
+        if (favoritesOpenByDefault) {
+            document.getElementById('favorites-content').style.display = 'block';
+            document.getElementById('favorites-chevron').classList.add('rotated');
+        }
+    }
+}
+
       let confirmCloseMode = true;
+      
+      function pickFavoritesDefault(open, save = true) {
+    favoritesOpenByDefault = open;
+    document.getElementById('btn-fav-open-on')?.classList.toggle('active', open === true);
+    document.getElementById('btn-fav-open-off')?.classList.toggle('active', open === false);
+    if (save) persistSettings();
+}
 
 function preventAccidentalClose(e) {
     e.preventDefault();
@@ -1016,27 +1202,41 @@ function pickConfirmClose(enabled, save = true) {
     if (save) persistSettings();
 }
 
-        function buildGrid(items, targetId) {
-            const holder = document.getElementById(targetId);
-            if (!holder) return;
+function buildGrid(items, targetId) {
+    const holder = document.getElementById(targetId);
+    if (!holder) return;
 
-            holder.innerHTML = '';
+    holder.innerHTML = '';
 
-            for (const it of items) {
-                const tile = document.createElement('div');
-                tile.className = 'grid-card';
-tile.onclick = function () {
-    if (it.name === 'All Games') alert('be patient, the games take a while to load (some are also blocked, i cant fix that)');
-    openInFrame(it.url, it.name, it.servers);
-};
+    for (const it of items) {
+        const tile = document.createElement('div');
+        tile.className = 'grid-card';
+        tile.onclick = function () {
+            if (it.name === 'All Games') alert('be patient, the games take a while to load. some games are blocked, and sometimes the games dont load at all, i cant fix it');
+            openInFrame(it.url, it.name, it.servers);
+        };
 
-                tile.innerHTML = `
-                    <img src="${it.image}" class="card-img" alt="${it.name}" onerror="this.src='https://placeholder.com{encodeURIComponent(it.name)}'">
-                    <div class="card-title">${it.name}</div>
-                `;
-                holder.appendChild(tile);
-            }
-        }
+tile.innerHTML = `
+    <button class="fav-star" title="Favorite">
+        <i class="fa-regular fa-star star-outline"></i>
+        <i class="fa-solid fa-star star-filled"></i>
+    </button>
+    <img src="${it.image}" class="card-img" alt="${it.name}" onerror="this.src='https://placeholder.com{encodeURIComponent(it.name)}'">
+    <div class="card-title">${it.name}</div>
+`;
+
+        const starBtn = tile.querySelector('.fav-star');
+        updateStarIcon(starBtn, it.name);
+        starBtn.onclick = function (e) {
+            e.stopPropagation();
+            toggleFavorite(it);
+            updateStarIcon(starBtn, it.name);
+            renderFavoritesSection();
+        };
+
+        holder.appendChild(tile);
+    }
+}
 
         function filterGrid(items, targetId, query) {
             const q = query.trim().toLowerCase();
@@ -1351,7 +1551,8 @@ function persistSettings() {
             accent: accentMode,
             customAccent: customAccentHex,
             confirmClose: confirmCloseMode,
-            sortMode: sortMode
+            sortMode: sortMode,
+            favoritesOpenByDefault: favoritesOpenByDefault
         }));
     } catch (e) {
         console.warn('couldnt save settings', e);
@@ -1362,7 +1563,7 @@ function restoreSettings() {
     let saved = {};
     try {
         const raw = localStorage.getItem('sonfine_config');
-       if (raw) saved = JSON.parse(raw);
+        if (raw) saved = JSON.parse(raw);
     } catch (e) {
         console.warn('couldnt load settings', e);
     }
@@ -1376,12 +1577,16 @@ function restoreSettings() {
     pickAccent(saved.accent || 'default', false, customAccentHex);
     pickConfirmClose(saved.confirmClose !== false, false);
     pickSortMode(saved.sortMode || 'default', false);
+    pickFavoritesDefault(saved.favoritesOpenByDefault !== false, false);
 }
-        window.addEventListener('DOMContentLoaded', () => {
-          rollSplash();
-        restoreSettings();
-          spawnDots();
-        });
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadFavorites();
+    rollSplash();
+    restoreSettings();
+    spawnDots();
+});
 
       function spawnDots() {
     const field = document.getElementById('bg-dots');
@@ -1459,6 +1664,8 @@ function importSettings(e) {
 
             pickAccent(saved.accent || 'default', false, customAccentHex);
             pickConfirmClose(saved.confirmClose !== false, false);
+            
+            pickFavoritesDefault(saved.favoritesOpenByDefault !== false, false);
 
             persistSettings();
             alert('Settings imported!');
