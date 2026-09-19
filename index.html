@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sonfine Site</title>
-  <link rel="icon" href="https://i.postimg.cc/K8Cw03nF/Drawing.png">
+  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/K8Cw03nF/Drawing.png">
 
   <script src="https://kit.fontawesome.com/686a5a8044.js" crossorigin="anonymous"></script>
     <style>
@@ -118,23 +118,15 @@
         }
 
         .splash-msg {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #3a3a3a;
             color: var(--text-sub);
-            padding: 10px 18px;
-            border-radius: var(--radius-ui);
             font-size: 1rem;
-            cursor: pointer;
+            /* cursor: pointer; */
             user-select: none;
-            transition: background-color 0.2s ease;
-            z-index: 500;
+            margin-bottom: 12px;
         }
-        
+
         .splash-msg:hover {
-            background-color: #454545;
+            /* color: var(--text-main); */
         }
       
         .omnibox-container {
@@ -281,6 +273,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .config-toggle-btn:hover {
+            border: 2px solid var(--accent);
+        }
+
+        .config-toggle-btn:active {
+            background-color: var(--accent-soft);
         }
 
         .config-toggle-btn.active {
@@ -465,14 +465,28 @@
     border-radius: 50%;
     background: var(--accent);
     opacity: 0;
-    animation: dotLife 4s ease-in-out forwards;
+    animation: dotFloat 7s ease-in-out forwards;
 }
 
-@keyframes dotLife {
-    0%   { transform: scale(0); opacity: 0; }
-    40%  { opacity: 0.35; }
-    50%  { transform: scale(0.45); opacity: 0.65; }
-    100% { transform: scale(0); opacity: 0; }
+@keyframes dotFloat {
+    0% {
+        transform: translate(0, 0) scale(0.4);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.25;
+    }
+    50% {
+        transform: translate(20px, -15px) scale(0.5);
+        opacity: 0.4;
+    }
+    80% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-15px, 20px) scale(0.3);
+        opacity: 0;
+    }
 }
 
 .info-icon-wrap {
@@ -675,7 +689,200 @@
 .favorites-content {
     margin-top: 12px;
 }
-    </style>
+    
+.tab-custom-icon {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 2px solid transparent;
+    border-radius: var(--radius-ui);
+    outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.tab-custom-icon:focus {
+    border-color: var(--accent);
+}
+
+.tab-presets {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 0;
+}
+
+.tab-preset {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    padding: 7px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-input);
+    border: 2px solid transparent;
+    border-radius: var(--radius-ui);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tab-preset img {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    object-fit: contain;
+    display: block;
+}
+
+.tab-preset:hover {
+    background-color: var(--bg-input);
+    border-color: var(--accent);
+}
+
+.tab-preset.active {
+    background-color: var(--bg-input);
+    border-color: var(--accent);
+}
+
+.tab-name-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 2px solid transparent;
+    border-radius: var(--radius-ui);
+    outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.tab-name-input:focus {
+    border-color: var(--accent);
+}
+
+
+#recently-played-box {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin-top: 25px;
+}
+
+/* #recently-played-list { idk why this duplicated
+    display: flex !important; 
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 100%;
+    
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding-top: 10px;
+} */
+
+
+        .recently-played-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+       /* .recently-played-header:hover {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+        } */
+
+        .recently-played-chevron {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+
+        .recently-played-chevron.expanded {
+            transform: rotate(90deg);
+        }
+
+        .recently-played-content {
+            display: none;
+            padding: 0 16px 16px;
+        }
+
+        .recently-played-content.expanded {
+            display: block;
+        }
+
+        #recently-played-list {
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 10; 
+    
+    margin-top: 4px; 
+    
+    display: flex;
+    gap: 10px;
+}
+
+        .recently-played-game {
+            width: 105px;
+            padding: 8px;
+            background-color: var(--bg-input);
+            border: 2px solid transparent;
+            border-radius: var(--radius-ui);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .recently-played-game:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .recently-played-game img {
+            width: 100%;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .recently-played-game span {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.78rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        strong {
+            color: var(--accent);
+        }
+
+
+</style>
 </head>
 <body>
   <div class="bg-dots" id="bg-dots"></div>
@@ -695,6 +902,7 @@
     <div id="view-home" class="view active">
         <div class="home-content">
             <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i>Sonfine Search</h1>
+            <div class="splash-msg" id="splash-msg" onclick="rollSplash()"></div>
         <div class="omnibox-container">
             <input type="text" class="omnibox" id="search-input" placeholder="Enter a URL or query here or press L (not all sites work)" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
             <div class="search-suggestions" id="search-suggestions"></div>
@@ -706,7 +914,17 @@
                 Some sites will not work because they don't allow other sites to embed them, your district is blocking them or your schools' wifi is blocking it. To fix this, try opening an alternative link, use your own wifi or simply wait.
             </div>
         </div>
-            <div class="splash-msg" id="splash-msg" onclick="rollSplash()"></div>
+        <div class="recently-played-box" id="recently-played-box" style="display:none;">
+            <button class="recently-played-header" id="recently-played-header" onclick="toggleRecentlyPlayed()">
+                <i class="fa-solid fa-chevron-right recently-played-chevron" id="recently-played-chevron"></i>
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Recently Played</span>
+                <!-- <span id="recently-played-count"></span> -->
+            </button>
+            <div class="recently-played-content" id="recently-played-content">
+                <div class="recently-played-list" id="recently-played-list"></div>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -739,6 +957,43 @@
             <h2 class="section-header" style="margin-bottom: 30px;">Settings</h2>
             <div class="settings-grid">
                 
+
+                <div class="settings-card square">
+                    <div>
+                        <h3><i class="fa-solid fa-window-maximize" style="margin-right: 5px;"></i>Tab Cloak</h3>
+                        <p>Change the name and icon shown in the tab for stealth (doesnt work in about:blank)</p>
+                    </div>
+                    <div>
+                        <input type="text" class="tab-name-input" id="site-name-input" placeholder="Enter a tab name" maxlength="40" oninput="changeSiteName(this.value)">
+                        <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
+                        <div class="tab-presets">
+                            <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
+                                <img src="https://i.postimg.cc/K8Cw03nF/Drawing.png" alt="Sonfine">
+                            </button>
+                            <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
+                                <img src="https://www.google.com/favicon.ico" alt="Google">
+                            </button>
+                            <button class="tab-preset" id="preset-campus" onclick="pickTabPreset('campus')">
+                                <img src="https://oakgroveca.infinitecampus.org/campus/favicon-32x32.png">
+                            </button>
+                            <button class="tab-preset" id="preset-classroom" onclick="pickTabPreset('classroom')" title="Google Classroom">
+                                <img src="https://ssl.gstatic.com/classroom/favicon.png" alt="Google Classroom">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card square">
+                    <div>
+                        <h3><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 5px;"></i>Tab Launch</h3>
+                        <p>Launch the site in a blank tab to prevent this link/game files from getting blocked</p>
+                    </div>
+                    <div class="config-btn-group">
+                        <button class="config-toggle-btn" onclick="launchAboutBlank()">about:blank</button>
+                        <button class="config-toggle-btn" onclick="launchBlobTab()">blob:</button>
+                    </div>
+                </div>
+
                 <div class="settings-card square">
                     <div>
                         <h3><i class="fa-regular fa-file-code" style="margin-right: 5px;"></i>Embed Loader</h3>
@@ -766,7 +1021,7 @@
 <div class="settings-card square">
     <div>
         <h3><i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>Confirm Before Closing</h3>
-        <p>Shows a browser warning if you try to close or leave the tab so you don't lose game progress</p>
+        <p>Shows a browser warning if you try to close or leave the tab so you don't lose game progress, or make your tab unable to be remotely closed</p>
     </div>
     <div class="config-btn-group">
         <button class="config-toggle-btn active" id="btn-confirm-close-on" onclick="pickConfirmClose(true)">On</button>
@@ -849,7 +1104,8 @@
             { name: "PolyTrack", url: "https://gaming-escape.github.io/public/assets/games/poly-track/index.html", image: "https://thaka.bing.com/th?id=OCGE.9n02lr0qrbm2_v3_main_webp&w=124&h=124&qlt=80&c=0&rs=1" },
               { name: "Granny", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop", image: "https://play-lh.googleusercontent.com/P8BbkQ6m0eCYYAx2tXTESBiIDQ2RESsSQp6oD8ZAP35rmEjmaXHMboYT6P807sAnfcuskKTdYbTyH5R0GCFk8Q", servers: [
                     { name: "Server 1 (Default)", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop" },
-                    { name: "Original", url: "http://granny.gg/content/uploads/granny/index.html" },               
+                    { name: "Original", url: "http://granny.gg/content/uploads/granny/index.html" },  
+                { name: "PC Version", url: "https://serumos.best/_o/d/asset/b/90-fix2.html" },
              ]},
                     { name: "Granny Chapter 2", url: "https://cdn.myunblockedgames.com/games/granny-2/index.html", image: "https://play-lh.googleusercontent.com/X_9WQbosx62FK2V2BK1Tuh2f3FuwyhrznBBodZ6nxGphIC0PwU0YxTVDRpOhbVKquz4UzgZ4SbjwQhVYOvEGnA", servers: [
             { name: "Server 1 (Default)", url: "https://cdn.myunblockedgames.com/games/granny-2/index.html" },
@@ -922,7 +1178,8 @@
             { name: "Run 3", url: "https://www.yurk.com/games/run3/", image: "https://e.snmc.io/lk/fv/x/0aa99fb888648894fa4f6cadeee44bc5/10934781" },
           { name: "Big Tower Tiny Square", url: "https://1kh0.github.io/projects/btts/index.html", image: "https://1kh0.github.io/projects/btts/images.png" },
           { name: "Dreadhead Parkour", url: "https://gr4ys0n.github.io/public/assets/games/dreadhead-parkour/", image: "https://gr4ys0n.github.io/public/assets/images/dreadheadparkour.png" },
-          { name: "n-gon", url: "https://1kh0.github.io/projects/n-gon/index.html", image: "https://1kh0.github.io/projects/n-gon/bot.png" },
+            { name: "Swingers", url: "https://block-blast-pro.github.io/lesson306/lesson-316", image: "https://block-blast-pro.github.io/lesson306/lesson-316/icon-256.png" },
+            { name: "n-gon", url: "https://1kh0.github.io/projects/n-gon/index.html", image: "https://1kh0.github.io/projects/n-gon/bot.png" },
           { name: "OvO", url: "https://geography-lessons-16.pro/g4m3s/ovo/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo/ovo.png" },
           { name: "OvO Dimensions", url: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/logo.jpg" },
       { name: "Vex 3", url: "https://gaming-escape.github.io/public/assets/games/vex-3/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7eD3wu6Fst8RaTT_EEMyPbrXWxg4IVqI0Vg&s" },
@@ -1028,7 +1285,9 @@
           "That deserves 5 big huzzahs. HUZZAH! HUZZAH! HUZZAH! HUZZAH! HUZZAH!",
         "Play granny!!!!!!!!!!!",
         "Graaanyys house i dont wanna stay",
-          "50% coded by claude (im lazy)",
+          "30% coded by claude (im lazy)",
+"Finery is soooo cute",
+"finery is sooo cute",
           "This goated or nah?",
           "Fun fact: your chance of seeing this message is oouuuuughhhhhhh im too lazy to check",
       "pluhpluh",
@@ -1048,8 +1307,11 @@
         "Im a dudeman",
         "Mr Christmas!!!!!",
         "HEY ITs ME ITS VERITY",
-          "you suckkkkkkk 🪩 youre so good at the game 🪩🪩🪩",
-          "We have the utmost respect and transparency to district IT admins, and we do not provide any hidden features or workarounds. Ok cut 🎬",
+          "YOU SUCKKKKKK 🪩 youre so good at the game 🪩🪩🪩",
+          "If you see this im prob playing granny rn",
+          "I miss that kinda finery",
+          "Life goes onion onion onion",
+          "'We have the utmost respect and transparency to district IT admins, and we do not provide any hidden features or workarounds.' Ok cut 🎬",
 ];
 
 let lastSplashIndex = -1;
@@ -1170,7 +1432,7 @@ function renderFavoritesSection() {
     countEl.textContent = favorites.length ? `(${favorites.length})` : '';
 
     if (favorites.length === 0) {
-        gridEl.innerHTML = '<p style="color: var(--text-sub); font-size: 0.9rem;">No favorites yet — click the star on any game to add it here.</p>';
+        gridEl.innerHTML = '<p style="color: var(--text-sub); font-size: 0.9rem;">No favorites yet — click the star on any game or app to add it here.</p>';
     } else {
         buildGrid(favorites, 'favorites-grid');
     }
@@ -1375,6 +1637,9 @@ function onSearchKey(e) {
       let currentServers = [];
 
         function openInFrame(dest, name, servers) {
+    const matchingGame = [...LeGames, ...apps].find(it => it.name === name);
+    if (matchingGame) addRecentlyPlayed(matchingGame);
+
     currentGameName = name || 'Untitled';
     currentServers = (servers && servers.length) ? servers : [];
 
@@ -1568,6 +1833,114 @@ function pickAccent(name, save = true, customHex) {
             if (save) persistSettings();
         }
 
+const tabPresets = {
+    sonfine: {
+        name: 'Sonfine Site',
+        icon: 'https://i.postimg.cc/K8Cw03nF/Drawing.png'
+    },
+    google: {
+        name: 'Google',
+        icon: 'https://www.google.com/favicon.ico'
+    },
+    campus: {
+        name: 'Campus Portal Login',
+        icon: 'https://oakgroveca.infinitecampus.org/campus/favicon-32x32.png'
+    },
+    classroom: {
+        name: 'Google Classroom',
+        icon: 'https://ssl.gstatic.com/classroom/favicon.png'
+    }
+};
+
+let siteName = 'Sonfine Site';
+let siteIcon = tabPresets.sonfine.icon;
+let selectedTabPreset = 'sonfine';
+let customSiteIconUrl = '';
+
+function applySiteIdentity(name, icon, save = true) {
+    siteName = typeof name === 'string' ? name : 'Sonfine Site';
+    if (icon !== undefined) siteIcon = icon;
+    document.title = siteName;
+
+    const favicon = document.getElementById('site-favicon');
+    if (favicon) favicon.href = siteIcon;
+
+    const nameInput = document.getElementById('site-name-input');
+    if (nameInput && nameInput.value !== siteName) nameInput.value = siteName;
+
+    const iconInput = document.getElementById('site-icon-url');
+    if (iconInput && iconInput.value !== customSiteIconUrl) iconInput.value = customSiteIconUrl;
+
+    if (save) persistSettings();
+}
+
+function changeSiteName(name) {
+    selectedTabPreset = '';
+    document.querySelectorAll('.tab-preset').forEach(button => button.classList.remove('active'));
+    applySiteIdentity(name, undefined);
+}
+
+function changeSiteIcon(url) {
+    customSiteIconUrl = url.trim();
+    selectedTabPreset = '';
+    document.querySelectorAll('.tab-preset').forEach(button => button.classList.remove('active'));
+
+    if (customSiteIconUrl) {
+        applySiteIdentity(siteName, customSiteIconUrl);
+    } else {
+        applySiteIdentity(siteName, tabPresets.sonfine.icon);
+    }
+}
+
+function pickTabPreset(name, save = true) {
+    const preset = tabPresets[name];
+    if (!preset) return;
+
+    selectedTabPreset = name;
+    customSiteIconUrl = '';
+    document.querySelectorAll('.tab-preset').forEach(button => button.classList.remove('active'));
+    document.getElementById('preset-' + name)?.classList.add('active');
+
+    applySiteIdentity(preset.name, preset.icon, save);
+}
+
+function launchAboutBlank() {
+    const newTab = window.open('about:blank', '_blank');
+    if (!newTab) return;
+
+    const currentPage = window.location.href;
+
+    newTab.document.open();
+    newTab.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${document.title}</title>
+        </head>
+        <body style="margin:0;">
+            <iframe src="${currentPage}" style="width:100vw;height:100vh;border:0;"></iframe>
+        </body>
+        </html>
+    `);
+    newTab.document.close();
+
+    window.location.replace('https://www.google.com');
+}
+
+function launchBlobTab() {
+    const pageSource = '<!DOCTYPE html>' + document.documentElement.outerHTML;
+    const blob = new Blob([pageSource], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const newTab = window.open(blobUrl, '_blank');
+    if (!newTab) {
+        URL.revokeObjectURL(blobUrl);
+        return;
+    }
+
+    window.location.replace('https://www.google.com');
+}
+
 function persistSettings() {
     try {
         localStorage.setItem('sonfine_config', JSON.stringify({
@@ -1576,7 +1949,11 @@ function persistSettings() {
             customAccent: customAccentHex,
             confirmClose: confirmCloseMode,
             sortMode: sortMode,
-            favoritesOpenByDefault: favoritesOpenByDefault
+            favoritesOpenByDefault: favoritesOpenByDefault,
+            siteName: siteName,
+            siteIcon: siteIcon,
+            tabPreset: selectedTabPreset,
+            customSiteIconUrl: customSiteIconUrl
         }));
     } catch (e) {
         console.warn('couldnt save settings', e);
@@ -1602,6 +1979,13 @@ function restoreSettings() {
     pickConfirmClose(saved.confirmClose !== false, false);
     pickSortMode(saved.sortMode || 'default', false);
     pickFavoritesDefault(saved.favoritesOpenByDefault !== false, false);
+
+    if (saved.tabPreset && tabPresets[saved.tabPreset]) {
+        pickTabPreset(saved.tabPreset, false);
+    } else {
+        customSiteIconUrl = saved.customSiteIconUrl || '';
+        applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Sonfine Site', saved.siteIcon || tabPresets.sonfine.icon, false);
+    }
 }
 
 
@@ -1609,7 +1993,23 @@ window.addEventListener('DOMContentLoaded', () => {
     loadFavorites();
     rollSplash();
     restoreSettings();
+    renderRecentlyPlayed();
     spawnDots();
+
+    let recentGames = [];
+    try {
+        recentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+    } catch (e) {
+        recentGames = [];
+    }
+
+    const recentContent = document.getElementById('recently-played-content');
+    const recentChevron = document.getElementById('recently-played-chevron');
+
+    if (recentGames.length && recentContent && recentChevron) {
+        recentContent.classList.add('expanded');
+        recentChevron.classList.add('expanded');
+    }
 });
 
       function spawnDots() {
@@ -1627,8 +2027,8 @@ window.addEventListener('DOMContentLoaded', () => {
         dot.style.top = Math.random() * 100 + '%';
 
         field.appendChild(dot);
-        setTimeout(() => dot.remove(), 4000);
-    }, 500);
+        setTimeout(() => dot.remove(), 7000);
+    }, 250);
 }
 
 let resetConfirmPending = false;
@@ -1655,6 +2055,7 @@ function resetSettings() {
 
     clearTimeout(resetConfirmTimer);
     localStorage.removeItem('sonfine_config');
+    localStorage.clear(); // makes sure everything is cleared, especially recently played + favorited games 
     location.reload();
 }
 
@@ -1691,6 +2092,14 @@ function importSettings(e) {
             
             pickFavoritesDefault(saved.favoritesOpenByDefault !== false, false);
 
+            if (saved.tabPreset && tabPresets[saved.tabPreset]) {
+                pickTabPreset(saved.tabPreset, false);
+            } else {
+                selectedTabPreset = '';
+                customSiteIconUrl = saved.customSiteIconUrl || '';
+                applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Sonfine Site', saved.siteIcon || tabPresets.sonfine.icon, false);
+            }
+
             persistSettings();
             alert('Settings imported!');
         } catch (err) {
@@ -1703,5 +2112,107 @@ function importSettings(e) {
 }
     </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1}' crossorigin="anonymous"></script>
+<script>
+function addRecentlyPlayed(game) {
+    if (!game || !game.name) return;
+
+    let recentGames = [];
+    try {
+        recentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+    } catch (e) {
+        recentGames = [];
+    }
+
+    const withoutCurrent = recentGames.filter(savedGame => savedGame.name !== game.name);
+    withoutCurrent.unshift({
+        name: game.name,
+        url: game.url || '',
+        image: game.image || '',
+        servers: game.servers || []
+    });
+
+    try {
+        localStorage.setItem('sonfineRecentlyPlayed', JSON.stringify(withoutCurrent.slice(0, 5)));
+    } catch (e) {}
+
+    renderRecentlyPlayed();
+}
+
+function toggleRecentlyPlayed() {
+    const content = document.getElementById('recently-played-content');
+    const chevron = document.getElementById('recently-played-chevron');
+    if (!content || !chevron) return;
+
+    const expanded = content.classList.toggle('expanded');
+    chevron.classList.toggle('expanded', expanded);
+}
+
+function renderRecentlyPlayed() {
+    const recentList = document.getElementById('recently-played-list');
+    const recentBox = document.getElementById('recently-played-box');
+    const recentCount = document.getElementById('recently-played-count');
+    if (!recentList) return;
+
+    if (recentBox) {
+        recentBox.style.display = 'block';
+        recentBox.style.background = 'none';
+        recentBox.style.border = 'none';
+        recentBox.style.boxShadow = 'none';
+        recentBox.style.padding = '0';
+    }
+
+    let recentGames = [];
+    try {
+        recentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+    } catch (e) {
+        recentGames = [];
+    }
+
+    recentList.innerHTML = '';
+
+    if (!recentGames.length) {
+        if (recentCount) recentCount.textContent = '(0)';
+        return;
+    }
+
+    if (recentCount) recentCount.textContent = '(' + recentGames.length + ')';
+
+    recentGames.forEach(game => {
+        const item = document.createElement('div');
+        item.className = 'recently-played-game';
+        item.title = game.name;
+        item.onclick = () => openRecentlyPlayedItem(game.name);
+
+        const image = document.createElement('img');
+        image.src = game.image || '';
+        image.alt = game.name;
+        image.onerror = () => image.style.display = 'none';
+
+        const name = document.createElement('span');
+        name.textContent = game.name;
+
+        item.appendChild(image);
+        item.appendChild(name);
+        recentList.appendChild(item);
+    });
+}
+
+
+
+function openRecentlyPlayedItem(gameName) {
+    let recentGames = [];
+    try {
+        recentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+    } catch (e) {
+        recentGames = [];
+    }
+
+    const game = recentGames.find(savedGame => savedGame.name === gameName);
+    if (!game) return;
+
+    openInFrame(game.url, game.name, game.servers);
+}
+
+</script>
 </body>
 </html>
