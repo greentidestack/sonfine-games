@@ -129,6 +129,32 @@
             /* color: var(--text-main); */
         }
       
+
+        .download-latest-button {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--bg-card);
+            color: var(--text-sub);
+            border: 2px solid transparent;
+            padding: 10px 14px;
+            border-radius: var(--radius-ui);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 500;
+        }
+
+        .download-latest-button:hover {
+            color: var(--text-main);
+            border-color: var(--accent);
+            background-color: var(--bg-input);
+        }
+
         .omnibox-container {
             width: 100%;
             max-width: 650px;
@@ -908,6 +934,7 @@
             <div class="search-suggestions" id="search-suggestions"></div>
         </div>
         
+        <button class="download-latest-button" onclick="downloadLatestVersion()"><i class="fa-solid fa-download"></i>Download Latest Version</button>
         <div class="info-icon-wrap">
             <i class="fa-solid fa-circle-info info-icon" id="info-icon" onclick="toggleInfoPopup(event)"></i>
             <div class="info-popup" id="info-popup">
@@ -1990,6 +2017,28 @@ function restoreSettings() {
     }
 }
 
+
+async function downloadLatestVersion() {
+    const latestSourceUrl = 'https://raw.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
+
+    try {
+        const response = await fetch(latestSourceUrl);
+        if (!response.ok) throw new Error('Download failed');
+
+        const latestSource = await response.text();
+        const sourceFile = new Blob([latestSource], { type: 'text/html' });
+        const sourceUrl = URL.createObjectURL(sourceFile);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = sourceUrl;
+        downloadLink.download = 'index.html';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        URL.revokeObjectURL(sourceUrl);
+    } catch (error) {
+        alert('Could not download the latest version.');
+    }
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     loadFavorites();
