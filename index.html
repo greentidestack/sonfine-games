@@ -563,7 +563,7 @@
     border-color: transparent transparent #3a3a3a transparent;
 }
 
-.fa-magnifying-glass {
+.fa-magnifying-glass, .fa-rotate-right, .fa-graduation-cap, .fa-expand {
     color: var(--accent);
 }
 
@@ -907,11 +907,100 @@
             color: var(--accent);
         }
 
+        .sonfine-context-menu {
+            position: fixed;
+            display: none;
+            min-width: 220px;
+            padding: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-input);
+            border-radius: var(--radius-ui);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            z-index: 99999;
+        }
+
+        .sonfine-context-menu.visible {
+            display: block;
+        }
+
+        .sonfine-context-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: none;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .sonfine-context-item:hover {
+            background: var(--accent-soft);
+            color: var(--text-main);
+        }
+
+        .sonfine-context-item i {
+            width: 18px;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .games-search-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .games-search-row .omnibox {
+            flex: 1;
+            min-width: 0;
+            margin-bottom: 0 !important;
+            max-width: none !important;
+        }
+
+        .random-game-button {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 2px solid transparent;
+            border-radius: var(--radius-ui);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .random-game-button:hover {
+            border-color: var(--accent);
+            background-color: var(--bg-input);
+        }
+
+        .random-game-button i {
+            color: var(--accent);
+        }
 
 </style>
 </head>
 <body>
   <div class="bg-dots" id="bg-dots"></div>
+
+    <div class="sonfine-context-menu" id="sonfine-context-menu">
+        <button class="sonfine-context-item" onclick="refreshSonfineSite()"><i class="fa-solid fa-rotate-right"></i><span>Refresh Site</span></button>
+        <button class="sonfine-context-item" onclick="openSonfineSearch()"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+        <button class="sonfine-context-item" onclick="toggleSonfineFullscreen()"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
+        <button class="sonfine-context-item" onclick="quickClassroomCloak()"><i class="fa-solid fa-graduation-cap"></i><span>Quick Tab Cloak</span></button>
+    </div>
 
     <nav class="navbar">
         <div class="brand">Sonfine Site</div>
@@ -970,7 +1059,12 @@
         </div>
     </div>
 
-    <input type="text" class="omnibox" id="games-search" placeholder="Search games..." oninput="filterGrid(LeGames, 'recommended-games-grid', this.value)" style="margin-bottom: 20px; max-width: 1200px;">
+    <div class="games-search-row">
+        <input type="text" class="omnibox" id="games-search" placeholder="Search games..." oninput="filterGrid(LeGames, 'recommended-games-grid', this.value)">
+        <button class="random-game-button" onclick="openRandomGame()" title="Random Game" aria-label="Random Game">
+            <i class="fa-solid fa-dice"></i>
+        </button>
+    </div>
     <div class="grid-container" id="recommended-games-grid"></div>
 </div>
 
@@ -1558,6 +1652,14 @@ tile.innerHTML = `
             let filtered = q ? items.filter(it => it.name.toLowerCase().includes(q)) : items;
             if (targetId === 'recommended-games-grid' && sortMode === 'alpha') filtered = sortGames(filtered);
             buildGrid(filtered, targetId);
+        }
+
+        function openRandomGame() {
+            const playableGames = LeGames.filter(game => game.name !== 'All Games' && game.url);
+            if (!playableGames.length) return;
+
+            const randomGame = playableGames[Math.floor(Math.random() * playableGames.length)];
+            openInFrame(randomGame.url, randomGame.name, randomGame.servers);
         }
 
         let currentSuggestions = [];
@@ -2164,6 +2266,51 @@ function importSettings(e) {
     </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1}' crossorigin="anonymous"></script>
 <script>
+const sonfineContextMenu = document.getElementById('sonfine-context-menu');
+
+document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    if (!sonfineContextMenu) return;
+
+    const menuWidth = 220;
+    const menuHeight = 190;
+    const left = Math.min(event.clientX, window.innerWidth - menuWidth - 8);
+    const top = Math.min(event.clientY, window.innerHeight - menuHeight - 8);
+
+    sonfineContextMenu.style.left = Math.max(8, left) + 'px';
+    sonfineContextMenu.style.top = Math.max(8, top) + 'px';
+    sonfineContextMenu.classList.add('visible');
+});
+
+document.addEventListener('click', () => {
+    sonfineContextMenu?.classList.remove('visible');
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') sonfineContextMenu?.classList.remove('visible');
+});
+
+function refreshSonfineSite() {
+    window.location.reload();
+}
+
+function openSonfineSearch() {
+    goToView('home');
+    setTimeout(() => document.getElementById('search-input')?.focus(), 0);
+}
+
+function toggleSonfineFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+    } else {
+        document.exitFullscreen?.();
+    }
+}
+
+function quickClassroomCloak() {
+    pickTabPreset('classroom');
+}
+
 function addRecentlyPlayed(game) {
     if (!game || !game.name) return;
 
