@@ -1220,7 +1220,7 @@
 </div>
     <script>
         const LeGames = [
-        { name: "All Games", url: "http://greentidestack.github.io/sonfine-games/gn-math.html", image: "https://lh3.googleusercontent.com/Mxl8996vzcWWRU5RyKdTDA76GEPj9jQpuYc02nPgtwKgdqpWidM5YVqu8DHBd-D1sZ3sP1AOYB-DlNhMEpaLJxQcTQ=s128-rj-sc0x00ffffff" },
+        { name: "All Games", url: "https://greentidestack.github.io/sonfine-games/gn-math.html", image: "https://lh3.googleusercontent.com/Mxl8996vzcWWRU5RyKdTDA76GEPj9jQpuYc02nPgtwKgdqpWidM5YVqu8DHBd-D1sZ3sP1AOYB-DlNhMEpaLJxQcTQ=s128-rj-sc0x00ffffff", servers: [ { name: "Server 1 (Default, gn-math)", url: "https://greentidestack.github.io/sonfine-games/gn-math.html" }, {name: "Server 2 (Lumin)", url: "https://greentidestack.github.io/ZeroOS/games.html"} ] },
       {name: "Fancade", url: "https://play.fancade.com", image: "https://www.fancade.com/images/fancade.jpg" },
             { name: "PolyTrack", url: "https://gaming-escape.github.io/public/assets/games/poly-track/index.html", image: "https://thaka.bing.com/th?id=OCGE.9n02lr0qrbm2_v3_main_webp&w=124&h=124&qlt=80&c=0&rs=1" },
               { name: "Granny", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop", image: "https://play-lh.googleusercontent.com/P8BbkQ6m0eCYYAx2tXTESBiIDQ2RESsSQp6oD8ZAP35rmEjmaXHMboYT6P807sAnfcuskKTdYbTyH5R0GCFk8Q", servers: [
@@ -1621,7 +1621,7 @@ function buildGrid(items, targetId) {
         const tile = document.createElement('div');
         tile.className = 'grid-card';
         tile.onclick = function () {
-            if (it.name === 'All Games') alert('be patient, the games take a while to load. some games are blocked, and sometimes the games dont load at all, i cant fix it');
+            if (it.name === 'All Games') alert('if gn-math doesnt work, switch the server (next to the game name at the top) and change it to lumin. neither one is stable and is sometimes blocked, sometimes isnt.');
             openInFrame(it.url, it.name, it.servers);
         };
 
