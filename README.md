@@ -6,7 +6,7 @@ Some of the games included:
 * Granny (Steam PC version 1.7 and 1.6)
 * Granny 2 (PC versions with and without helicopter upd)
 * Ultrakill (free demo)
-* Minecraft 1.12
+* Minecraft 26.2
 * Escape Road
 * Softbody car crash
 
