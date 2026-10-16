@@ -258,6 +258,38 @@
             gap: 20px;
         }
 
+        .settings-sections-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 64px;
+            row-gap: 0;
+        }
+
+        .settings-section {
+            min-width: 0;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .settings-sections-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .settings-section:first-child .settings-card.square:first-child .tab-name-input,
+        .settings-section:first-child .settings-card.square:first-child .tab-custom-icon {
+            margin-bottom: 8px;
+        }
+
+        .settings-section-title {
+            margin-bottom: 16px;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent);
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
         .settings-card {
             background-color: var(--bg-card);
             border-radius: var(--radius-ui);
@@ -962,7 +994,7 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    cursor: var(--sonfine-pointer-cursor); /* used to be a custom svg cursor */
+    cursor: var(--sonfine-pointer-cursor);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1296,6 +1328,75 @@ strong:hover {
             text-align: center;
         }
 
+
+        .sonfine-search-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99998;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: min(18vh, 150px) 20px 30px;
+            background: rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .sonfine-search-overlay.visible {
+            display: flex;
+        }
+
+        .sonfine-search-panel {
+            position: relative;
+            width: min(720px, 100%);
+            padding: 0;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            animation: sonfine-search-arrive 0.16s ease-out;
+        }
+
+        .sonfine-search-heading {
+            width: fit-content;
+            margin: 0 0 14px 2px;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+        }
+
+        .sonfine-search-panel .omnibox-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+        }
+
+        .sonfine-search-panel .omnibox {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .sonfine-search-dismiss {
+            display: block;
+            margin: 12px 0 0 auto;
+            padding: 7px 10px;
+            border: 0;
+            border-radius: var(--radius-ui);
+            background: transparent;
+            color: var(--text-sub);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+            cursor: var(--sonfine-pointer-cursor);
+        }
+
+        .sonfine-search-dismiss:hover {
+            color: var(--text-main);
+        }
+
+        @keyframes sonfine-search-arrive {
+            from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
 </style>
 </head>
 <body>
@@ -1306,6 +1407,15 @@ strong:hover {
         <button class="sonfine-context-item" onclick="openSonfineSearch()"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
         <button class="sonfine-context-item" onclick="toggleSonfineFullscreen()"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
         <button class="sonfine-context-item" onclick="quickClassroomCloak()"><i class="fa-solid fa-graduation-cap"></i><span>Quick Tab Cloak</span></button>
+    </div>
+
+
+    <div class="sonfine-search-overlay" id="sonfine-search-overlay" onclick="if (event.target === this) closeSonfineSearch()">
+        <div class="sonfine-search-panel" role="dialog" aria-modal="true" aria-label="Search Sonfine">
+            <h2 class="sonfine-search-heading"><i class="fa-solid fa-magnifying-glass"></i> Search Sonfine</h2>
+            <div id="sonfine-search-home-slot"></div>
+            <button class="sonfine-search-dismiss" onclick="closeSonfineSearch()">Close <span>(Esc)</span></button>
+        </div>
     </div>
 
     <nav class="navbar">
@@ -1325,7 +1435,7 @@ strong:hover {
             <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i><strong>Sonfine</strong></strongSonfine> Search</h1>
             <div class="splash-msg" id="splash-msg" onclick="rollSplash()"></div>
         <div class="omnibox-container">
-            <input type="text" class="omnibox" id="search-input" placeholder="Enter a URL or query here or press L (not all sites work)" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
+            <input type="text" class="omnibox" id="search-input" placeholder="Press L or click here to enter a URL, search Google or Sonfine" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
             <div class="search-suggestions" id="search-suggestions"></div>
         </div>
         
@@ -1376,145 +1486,156 @@ strong:hover {
 
 <div id="view-apps" class="view">
     <h2 class="section-header">Apps</h2>
-    <input type="text" class="omnibox" id="apps-search" placeholder="Search apps..." oninput="filterGrid(apps, 'apps-grid', this.value)" style="margin-bottom: 20px; max-width: 1200px;">
+    <input type="text" class="omnibox" id="apps-search" placeholder="Search apps..." oninput="filterGrid(LeApps, 'apps-grid', this.value)" style="margin-bottom: 20px; max-width: 1200px;">
     <div class="grid-container" id="apps-grid"></div>
 </div>
 
         <div id="view-settings" class="view">
-            <h2 class="section-header" style="margin-bottom: 30px;">Settings</h2>
-            <div class="settings-grid">
-                
-
-                <div class="settings-card square">
-                    <div>
-                        <h3><i class="fa-solid fa-window-maximize" style="margin-right: 5px;"></i>Tab Cloak</h3>
-                        <p>Change the name and icon shown in the tab for stealth (doesnt work in about:blank)</p>
-                    </div>
-                    <div>
-                        <input type="text" class="tab-name-input" id="site-name-input" placeholder="Enter a tab name" maxlength="40" oninput="changeSiteName(this.value)">
-                        <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
-                        <div class="tab-presets">
-                            <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
-                                <img src="https://i.postimg.cc/K8Cw03nF/Drawing.png" alt="Sonfine">
-                            </button>
-                            <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
-                                <img src="https://www.google.com/favicon.ico" alt="Google">
-                            </button>
-                            <button class="tab-preset" id="preset-campus" onclick="pickTabPreset('campus')">
-                                <img src="https://oakgroveca.infinitecampus.org/campus/favicon-32x32.png">
-                            </button>
-                            <button class="tab-preset" id="preset-classroom" onclick="pickTabPreset('classroom')" title="Google Classroom">
-                                <img src="https://ssl.gstatic.com/classroom/favicon.png" alt="Google Classroom">
-                            </button>
-                        </div>
-                    </div>
+    <h2 class="section-header" style="margin-bottom: 30px;">Settings</h2>
+    <div class="settings-sections-grid">
+    <section class="settings-section">
+        <h3 class="settings-section-title">Cloaking</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                                <div>
+                                    <h3><i class="fa-solid fa-window-maximize" style="margin-right: 5px;"></i>Tab Cloak</h3>
+                                    <p>Change the name and icon shown in the tab for stealth (doesnt work in about:blank)</p>
+                                </div>
+                                <div>
+                                    <input type="text" class="tab-name-input" id="site-name-input" placeholder="Enter a tab name" maxlength="40" oninput="changeSiteName(this.value)">
+                                    <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
+                                    <div class="tab-presets">
+                                        <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
+                                            <img src="https://i.postimg.cc/K8Cw03nF/Drawing.png" alt="Sonfine">
+                                        </button>
+                                        <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
+                                            <img src="https://www.google.com/favicon.ico" alt="Google">
+                                        </button>
+                                        <button class="tab-preset" id="preset-campus" onclick="pickTabPreset('campus')">
+                                            <img src="https://oakgroveca.infinitecampus.org/campus/favicon-32x32.png">
+                                        </button>
+                                        <button class="tab-preset" id="preset-classroom" onclick="pickTabPreset('classroom')" title="Google Classroom">
+                                            <img src="https://ssl.gstatic.com/classroom/favicon.png" alt="Google Classroom">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+            <div class="settings-card square">
+                                <div>
+                                    <h3><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 5px;"></i>Tab Launch</h3>
+                                    <p>Launch the site in a blank tab to prevent this link/game files from getting blocked</p>
+                                </div>
+                                <div class="config-btn-group">
+                                    <button class="config-toggle-btn" onclick="launchAboutBlank()">about:blank</button>
+                                    <button class="config-toggle-btn" onclick="launchBlobTab()">blob:</button>
+                                </div>
+                            </div>
+        </div>
+    </section>
+    <section class="settings-section">
+        <h3 class="settings-section-title">Appearance</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-palette" style="margin-right: 5px;"></i>Accent Color</h3>
+                    <p>Change the accent color used for buttons, background dots and more</p>
                 </div>
-
-                <div class="settings-card square">
-                    <div>
-                        <h3><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 5px;"></i>Tab Launch</h3>
-                        <p>Launch the site in a blank tab to prevent this link/game files from getting blocked</p>
-                    </div>
-                    <div class="config-btn-group">
-                        <button class="config-toggle-btn" onclick="launchAboutBlank()">about:blank</button>
-                        <button class="config-toggle-btn" onclick="launchBlobTab()">blob:</button>
-                    </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
+                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#4a90e2" oninput="pickAccent('custom', true, this.value)" title="Custom color">
                 </div>
-
-                <div class="settings-card square">
-                    <div>
-                        <h3><i class="fa-regular fa-file-code" style="margin-right: 5px;"></i>Embed Loader</h3>
-                        <p>If sites don't seem to be loading or work, switch this to the other setting and try again</p>
-                    </div>
-                    <div class="config-btn-group">
-                        <button class="config-toggle-btn active" id="btn-load-object" onclick="pickLoader('object')">Object</button>
-                        <button class="config-toggle-btn" id="btn-load-embed" onclick="pickLoader('embed')">Embed</button>
-                    </div>
+            </div>
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Dots</h3>
+                    <p>Toggle the floating dots on or off if they cause lag</p>
                 </div>
-<!-- me using claude for ts accent color settings -->
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-palette" style="margin-right: 5px;"></i>Accent Color</h3>
-        <p>Change the accent color used for buttons, background dots and more</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
-        <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
-        <button class="config-toggle-btn swatch-btn" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
-        <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#4a90e2" oninput="pickAccent('custom', true, this.value)" title="Custom color">
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="pickBackgroundDots(true)">On</button>
+                    <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="pickBackgroundDots(false)">Off</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="settings-section">
+        <h3 class="settings-section-title">Browsing</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                                <div>
+                                    <h3><i class="fa-regular fa-file-code" style="margin-right: 5px;"></i>Embed Loader</h3>
+                                    <p>If sites don't seem to be loading or work, switch this to the other setting and try again</p>
+                                </div>
+                                <div class="config-btn-group">
+                                    <button class="config-toggle-btn active" id="btn-load-object" onclick="pickLoader('object')">Object</button>
+                                    <button class="config-toggle-btn" id="btn-load-embed" onclick="pickLoader('embed')">Embed</button>
+                                </div>
+                            </div>
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>Confirm Before Closing</h3>
+                    <p>Shows a browser warning if you try to close or leave the tab so you don't lose game progress, or make your tab unable to be remotely closed</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn active" id="btn-confirm-close-on" onclick="pickConfirmClose(true)">On</button>
+                    <button class="config-toggle-btn" id="btn-confirm-close-off" onclick="pickConfirmClose(false)">Off</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="settings-section">
+        <h3 class="settings-section-title">Games</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-arrow-down-a-z" style="margin-right: 5px;"></i>Games Sorting</h3>
+                    <p>Sort games alphabetically (off by default)</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn active" id="btn-sort-default" onclick="pickSortMode('default')">Default</button>
+                    <button class="config-toggle-btn" id="btn-sort-alpha" onclick="pickSortMode('alpha')">A-Z</button>
+                </div>
+            </div>
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-star" style="margin-right: 5px;"></i>Open Favorites by Default</h3>
+                    <p>Automatically expand the Favorites section when you open the Games tab</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn active" id="btn-fav-open-on" onclick="pickFavoritesDefault(true)">On</button>
+                    <button class="config-toggle-btn" id="btn-fav-open-off" onclick="pickFavoritesDefault(false)">Off</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="settings-section">
+        <h3 class="settings-section-title">Data</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-file-export" style="margin-right: 5px;"></i>Import / Export Settings</h3>
+                    <p>Save your settings with a file and import the files you've exported</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn" onclick="exportSettings()">Export</button>
+                    <label class="config-toggle-btn" for="import-settings-input" style="margin: 0;">Import</label>
+                    <input type="file" id="import-settings-input" accept="application/json" style="display: none;" onchange="importSettings(event)">
+                </div>
+            </div>
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-trash" style="margin-right: 5px;"></i>Reset All Settings</h3>
+                    <p>Clears every saved setting and reloads the site with everything default</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn-cleard" id="btn-reset-settings" onclick="resetSettings()">Clear All Data</button>
+                </div>
+            </div>
+        </div>
+    </section>
     </div>
 </div>
-
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Dots</h3>
-        <p>Toggle the floating dots on or off if they cause lag</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="pickBackgroundDots(true)">On</button>
-        <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="pickBackgroundDots(false)">Off</button>
-    </div>
-</div>
-
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>Confirm Before Closing</h3>
-        <p>Shows a browser warning if you try to close or leave the tab so you don't lose game progress, or make your tab unable to be remotely closed</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn active" id="btn-confirm-close-on" onclick="pickConfirmClose(true)">On</button>
-        <button class="config-toggle-btn" id="btn-confirm-close-off" onclick="pickConfirmClose(false)">Off</button>
-    </div>
-</div>
-
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-arrow-down-a-z" style="margin-right: 5px;"></i>Games Sorting</h3>
-        <p>Sort games alphabetically (off by default)</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn active" id="btn-sort-default" onclick="pickSortMode('default')">Default</button>
-        <button class="config-toggle-btn" id="btn-sort-alpha" onclick="pickSortMode('alpha')">A-Z</button>
-    </div>
-</div>
-
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-star" style="margin-right: 5px;"></i>Open Favorites by Default</h3>
-        <p>Automatically expand the Favorites section when you open the Games tab</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn active" id="btn-fav-open-on" onclick="pickFavoritesDefault(true)">On</button>
-        <button class="config-toggle-btn" id="btn-fav-open-off" onclick="pickFavoritesDefault(false)">Off</button>
-    </div>
-</div>
-
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-file-export" style="margin-right: 5px;"></i>Import / Export Settings</h3>
-        <p>Save your settings with a file and import the files you've exported</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn" onclick="exportSettings()">Export</button>
-        <label class="config-toggle-btn" for="import-settings-input" style="margin: 0;">Import</label>
-        <input type="file" id="import-settings-input" accept="application/json" style="display: none;" onchange="importSettings(event)">
-    </div>
-</div>
-<div class="settings-card square">
-    <div>
-        <h3><i class="fa-solid fa-trash" style="margin-right: 5px;"></i>Reset All Settings</h3>
-        <p>Clears every saved setting and reloads the site with everything default</p>
-    </div>
-    <div class="config-btn-group">
-        <button class="config-toggle-btn-cleard" id="btn-reset-settings" onclick="resetSettings()">Clear All Data</button>
-    </div>
-</div>        
-
-  </div>
-      </div>
-    </div>
-
-  
 
 <div class="frame-view" id="fullscreen-frame-view">
     <div class="frame-topbar">
@@ -1579,6 +1700,7 @@ strong:hover {
       { name: "Papery Planes", url: "https://rawcdn.githack.com/genizy/assets/main/papery-planes/", image: "https://rawcdn.githack.com/genizy/assets/main/papery-planes/thumb.png" },
       { name: "Tunnel Rush", url: "https://gnhustgames.org/tunnelrush-source", image: "https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg" },
       { name: "Tunnel Rush 2", url: "https://classroomlesson.github.io/basic-ruffle-player/html/tunnel_rush_2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c5e0de489bb6f6f99e9bb0bce8341ac/tunnel-rush-2-logo.png" },
+      { name: "Rage Quit Racer", url: "https://block-blast-pro.github.io/lesson83/lesson-2159", image: "https://media.silvergames.com/j/b/rage-quit-racer.jpg" },
       { name: "Idle Breakout", url: "https://3kh0.bitbucket.io/projects/idle-breakout/index.html", image: "https://app.flamepass.com/assets/imgs/g/Idle_Breakout.webp" },
           { name: "Idle Shark", url: "https://1kh0.github.io/projects/idle-shark/index.html", image: "https://1kh0.github.io/projects/idle-shark/img/sharkgame.png" },
           { name: "2048", url: "https://1kh0.github.io/projects/2048/index.html", image: "https://1kh0.github.io/projects/2048/thumb.png" },
@@ -1640,8 +1762,10 @@ strong:hover {
             { name: "Run 3", url: "https://www.yurk.com/games/run3/", image: "https://e.snmc.io/lk/fv/x/0aa99fb888648894fa4f6cadeee44bc5/10934781" },
           { name: "Big Tower Tiny Square", url: "https://1kh0.github.io/projects/btts/index.html", image: "https://1kh0.github.io/projects/btts/images.png" },
           { name: "Dreadhead Parkour", url: "https://gr4ys0n.github.io/public/assets/games/dreadhead-parkour/", image: "https://gr4ys0n.github.io/public/assets/images/dreadheadparkour.png" },
+          { name: "Going Balls", url: "https://block-blast-pro.github.io/lesson83/lesson-2122", image: "https://img.funox.com/cdn-cgi/image/q=78%2Cscq=50%2Cwidth=314%2Cheight=314%2Cfit=cover%2Cf=auto/78b5bb477a6f1bea30c9/going-balls.png" },
+
             { name: "Swingers", url: "https://block-blast-pro.github.io/lesson306/lesson-316", image: "https://block-blast-pro.github.io/lesson306/lesson-316/icon-256.png" },
-          { name: "Jellotrix", url: "https://block-blast-pro.github.io/lesson85/lesson-2211/", image: "https://kbhgames.com/wp-content/uploads/2023/04/JelloTetrix.webp" },
+          { name: "Jellotrix (Jelly Tetris)", url: "https://block-blast-pro.github.io/lesson85/lesson-2211/", image: "https://kbhgames.com/wp-content/uploads/2023/04/JelloTetrix.webp" },
             { name: "n-gon", url: "https://1kh0.github.io/projects/n-gon/index.html", image: "https://1kh0.github.io/projects/n-gon/bot.png" },
           { name: "OvO", url: "https://geography-lessons-16.pro/g4m3s/ovo/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo/ovo.png" },
           { name: "OvO Dimensions", url: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/logo.jpg" },
@@ -1676,7 +1800,7 @@ strong:hover {
       { name: "Eggy Car", url: "https://www.yurk.com/games/eggycar/", image: "https://eggy-cargame.github.io/cache/data/image/game/eggy-car/eggy-car-m186x186.webp" },
       { name: "Fancade Car Crash", url: "https://play.fancade.com/5EE8E8D67D939591", image: "https://i.imgur.com/7Tfo5TF.png" },
             { name: "Car Crash Test", url: "https://www.pacogames.com/game/car-crash-test/", image: "https://d.pacogames.com/images/webp/230x172/car-crash-test-1.jpg.webp" },
-            { name: "Car Crash Test (Softbody)", url: "https://st.8games.net/10/8g/igra-krash-test-mashin-2/", image: "https://r2.fizzerz.com/game-source/car-crash-test/icon.png" },
+            { name: "Car Crash Test (Softbody)", url: "https://st.8games.net/10/8g/igra-krash-test-mashin-2/", image: "https://r2.fizzerz.com/game-source/car-crash-test/icon.png", servers: [ { name: "Server 1 (Default)", url: "https://st.8games.net/10/8g/igra-krash-test-mashin-2/" }, { name: "Server 2", url: "https://block-blast-pro.github.io/lesson83/lesson-2099/", }] },
             { name: "Bank Robbery", url: "https://gr4ys0n.github.io/public/assets/games/bank-robbery/", image: "https://gr4ys0n.github.io/public/assets/images/bankrobbery.png" },
       { name: "Bank Robbery 2", url: "https://gr4ys0n.github.io/public/assets/games/bank-robbery-2/", image: "https://gr4ys0n.github.io/public/assets/images/bankrobbery2.png" },
       { name: "Recoil", url: "https://roblox-unblock.github.io/r6/recoil/", image: "https://roblox-unblock.github.io/thumb/recoil.png" },
@@ -1685,6 +1809,7 @@ strong:hover {
             { name: "Ultimate Car Driving Game", url: "https://html-online-game.github.io/ultimate-car-driving/", image: "https://lh3.googleusercontent.com/z2F4pXDs72oDlRtp27y1F_AE1npf025cRzSSsGFnTI49Ll4gHmmaHrVPaOomCCSjfTdIYG5sMu2K6DsqvZc21Fj94UA=s120" },
             
       { name: "Crazy Cars", url: "https://roblox-unblock.github.io/r4/crazy-cars/", image: "https://cdn-1.webcatalog.io/catalog/poki-crazy-cars/poki-crazy-cars-icon-filled-256.png?v=1714778275521" },
+      { name: "Happy Wheels", url: "https://block-blast-pro.github.io/lesson83/lesson-2128", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/bdeea6562dcab80a1905969266b0de38/happy-wheels-logo.png" },
       { name: "Drive Mad", url: "https://www.swordslasher.com/games/drive-mad/game.html", image: "https://azgames.io/upload/imgs/drivemad.png" },
       { name: "Drive Mad (Poki)", url: "https://55gms.com/misc/drive-mad/", image: "https://play-lh.googleusercontent.com/vJwCnKoOl9hnyPOphqx0pXXQXRhcX9f747VaJ1GRUldEKTYclYEoZZC0pkgOw3hPXqM=w240-h480-rw" },
       { name: "Drive Mad Mod", url: "https://play.fancade.com/63BA239C20C40BF3", image: "https://i.imgur.com/P0ETZci.png" }, 
@@ -1710,7 +1835,7 @@ strong:hover {
       { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Dz-SmA8n9GhnZqqHb9pRg4nmLoGWkH64Ig&s" },
         ];
 
-        const apps = [
+        const LeApps = [
        { name: "Windows 11 in React", url: "https://win11.blueedge.me/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL5JHjCwohEDVmMh5-SZ9wfCg-970803ZbKg&s" },
       { name: "Turbowarp", url: "https://greentidestack.github.io/allassets/turbowarp.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSYptKVIoO4LgojBpG79fOq5S6nV_Aa-Gxg&s" },
       { name: "Soundboard", url: "https://myinstants.com", image: "https://play-lh.googleusercontent.com/v_5LsSgLe8lMcmmKc1uYMPkaOkM3JVVkl_IvQ8m9iim5Z8Pw80MgvMyA_zc2QvVs6zA" },
@@ -1722,11 +1847,12 @@ strong:hover {
       { name: "Github Search", url: "https://github-repository-search-two.vercel.app/", image: "https://i.imgur.com/jgWMcGK.png" },
         ];
 
-      function sortGames(items) {
-    return [...items].sort((a, b) => {
-        if (a.name === 'All Games') return -1;
-        if (b.name === 'All Games') return 1;
-        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      // Keep the big All Games tile first, then sort the rest without worrying about capitalization.
+      function sortGames(gamesToSort) {
+    return [...gamesToSort].sort((firstGame, secondGame) => {
+        if (firstGame.name === 'All Games') return -1;
+        if (secondGame.name === 'All Games') return 1;
+        return firstGame.name.localeCompare(secondGame.name, undefined, { sensitivity: 'base' });
     });
 }
 
@@ -1821,36 +1947,39 @@ const ACCENT_COLORS = {
     purple:  { base: '#9b5de5', soft: '#3a2a5c' }
 };
 
-function shadeColor(hex, percent) {
-    const num = parseInt(hex.replace('#', ''), 16);
-    let r = Math.min(255, Math.max(0, (num >> 16) + percent));
-    let g = Math.min(255, Math.max(0, ((num >> 8) & 0xFF) + percent));
-    let b = Math.min(255, Math.max(0, (num & 0xFF) + percent));
-    return '#' + (0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1);
+// Nudge each RGB channel up or down while keeping it in the valid 0–255 range.
+function shadeColor(hexColor, brightnessShift) {
+    const colorNumber = parseInt(hexColor.replace('#', ''), 16);
+    let red = Math.min(255, Math.max(0, (colorNumber >> 16) + brightnessShift));
+    let green = Math.min(255, Math.max(0, ((colorNumber >> 8) & 0xFF) + brightnessShift));
+    let blue = Math.min(255, Math.max(0, (colorNumber & 0xFF) + brightnessShift));
+    return '#' + (0x1000000 + red * 0x10000 + green * 0x100 + blue).toString(16).slice(1);
 }
         let sandboxMode = 'default';
 
 const gridsBuilt = { games: false, apps: false };
 
-function goToView(name, e) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+// Switch the visible page and only build the game/app grids when they're first needed.
+function goToView(viewName, clickEvent) {
+    sonfineContextMenu?.classList.remove('visible');
+    document.querySelectorAll('.view').forEach(viewSection => viewSection.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(navButton => navButton.classList.remove('active'));
 
-    const target = document.getElementById('view-' + name);
-    if (target) target.classList.add('active');
-    if (e && e.currentTarget) e.currentTarget.classList.add('active');
+    const requestedView = document.getElementById('view-' + viewName);
+    if (requestedView) requestedView.classList.add('active');
+    if (clickEvent && clickEvent.currentTarget) clickEvent.currentTarget.classList.add('active');
 
-    if (name === 'games' && !gridsBuilt.games) {
+    if (viewName === 'games' && !gridsBuilt.games) {
         buildGrid(sortMode === 'alpha' ? sortGames(LeGames) : LeGames, 'recommended-games-grid');
         gridsBuilt.games = true;
     }
 
-    if (name === 'games') {
+    if (viewName === 'games') {
         renderFavoritesSection();
     }
 
-    if (name === 'apps' && !gridsBuilt.apps) {
-        buildGrid(apps, 'apps-grid');
+    if (viewName === 'apps' && !gridsBuilt.apps) {
+        buildGrid(LeApps, 'apps-grid');
         gridsBuilt.apps = true;
     }
 }
@@ -2002,39 +2131,40 @@ function pickConfirmClose(enabled, save = true) {
     if (save) persistSettings();
 }
 
-function buildGrid(items, targetId) {
-    const holder = document.getElementById(targetId);
-    if (!holder) return;
+// Rebuild a grid from its data; each tile opens its item, while the star button only favorites it.
+function buildGrid(itemsToDisplay, gridElementId) {
+    const gridHolder = document.getElementById(gridElementId);
+    if (!gridHolder) return;
 
-    holder.innerHTML = '';
+    gridHolder.innerHTML = '';
 
-    for (const it of items) {
-        const tile = document.createElement('div');
-        tile.className = 'grid-card';
-        tile.onclick = function () {
-            if (it.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work');
-            openInFrame(it.url, it.name, it.servers);
+    for (const gridItem of itemsToDisplay) {
+        const gameTile = document.createElement('div');
+        gameTile.className = 'grid-card';
+        gameTile.onclick = function () {
+            if (gridItem.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work');
+            openInFrame(gridItem.url, gridItem.name, gridItem.servers);
         };
 
-tile.innerHTML = `
+gameTile.innerHTML = `
     <button class="fav-star" title="Favorite">
         <i class="fa-regular fa-star star-outline"></i>
         <i class="fa-solid fa-star star-filled"></i>
     </button>
-    <img src="${it.image}" class="card-img" alt="${it.name}" onerror="this.src='https://placeholder.com{encodeURIComponent(it.name)}'">
-    <div class="card-title">${it.name}</div>
+    <img src="${gridItem.image}" class="card-img" alt="${gridItem.name}" onerror="this.src='https://placeholder.com/' + encodeURIComponent(gridItem.name)">
+    <div class="card-title">${gridItem.name}</div>
 `;
 
-        const starBtn = tile.querySelector('.fav-star');
-        updateStarIcon(starBtn, it.name);
-        starBtn.onclick = function (e) {
+        const favoriteStarButton = gameTile.querySelector('.fav-star');
+        updateStarIcon(favoriteStarButton, gridItem.name);
+        favoriteStarButton.onclick = function (e) {
             e.stopPropagation();
-            toggleFavorite(it);
-            updateStarIcon(starBtn, it.name);
+            toggleFavorite(gridItem);
+            updateStarIcon(favoriteStarButton, gridItem.name);
             renderFavoritesSection();
         };
 
-        holder.appendChild(tile);
+        gridHolder.appendChild(gameTile);
     }
 }
 
@@ -2045,11 +2175,11 @@ function openRandomGame() {
     openInFrame(selectedGame.url, selectedGame.name, selectedGame.servers);
 }
 
-        function filterGrid(items, targetId, query) {
-            const q = query.trim().toLowerCase();
-            let filtered = q ? items.filter(it => it.name.toLowerCase().includes(q)) : items;
-            if (targetId === 'recommended-games-grid' && sortMode === 'alpha') filtered = sortGames(filtered);
-            buildGrid(filtered, targetId);
+        function filterGrid(itemsToFilter, gridElementId, searchText) {
+            const normalizedSearch = searchText.trim().toLowerCase();
+            let matchingItems = normalizedSearch ? itemsToFilter.filter(item => item.name.toLowerCase().includes(normalizedSearch)) : itemsToFilter;
+            if (gridElementId === 'recommended-games-grid' && sortMode === 'alpha') matchingItems = sortGames(matchingItems);
+            buildGrid(matchingItems, gridElementId);
         }
 
         let currentSuggestions = [];
@@ -2067,7 +2197,7 @@ function onSearchInput(e) {
     }
 
     const gameMatches = LeGames.filter(it => it.name.toLowerCase().includes(q)).map(it => ({ ...it, tag: 'Game' }));
-    const appMatches = apps.filter(it => it.name.toLowerCase().includes(q)).map(it => ({ ...it, tag: 'App' }));
+    const appMatches = LeApps.filter(it => it.name.toLowerCase().includes(q)).map(it => ({ ...it, tag: 'App' }));
     currentSuggestions = [...gameMatches, ...appMatches].slice(0, 5);
 
     if (currentSuggestions.length > 0) {
@@ -2345,7 +2475,7 @@ function openInFrame(dest, name, servers, browserTab = false) {
     document.getElementById('not-loading-popup')?.classList.remove('active');
     document.getElementById('game-frame-row')?.style.setProperty('display', 'flex');
 
-    const matchingGame = [...LeGames, ...apps].find(it => it.name === name);
+    const matchingGame = [...LeGames, ...LeApps].find(it => it.name === name);
     if (matchingGame) addRecentlyPlayed(matchingGame);
 
     currentGameName = name || 'Untitled';
@@ -2897,17 +3027,63 @@ document.addEventListener('click', () => {
     sonfineContextMenu?.classList.remove('visible');
 });
 
+document.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('.game-card, .app-card, .game-item, .app-item')) {
+        sonfineContextMenu?.classList.remove('visible');
+    }
+});
+
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') sonfineContextMenu?.classList.remove('visible');
+    if (event.key === 'Escape') {
+        sonfineContextMenu?.classList.remove('visible');
+        closeSonfineSearch();
+    }
 });
 
 function refreshSonfineSite() {
     window.location.reload();
 }
 
+let sonfineSearchHomeSlot = null;
+let sonfineSearchOriginalParent = null;
+let sonfineSearchOriginalNext = null;
+
 function openSonfineSearch() {
-    goToView('home');
-    setTimeout(() => document.getElementById('search-input')?.focus(), 0);
+    const searchOverlay = document.getElementById('sonfine-search-overlay');
+    const searchContainer = document.querySelector('#view-home .omnibox-container');
+    sonfineSearchHomeSlot = document.getElementById('sonfine-search-home-slot');
+    if (!searchOverlay || !searchContainer || !sonfineSearchHomeSlot) return;
+
+    if (!sonfineSearchOriginalParent) {
+        sonfineSearchOriginalParent = searchContainer.parentNode;
+        sonfineSearchOriginalNext = searchContainer.nextSibling;
+    }
+
+    sonfineSearchHomeSlot.appendChild(searchContainer);
+    searchOverlay.classList.add('visible');
+    sonfineContextMenu?.classList.remove('visible');
+    setTimeout(() => {
+        const searchInput = document.getElementById('search-input');
+        searchInput?.focus();
+        searchInput?.select();
+    }, 30);
+}
+
+function closeSonfineSearch() {
+    const searchOverlay = document.getElementById('sonfine-search-overlay');
+    const searchContainer = document.querySelector('.sonfine-search-panel .omnibox-container');
+    if (!searchOverlay || !searchContainer) return;
+
+    if (sonfineSearchOriginalParent) {
+        if (sonfineSearchOriginalNext && sonfineSearchOriginalNext.parentNode === sonfineSearchOriginalParent) {
+            sonfineSearchOriginalParent.insertBefore(searchContainer, sonfineSearchOriginalNext);
+        } else {
+            sonfineSearchOriginalParent.appendChild(searchContainer);
+        }
+    }
+
+    searchOverlay.classList.remove('visible');
+    clearSuggestions();
 }
 
 function toggleSonfineFullscreen() {
@@ -3047,3 +3223,5 @@ function OpenRecentlyPlayedGame(gameName) {
 </script>
 </body>
 </html>
+
+   
