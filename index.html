@@ -9,10 +9,9 @@
 
   <script src="https://kit.fontawesome.com/686a5a8044.js" crossorigin="anonymous"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Mozilla+Text:wght@200..700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
         :root {
-            --bg-main: #1a1a1a;
+            --bg-main: #1f1f1f;
             --bg-card: #2d2d2d;
             --bg-input: #3d3d3d;
             --text-main: #ffffff;
@@ -27,7 +26,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Mozilla Text;
+            font-family: Rubik;
+            /* font-weight: 00; */
         }
 
         body {
@@ -59,8 +59,9 @@
             border: 2px solid rgba(130, 130, 130, 0.2);
         }
         .brand {
-            font-weight: bold;
+            font-weight: 500;
             font-size: 1.2rem;
+            letter-spacing: 1px;
             color: var(--text-main);
         }
 
@@ -128,6 +129,7 @@
             font-size: 2.5rem;
             margin-bottom: 25px;
             letter-spacing: 1px;
+            font-weight: 400;
         }
 
         .splash-msg {
@@ -172,10 +174,10 @@
         .omnibox-container {
             width: 100%;
             max-width: 650px;
-            background-color: var(--bg-card);
+            background: none;
             padding: 15px;
             border-radius: var(--radius-ui);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            /* box-shadow: 0 4px 10px rgba(0,0,0,0.2); */
         }
 
         .omnibox {
@@ -213,7 +215,6 @@
             background-color: var(--bg-card);
             border-radius: var(--radius-ui);
             overflow: hidden;
-            cursor: var(--sonfine-pointer-cursor);
             transition: 0.2s all ease;
             display: flex;
             flex-direction: column;
@@ -223,6 +224,7 @@
 
         .grid-card:hover {
             transform: translateY(-4px);
+            background-color: #323232;
         }
 
         .card-img {
@@ -235,6 +237,7 @@
 
         .card-img:hover {
               filter: blur(6px); 
+              /* ig it looks cool? somewhat */
         }
 
         .card-title {
@@ -302,7 +305,7 @@
         }
 
         .settings-card {
-            background-color: #2c2c2c;
+            background-color: #303030;
             border-radius: var(--radius-ui);
             padding: 20px;
             display: flex;
@@ -343,7 +346,7 @@
             font-weight: bold;
             cursor: var(--sonfine-pointer-cursor);
             border-radius: var(--radius-ui);
-            transition: all 0.2s ease;
+            transition: all 0.1s ;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -698,7 +701,7 @@
     font-size: 0.9rem;
     font-weight: bold;
     cursor: var(--sonfine-pointer-cursor);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+transition: 0.1s all;
 }
 
 .random-game-button:hover {
@@ -838,13 +841,12 @@
     animation: dotFadeOut 1s ease-in-out forwards !important;
 }
 
-@keyframes dotFadeOut { /* the frickin dots are instant disappearing AGAIN how tf do keyframes work */
+@keyframes dotFadeOut {
     0% {
         transform: scale(0.5);
         opacity: 0.4;
     }
     100% {
-        
         transform: scale(0.3);
         opacity: 0;
     }
@@ -1104,7 +1106,7 @@
     border-radius: var(--radius-ui);
     cursor: var(--sonfine-pointer-cursor);
     box-sizing: border-box;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition: 0.1s all;
 }
 
 .tab-preset img {
@@ -1525,6 +1527,35 @@ strong:hover {
         <div id="view-settings" class="view">
     <h2 class="section-header" style="margin-bottom: 30px;">Settings</h2>
     <div class="settings-sections-grid">
+
+            <section class="settings-section">
+        <h3 class="settings-section-title">Appearance</h3>
+        <div class="settings-grid">
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-palette" style="margin-right: 5px;"></i>Accent Color</h3>
+                    <p>Change the accent color used for buttons, background dots and more</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
+                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
+                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#9b5de5" oninput="pickAccent('custom', true, this.value)" title="Custom color">
+                </div>
+            </div>
+            <div class="settings-card square">
+                <div>
+                    <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Dots</h3>
+                    <p>Toggle the floating dots on or off if they cause lag</p>
+                </div>
+                <div class="config-btn-group">
+                    <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="pickBackgroundDots(true)">On</button>
+                    <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="pickBackgroundDots(false)">Off</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <section class="settings-section">
         <h3 class="settings-section-title">Cloaking</h3>
         <div class="settings-grid">
@@ -1555,7 +1586,7 @@ strong:hover {
             <div class="settings-card square">
                                 <div>
                                     <h3><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 5px;"></i>Tab Launch</h3>
-                                    <p>Launch the site in a blank tab to prevent this link/game files from getting blocked</p>
+                                    <p>Launch the site in a blank tab to prevent this link/file from getting blocked</p>
                                 </div>
                                 <div class="config-btn-group">
                                     <button class="config-toggle-btn" onclick="launchAboutBlank()">about:blank</button>
@@ -1564,33 +1595,7 @@ strong:hover {
                             </div>
         </div>
     </section>
-    <section class="settings-section">
-        <h3 class="settings-section-title">Appearance</h3>
-        <div class="settings-grid">
-            <div class="settings-card square">
-                <div>
-                    <h3><i class="fa-solid fa-palette" style="margin-right: 5px;"></i>Accent Color</h3>
-                    <p>Change the accent color used for buttons, background dots and more</p>
-                </div>
-                <div class="config-btn-group">
-                    <button class="config-toggle-btn swatch-btn" id="btn-accent-default" style="background-color:#9b5de5;" onclick="pickAccent('default')"></button>
-                    <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
-                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
-                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#9b5de5" oninput="pickAccent('custom', true, this.value)" title="Custom color">
-                </div>
-            </div>
-            <div class="settings-card square">
-                <div>
-                    <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Dots</h3>
-                    <p>Toggle the floating dots on or off if they cause lag</p>
-                </div>
-                <div class="config-btn-group">
-                    <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="pickBackgroundDots(true)">On</button>
-                    <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="pickBackgroundDots(false)">Off</button>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <section class="settings-section">
         <h3 class="settings-section-title">Browsing</h3>
         <div class="settings-grid">
@@ -1622,7 +1627,7 @@ strong:hover {
             <div class="settings-card square">
                 <div>
                     <h3><i class="fa-solid fa-arrow-down-a-z" style="margin-right: 5px;"></i>Games Sorting</h3>
-                    <p>Sort games alphabetically (off by default)</p>
+                    <p>Sort games alphabetically (slightly laggy to change)</p>
                 </div>
                 <div class="config-btn-group">
                     <button class="config-toggle-btn active" id="btn-sort-default" onclick="pickSortMode('default')">Default</button>
@@ -1937,8 +1942,7 @@ strong:hover {
           "Life goes onion onion onion",
           "'We have the utmost respect and transparency to district IT admins, and we do not provide any hidden features or workarounds.' Ok cut 🎬",
           "Dear Reddit pretty please unshadowban me with a cherry on top",
-          "'Wait, i dont have to share. Just me and my losercore playlist' syfm",
-          "",
+          "Is ts font tuff",
         "Yupp.",
         "*smells the larp*",
         "Granny got nothin on me and finery 😎",
@@ -1975,9 +1979,15 @@ let backgroundDotsEnabled = true;
 let backgroundDotsTimer = null;
 let notLoadingTimer = null;
 const ACCENT_COLORS = {
-    default: { base: '#9b5de5', soft: '#3a2a5c' },
-    green:   { base: '#39d353', soft: '#1e4a2c' },
+    default: { base: '#4a90e2', soft: '#254a75' },
+        green:   { base: '#39d353', soft: '#1e4a2c' },
     purple:  { base: '#9b5de5', soft: '#3a2a5c' }
+};
+const ACCENT_LOGOS = {
+    default: 'https://i.postimg.cc/Gp7Z2qMy/blue.png',
+    purple:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png',
+    green:   'https://i.postimg.cc/ZYy1bP6m/green.png',
+    custom:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png'
 };
 
 // Nudge each RGB channel up or down while keeping it in the 0–255 range
@@ -2738,6 +2748,11 @@ function pickSortMode(mode, save = true) {
 
 function pickAccent(name, save = true, customHex) {
     accentMode = name;
+    const logoUrl = ACCENT_LOGOS[name] || ACCENT_LOGOS.purple;
+
+document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
+    img.src = logoUrl;
+});
     let base, soft;
 
     if (name === 'custom') {
@@ -3300,6 +3315,7 @@ function OpenRecentlyPlayedGame(gameName) {
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-   </div> <!-- i dont actually know what this closing div belongs to but my editor is saying it expects one, doesnt break the site so i added it -->
-  </body>
+   <!-- </div> i dont know what this closing div belongs to but my editor is saying it expects one, doesnt break the site so i added it -->
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
 </html>
