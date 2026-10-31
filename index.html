@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sonfine Site</title>
-  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png">
+  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/Gp7Z2qMy/blue.png">
 
   <script src="https://kit.fontawesome.com/686a5a8044.js" crossorigin="anonymous"></script>
     <style>
@@ -17,8 +17,8 @@
             --text-main: #ffffff;
             --text-sub: #b3b3b3;
             --radius-ui: 8px; 
-            --accent: #39d353;
-            --accent-soft: #1e4a2c;
+            --accent: #4a90e2;
+            --accent-soft: #254a75;
             --sonfine-pointer-cursor: pointer;
         }
 
@@ -1504,10 +1504,10 @@ strong:hover {
                     <p>Change the accent color used for buttons, background dots and more</p>
                 </div>
                 <div class="config-btn-group">
-                    <button class="config-toggle-btn swatch-btn" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
+                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
                     <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
-                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
-                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#9b5de5" oninput="pickAccent('custom', true, this.value)" title="Custom color">
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
+                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#4a90e2" oninput="pickAccent('custom', true, this.value)" title="Custom color">
                 </div>
             </div>
             <div class="settings-card square">
@@ -1536,7 +1536,7 @@ strong:hover {
                                     <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
                                     <div class="tab-presets">
                                         <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
-                                            <img src="https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png" alt="Sonfine">
+                                            <img src="https://i.postimg.cc/Gp7Z2qMy/blue.png" alt="Sonfine">
                                         </button>
                                         <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
                                             <img src="https://www.google.com/favicon.ico" alt="Google">
@@ -1693,6 +1693,7 @@ strong:hover {
                     { name: "Server 1 (Default)", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop" },
                     { name: "Original", url: "http://granny.gg/content/uploads/granny/index.html" },  
                 { name: "PC Version", url: "https://serumos.best/_o/d/asset/b/90-fix2.html" },
+              { name: "PC Version 2", url: "https://greentidestack.github.io/granny-webport-fork/" },
              ]},
                     { name: "Granny Chapter 2", url: "https://cdn.myunblockedgames.com/games/granny-2/index.html", image: "https://play-lh.googleusercontent.com/X_9WQbosx62FK2V2BK1Tuh2f3FuwyhrznBBodZ6nxGphIC0PwU0YxTVDRpOhbVKquz4UzgZ4SbjwQhVYOvEGnA", servers: [
             { name: "Server 1 (Default)", url: "https://cdn.myunblockedgames.com/games/granny-2/index.html" },
@@ -1941,9 +1942,9 @@ function rollSplash() {
 
       // very simple ik 
         let loaderMode = 'object';
-      let accentMode = 'green';
+      let accentMode = 'default';
       let sortMode = 'default';
-      let customAccentHex = '#39d353';
+      let customAccentHex = '#4a90e2';
 let backgroundDotsEnabled = true;
 let backgroundDotsTimer = null;
 let notLoadingTimer = null;
@@ -2622,7 +2623,7 @@ function pickSortMode(mode, save = true) {
 
 function pickAccent(name, save = true, customHex) {
     accentMode = name;
-    const logoUrl = ACCENT_LOGOS[name] || ACCENT_LOGOS.purple;
+    const logoUrl = ACCENT_LOGOS[name] || ACCENT_LOGOS.default;
 
 document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
     img.src = logoUrl;
@@ -2660,8 +2661,9 @@ document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
 const tabPresets = {
     sonfine: {
         name: 'Sonfine Site',
-        icon: 'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png'
+        icon: 'https://i.postimg.cc/Gp7Z2qMy/blue.png'
     },
+    // fahhhhhhhhhhhhhhhh
     google: {
         name: 'Google',
         icon: 'https://www.google.com/favicon.ico'
@@ -2795,12 +2797,12 @@ function restoreSettings() {
     }
 
     pickLoader(saved.loader || 'object', false);
-    customAccentHex = saved.customAccent || '#39d353';
+    customAccentHex = saved.customAccent || '#4a90e2';
 
     const customInput = document.getElementById('accent-custom-input');
     if (customInput) customInput.value = customAccentHex;
 
-    pickAccent(saved.accent || 'green', false, customAccentHex);
+    pickAccent(saved.accent || 'default', false, customAccentHex);
     pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
     pickSortMode(saved.sortMode || 'default', false);
     pickBackgroundDots(saved.backgroundDotsEnabled !== false, false);
@@ -2931,12 +2933,12 @@ function importSettings(e) {
             const saved = JSON.parse(reader.result);
 
             pickLoader(saved.loader || 'object', false);
-            customAccentHex = saved.customAccent || '#9b5de5';
+            customAccentHex = saved.customAccent || '#4a90e2';
 
             const customInput = document.getElementById('accent-custom-input');
             if (customInput) customInput.value = customAccentHex;
 
-            pickAccent(saved.accent || 'purple', false, customAccentHex);
+            pickAccent(saved.accent || 'default', false, customAccentHex);
             pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
             
             pickBackgroundDots(saved.backgroundDotsEnabled !== false, false);
@@ -3165,9 +3167,9 @@ function OpenRecentlyPlayedGame(gameName) {
         RecentGames = [];
     }
 
-    const game = RecentGames.find(savedGame => savedGame.name === gameName);
+    
+  const game = RecentGames.find(savedGame => savedGame.name === gameName);
     if (!game) return;
-
     openInFrame(game.url, game.name, game.servers);
 }
 
