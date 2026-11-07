@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sonfine Site</title>
-  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/Gp7Z2qMy/blue.png">
+  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png">
 
   <script src="https://kit.fontawesome.com/686a5a8044.js" crossorigin="anonymous"></script>
     <style>
@@ -159,16 +159,17 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background-color: var(--bg-card);
+            background: color-mix(in srgb, var(--bg-card) 58%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            backdrop-filter: blur(8px);
             color: var(--text-sub);
-            border: 2px solid transparent;
             padding: 10px 14px;
             border-radius: var(--radius-ui);
             font-size: 0.9rem;
             font-weight: bold;
-            cursor: var(--sonfine-pointer-cursor);
             transition: all 0.1s ease;
             z-index: 500;
+            cursor: pointer;
         }
 
         .download-latest-button:hover {
@@ -184,9 +185,10 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: var(--bg-card);
+            background: color-mix(in srgb, var(--bg-card) 58%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            backdrop-filter: blur(8px);
             color: var(--text-sub);
-            border: 2px solid transparent;
             padding: 10px 14px;
             border-radius: var(--radius-ui);
             font-size: 0.9rem;
@@ -343,7 +345,10 @@
         }
 
         .settings-card {
-            background-color: #303030;
+          /* fahfah */
+            background: color-mix(in srgb, var(--bg-card) 58%, transparent);
+            border: 1px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            backdrop-filter: blur(8px);
             border-radius: var(--radius-ui);
             padding: 20px;
             display: flex;
@@ -732,9 +737,10 @@
     gap: 7px;
     height: 53px;   
     padding: 0 15px;
-    background: var(--bg-input);
+    background: color-mix(in srgb, var(--bg-card) 58%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            backdrop-filter: blur(8px);
     color: var(--text-main);
-    border: 2px solid transparent;
     border-radius: var(--radius-ui);
     font-size: 0.9rem;
     font-weight: bold;
@@ -1390,7 +1396,7 @@ strong:hover {
         }
         .omnibox {
             background: color-mix(in srgb, var(--bg-card) 58%, transparent);
-            border: 1px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             box-shadow: inset 0 1px 0 color-mix(in srgb, white 5%, transparent);
@@ -1400,8 +1406,8 @@ strong:hover {
             border-color: var(--accent);
         }
         .navbar {
-            background: color-mix(in srgb, var(--bg-card) 68%, transparent);
-            border: 1px solid color-mix(in srgb, var(--text-main) 12%, transparent);
+            background: color-mix(in srgb, var(--bg-card) 20%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 12%, transparent);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
@@ -1536,7 +1542,7 @@ strong:hover {
                                     <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
                                     <div class="tab-presets">
                                         <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
-                                            <img src="https://i.postimg.cc/Gp7Z2qMy/blue.png" alt="Sonfine">
+                                            <img src="https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png" alt="Sonfine">
                                         </button>
                                         <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
                                             <img src="https://www.google.com/favicon.ico" alt="Google">
@@ -1955,7 +1961,7 @@ const ACCENT_COLORS = {
     purple:  { base: '#9b5de5', soft: '#3a2a5c' }
 };
 const ACCENT_LOGOS = {
-    default: 'https://i.postimg.cc/Gp7Z2qMy/blue.png',
+    default: 'https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png',
     purple:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png',
     green:   'https://i.postimg.cc/ZYy1bP6m/green.png',
     custom:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png'
@@ -2667,7 +2673,7 @@ document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
 const tabPresets = {
     sonfine: {
         name: 'Sonfine Site',
-        icon: 'https://i.postimg.cc/Gp7Z2qMy/blue.png'
+        icon: 'https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png'
     },
     // fahhhhhhhhhhhhhhhh
     google: {
