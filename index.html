@@ -1504,10 +1504,10 @@ strong:hover {
                     <p>Change the accent color used for buttons, background dots and more</p>
                 </div>
                 <div class="config-btn-group">
-                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="pickAccent('default')"></button>
-                    <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="pickAccent('green')"></button>
-                    <button class="config-toggle-btn swatch-btn" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="pickAccent('purple')"></button>
-                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#4a90e2" oninput="pickAccent('custom', true, this.value)" title="Custom color">
+                    <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="setAccentcolor('default')"></button>
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-green" style="background-color:#39d353;" onclick="setAccentcolor('green')"></button>
+                    <button class="config-toggle-btn swatch-btn" id="btn-accent-purple" style="background-color:#9b5de5;" onclick="setAccentcolor('purple')"></button>
+                    <input type="color" class="accent-custom-swatch" id="accent-custom-input" value="#4a90e2" oninput="setAccentcolor('custom', true, this.value)" title="Custom color">
                 </div>
             </div>
             <div class="settings-card square">
@@ -1516,8 +1516,8 @@ strong:hover {
                     <p>Toggle the floating dots on or off if they cause lag</p>
                 </div>
                 <div class="config-btn-group">
-                    <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="pickBackgroundDots(true)">On</button>
-                    <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="pickBackgroundDots(false)">Off</button>
+                    <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="ToggleBgDots(true)">On</button>
+                    <button class="config-toggle-btn" id="btn-bg-dots-off" onclick="ToggleBgDots(false)">Off</button>
                 </div>
             </div>
         </div>
@@ -1597,8 +1597,8 @@ strong:hover {
                     <p>Sort games alphabetically (slightly laggy to change)</p>
                 </div>
                 <div class="config-btn-group">
-                    <button class="config-toggle-btn active" id="btn-sort-default" onclick="pickSortMode('default')">Default</button>
-                    <button class="config-toggle-btn" id="btn-sort-alpha" onclick="pickSortMode('alpha')">A-Z</button>
+                    <button class="config-toggle-btn active" id="btn-sort-default" onclick="ToggleAZ('default')">Default</button>
+                    <button class="config-toggle-btn" id="btn-sort-alpha" onclick="ToggleAZ('alpha')">A-Z</button>
                 </div>
             </div>
             <div class="settings-card square">
@@ -1655,8 +1655,8 @@ strong:hover {
                 <button class="frame-ctrl-btn" onclick="minimizeFrame()" title="Minimize"><i class="fa-solid fa-minus"></i></button>
                 <button class="frame-ctrl-btn frame-close-btn" onclick="closeFrame()" title="Close"><i class="fa-solid fa-xmark"></i></button>
             </div>
-        </div>
-        <div class="game-frame-row" id="game-frame-row">
+    </div>
+  <div class="game-frame-row" id="game-frame-row">
             <div class="frame-title-group" id="game-frame-title-group">
                 <div class="frame-title" id="frame-title">Game</div>
                 <select class="frame-server-select" id="frame-server-select" onchange="onServerChange(this.value)" style="display:none;"></select>
@@ -1665,17 +1665,17 @@ strong:hover {
                 <button class="frame-ctrl-btn" onclick="toggleFullscreen()" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
                 <button class="frame-ctrl-btn" onclick="minimizeFrame()" title="Minimize"><i class="fa-solid fa-minus"></i></button>
                 <button class="frame-ctrl-btn frame-close-btn" onclick="closeFrame()" title="Close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-        </div>
-    </div>
-    <div class="frame-wrapper" id="frame-canvas-wrapper"></div>
+  </div>
+  </div>
+ </div>
+  <div class="frame-wrapper" id="frame-canvas-wrapper"></div>
 </div>
 
 <div class="not-loading-popup" id="not-loading-popup">
     <button class="not-loading-popup-close" onclick="toggleNotLoadingPopup()" title="Close"><i class="fa-solid fa-xmark"></i></button>
     <div class="not-loading-popup-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <h3>Site isn't loading?</h3>
-    <p>This site may refuse to let other sites load it inside an embed, like youtube.com or roblox.com. Your school district may have this site in a blocked list that cannot be bypassed with Sonfine, or your wifi is being managed by your school.</p>
+    <p>This site may refuse to let other sites load it inside an embed, like youtube.com. Your school district may have this site in a blocked list that cannot be bypassed with Sonfine, or your wifi is being managed by your school.</p>
     <p>Try an alternative link, switch your wifi, switch the Embed Loader setting, or simply wait and try again.</p>
 </div>
 
@@ -1685,6 +1685,7 @@ strong:hover {
     <span id="minimized-tab-name"></span>
 </div>
     <script>
+      // i shouldnt have put the games at the top of the js 😭
         const LeGames = [
         { name: "All Games", url: "https://greentidestack.github.io/sonfine-games/gn-math.html", image: "https://lh3.googleusercontent.com/Mxl8996vzcWWRU5RyKdTDA76GEPj9jQpuYc02nPgtwKgdqpWidM5YVqu8DHBd-D1sZ3sP1AOYB-DlNhMEpaLJxQcTQ=s128-rj-sc0x00ffffff", servers: [ { name: "Server 1 (Default, gn-math)", url: "https://greentidestack.github.io/sonfine-games/gn-math.html" }, {name: "Server 2 (Lumin)", url: "https://greentidestack.github.io/ZeroOS/games.html"} ] },
       {name: "Fancade", url: "https://play.fancade.com", image: "https://www.fancade.com/images/fancade.jpg" },
@@ -1700,21 +1701,21 @@ strong:hover {
             { name: "PC version", url: "https://cdn.vietdp.com/file/vietdp-games/games/t52025/granny-horror-2/index.html" },
             ]}, 
             { name: "Sketchbook 0.4", url: "https://roblox-unblock.github.io/r8/sketchbook-04/", image: "https://canada1.discourse-cdn.com/flex035/uploads/threejs/original/2X/2/26322e254e5e482acc0970883d347f1eccb2dc2d.jpeg" },
-            { name: "Baldis Basics", url: "https://www.3kh0-assets.silvereen.net/3kh0-assets/baldis-basics/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS503FMLnvO0aryyj2Ktuw65_zPMnbn1xmfOQ&s" },
+            { name: "Baldis Basics", url: "https://www.3kh0-assets.silvereen.net/3kh0-assets/baldis-basics/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcS503FMLnvO0aryyj2Ktuw65_zPMnbn1xmfOQ&s" },
           { name: "CraftMine", url: "https://1kh0.github.io/projects/craftmine/index.html", image: "https://1kh0.github.io/projects/craftmine/images/craftmine.png" },
-      { name: "Super Tunnel Rush", url: "https://tunnelrushonline2.github.io/file/", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/58fe1e7371ce50318e3c31024b561209/super-tunnel-rush.png"  },
+      { name: "Super Tunnel Rush", url: "https://tunnelrushonline2.github.io/file/", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=314,height=314,fit=cover,f=auto/58fe1e7371ce50318e3c31024b561209/super-tunnel-rush.png"  },
       { name: "Papery Planes", url: "https://rawcdn.githack.com/genizy/assets/main/papery-planes/", image: "https://rawcdn.githack.com/genizy/assets/main/papery-planes/thumb.png" },
       { name: "Tunnel Rush", url: "https://gnhustgames.org/tunnelrush-source", image: "https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg" },
-      { name: "Tunnel Rush 2", url: "https://classroomlesson.github.io/basic-ruffle-player/html/tunnel_rush_2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c5e0de489bb6f6f99e9bb0bce8341ac/tunnel-rush-2-logo.png" },
+      { name: "Tunnel Rush 2", url: "https://classroomlesson.github.io/basic-ruffle-player/html/tunnel_rush_2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c5e0de489bb6f6f99e9bb0bce8341ac/tunnel-rush-2-logo.png" },
       { name: "Rage Quit Racer", url: "https://block-blast-pro.github.io/lesson83/lesson-2159", image: "https://media.silvergames.com/j/b/rage-quit-racer.jpg" },
       { name: "Idle Breakout", url: "https://3kh0.bitbucket.io/projects/idle-breakout/index.html", image: "https://app.flamepass.com/assets/imgs/g/Idle_Breakout.webp" },
           { name: "Idle Shark", url: "https://1kh0.github.io/projects/idle-shark/index.html", image: "https://1kh0.github.io/projects/idle-shark/img/sharkgame.png" },
           { name: "2048", url: "https://1kh0.github.io/projects/2048/index.html", image: "https://1kh0.github.io/projects/2048/thumb.png" },
           { name: "Cut The Rope", url: "https://1kh0.github.io/projects/ctr/index.html", image: "https://1kh0.github.io/projects/ctr/logo.png" },
           { name: "Ducklings.io", url: "https://gr4ys0n.github.io/public/assets/games/ducklings-io/", image: "https://gr4ys0n.github.io/public/assets/images/ducklingsio.png" },
-      { name: "Duck Life 3", url: "https://selenitebyplayer.artmuseum.org/resources/semag/ducklife3/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3em2qQpj_DxFl1HeNIZn8B-8mujTR59SFHQ&s" },
+      { name: "Duck Life 3", url: "https://selenitebyplayer.artmuseum.org/resources/semag/ducklife3/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcT3em2qQpj_DxFl1HeNIZn8B-8mujTR59SFHQ&s" },
           { name: "Learn to Fly", url: "https://1kh0.github.io/projects/learntofly/index.html", image: "https://1kh0.github.io/projects/learntofly/learntofly.png" },
-      { name: "Cluster Rush", url: "https://roblox-unblock.github.io/r8/cluster-rush/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp5XFGxVReP3-PW2bMDW-VkYdZpV95sLoEvw&s" },
+      { name: "Cluster Rush", url: "https://roblox-unblock.github.io/r8/cluster-rush/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcTp5XFGxVReP3-PW2bMDW-VkYdZpV95sLoEvw&s" },
       { name: "Hextris", url: "https://www.3kh0-assets.silvereen.net/3kh0-assets/hextris/", image: "https://play-lh.googleusercontent.com/nCzeX0WCpn8iLxQV9TgrWr6Xt4JZPT0nExE7iSC48KacKxtx_7c4dAYrlMYgTM_HtHg", servers: [
         { name: "Server 1 (Default)",url: "https://www.3kh0-assets.silvereen.net/3kh0-assets/hextris/" },
         { name: "Server 2", url: "https://1kh0.github.io/projects/hextris/index.html"}
@@ -1722,7 +1723,7 @@ strong:hover {
             { name: "Wordle Unlimited", url: "https://mikhad.github.io/wordle/", image: "https://www.nytimes.com/games-assets/v2/assets/wordle/wordle_logo_32x32.png" },
       { name: "Gameing", url: "https://windows96.net/system/apps/gameing/", image: "https://i.imgur.com/geqTaWH.png" },
       { name: "Level Devil", url: "https://gaming-escape.github.io/public/assets/games/level-devil/index.html", image: "https://play-lh.googleusercontent.com/1zTWXjwCUeRmOVeqNnmrb-oR-KELGQMOLjrcZ2cXkQby8pQRpD5Wrng7Z8JPuWrsqQ=w240-h480-rw" },
-            { name: "Bacon May Die", url: "http://genizymath.github.io/iframe/268-f.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ79VthUY1tM5SzO0aAoriuolgNYyrM4XuJkzuxCVQMI2B7gt3Tav79d14&s=10" },
+            { name: "Bacon May Die", url: "http://genizymath.github.io/iframe/268-f.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcQ79VthUY1tM5SzO0aAoriuolgNYyrM4XuJkzuxCVQMI2B7gt3Tav79d14&s=10" },
             { name: "Escape Road", url: "https://escaperoadx.github.io/escaperoad/index.html", image: "https://escaperoad.io/cache/data/image/game/escape-road-game-sr1-f240x240.webp" },
                   { name: "Escape Road 2", url: "https://1games.io/game/escape-road-2", image: "https://azgames.io/upload/cache/upload/imgs/escaperoad21-m200x200.webp" },
             { name: "BitLife", url: "https://geography-lessons-16.pro/g4m3s/bl/game.html", image: "https://geography-lessons-16.pro/g4m3s/bl/logo.png" },
@@ -1731,13 +1732,13 @@ strong:hover {
       { name: "Highway Traffic 2", url: "https://gamebol.com/gamesource/Extreme_Car_Traffic_Racing/index.html", image: "https://i.postimg.cc/3xvQCzPJ/Screenshot-2026-09-07-at-6-16-28-PM.png" },
       { name: "Traffic Racing", url: "https://roblox-unblock.github.io/play/furious-racing-3d.html", image: "https://roblox-unblock.github.io/thumb/furious-racing-3d.png" },
           { name: "Minecraft 26.2", url: "https://eaglercraft-26-2-client.u2471966200.workers.dev/?=v0.6", image: "https://feedback.minecraft.net/hc/theming_assets/01KSF397Z5XMNHT3JJ5FZRMBJ6", servers: [{ name: "Server 1 (Default)", url: "https://eaglercraft-26-2-client.u2471966200.workers.dev/?=v0.6" }, {name: "Server 2", url: "https://gx-launcher.github.io/game/26.2-wasm/index.html",},] },
-      { name: "Minecraft 1.12.2", url: "https://eaglercraft.q13x.com/1.12.2/wasm/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHDDzMFbYR5tfpoSCpqt_iltsGj5kzFTX5ew&s" },
+      { name: "Minecraft 1.12.2", url: "https://eaglercraft.q13x.com/1.12.2/wasm/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcQHDDzMFbYR5tfpoSCpqt_iltsGj5kzFTX5ew&s" },
       { name: "Minecraft 1.8.8", url: "https://gaming-escape.github.io/public/assets/games/eaglercraft/index.html", image: "https://cdn2.steamgriddb.com/logo/f2ac9ea9df6a1fa405a3d2647e411c88.png" },
       { name: "Bloxorz", url: "https://lite.3kh0.net/projects/bloxors/", image: "https://1kh0.github.io/projects/bloxors/block.png" },
           { name: "Drift Boss", url: "https://www.mathplayground.com/drift-boss-v3/index.html", image: "https://blob-opera.com/wp-content/uploads/2026/02/Drift-Boss.webp" },
           { name: "Swerve", url: "https://1kh0.github.io/projects/swerve/index.html", image: "https://1kh0.github.io/projects/swerve/img/favicon.jpg" },
-      { name: "Drift Hunters", url: "http://dnrweqffuwjtx.cloudfront.net/games/2024/unity/drift-hunters-2024/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTfej2PWP4aevgKf2cACsa3foVZelRjl5CFM6emko8jSn0Q50JrxEIW9m5NPvigeOtWrK7&s=10" },
-{ name: "Shellshockers", url: "https://shellshock.io/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKVW5BN1j4wiD70cW8t_FS4IkeSQ3cwq6xhu2gbz8eXbiWauZIFILfWOI&s=10", servers: [
+      { name: "Drift Hunters", url: "http://dnrweqffuwjtx.cloudfront.net/games/2024/unity/drift-hunters-2024/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRTfej2PWP4aevgKf2cACsa3foVZelRjl5CFM6emko8jSn0Q50JrxEIW9m5NPvigeOtWrK7&s=10" },
+{ name: "Shellshockers", url: "https://shellshock.io/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRKVW5BN1j4wiD70cW8t_FS4IkeSQ3cwq6xhu2gbz8eXbiWauZIFILfWOI&s=10", servers: [
     { name: "Server 1 (Default)", url: "https://shellshock.io" },
     { name: "Server 2", url: "https://shellgame.me" },
     { name: "Server 3", url: "http://shellshock.wiki/" },
@@ -1748,56 +1749,56 @@ strong:hover {
     { name: "Server 2", url: "https://browserfps.com" },
     ]},
           { name: "Paper.io 2", url: "https://1kh0.github.io/projects/paperio2/index.html", image: "https://1kh0.github.io/projects/paperio2/images/icon512.png" },
-      { name: "Funny Shooter 2", url: "https://gaming-escape.github.io/public/assets/games/funny-shooter-2/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOpjUpFMOU0UliFPfTuiYN2QcjSc-04UQ50g&s" },
+      { name: "Funny Shooter 2", url: "https://gaming-escape.github.io/public/assets/games/funny-shooter-2/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcQOpjUpFMOU0UliFPfTuiYN2QcjSc-04UQ50g&s" },
       { name: "Crazy Cattle 3D", url: "https://zxsgames.vip/g/crazycattle.html", image: "https://img.itch.zone/aW1nLzIwNzkwNDg0LnBuZw==/315x250%23c/O5flR4.png" },
-      { name: "Backrooms", url: "https://abc.cloudfree.jp/backrooms/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-igS4fjnW_FrkodIOwrzSRkWrMhdoIuot7w&s" },
+      { name: "Backrooms", url: "https://abc.cloudfree.jp/backrooms/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcT-igS4fjnW_FrkodIOwrzSRkWrMhdoIuot7w&s" },
       { name: "Glass City", url: "https://cdn.ubgames.app/glass-city/", image: "https://i.imgur.com/AMXvwDi.png" },
       { name: "Basketball Stars", url: "https://1kh0.github.io/projects/basketball-stars/index.html", image: "https://1kh0.github.io/projects/basketball-stars/assets/images/basketball-stars.png" },
       { name: "Geometry Dash (better)", url: "https://web-dashers.github.io", image: "https://static.wikia.nocookie.net/logopedia/images/4/41/Geometry_Dash_Icon.svg/revision/latest?cb=20220220121501" },
-      { name: "Geometry Dash Lite", url: "https://gaming-escape.github.io/public/assets/games/geometry-dash/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBms9b8YIAtSUbezumxG-dUppHEplVXpAlnA&s", },
-      { name: "Crossy Road", url: "https://gaming-escape.github.io/public/assets/games/crossy-road/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQR2Yhu6Qcf7NRF_jlPRlkmjIq5KhX0variQ&s", },
+      { name: "Geometry Dash Lite", url: "https://gaming-escape.github.io/public/assets/games/geometry-dash/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcTBms9b8YIAtSUbezumxG-dUppHEplVXpAlnA&s", },
+      { name: "Crossy Road", url: "https://gaming-escape.github.io/public/assets/games/crossy-road/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcTQR2Yhu6Qcf7NRF_jlPRlkmjIq5KhX0variQ&s", },
           { name: "Doge Miner", url: "https://1kh0.github.io/projects/DogeMiner/index.html", image: "https://1kh0.github.io/projects/DogeMiner/img/dogeminer_300x300.png" },
       { name: "Cookie Clicker", url: "https://a6936-19424025.cluster7.canvas-user-content.com/courses/6936~1014013/files/6936~19424025/course%20files/cookie%20clicker/index.html?download=1&inline=1", image: "https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok" },
-            { name: "Basket Random", url: "https://roblox-unblock.github.io/r8/basket-random/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0qj4H4c1nnfsygBxoQEbJkkUZ7yY_LkTnkA&s" },
+            { name: "Basket Random", url: "https://roblox-unblock.github.io/r8/basket-random/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcS0qj4H4c1nnfsygBxoQEbJkkUZ7yY_LkTnkA&s" },
       { name: "Soccer Random", url: "https://gaming-escape.github.io/public/assets/games/soccer-random/index.html", image: "https://play-lh.googleusercontent.com/G1PIlb6HWKSaDre0XpUcmKGps9T4iamsSlwrogB3EJzYv4bz0M2am4D17MtGzndaOOU" },
       { name: "Volley Random", url: "https://gaming-escape.github.io/public/assets/games/volley-random/index.html", image: "https://play-lh.googleusercontent.com/VeKAevaOjPlcyCtOpFY1h6SjwEjnu4ryG3xQ_qw1Muuhrg8pqwhl1aPjWovMkjc0Rc4" },
           { name: "Doodle Jump", url: "https://1kh0.github.io/projects/doodle-jump/index.html", image: "https://1kh0.github.io/projects/doodle-jump/doodle.png" },
-            { name: "CirclO", url: "http://genizymath.github.io/iframe/274-f.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/971353830f129fd3f1446398792e6997/circloo-logo.png" },
+            { name: "CirclO", url: "http://genizymath.github.io/iframe/274-f.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/971353830f129fd3f1446398792e6997/circloo-logo.png" },
             { name: "CirclO 2", url: "https://geography-lessons-16.pro/g4m3s/circlo-2/game.html", image: "https://geography-lessons-16.pro/g4m3s/circlo-2/thumv.png" },
             { name: "FNAF 1", url: "https://geography-lessons-16.pro/g4m3s/fnaf/game.html", image: "https://geography-lessons-16.pro/g4m3s/fnaf/logo.jpg" },
             { name: "Run 3", url: "https://www.yurk.com/games/run3/", image: "https://e.snmc.io/lk/fv/x/0aa99fb888648894fa4f6cadeee44bc5/10934781" },
           { name: "Big Tower Tiny Square", url: "https://1kh0.github.io/projects/btts/index.html", image: "https://1kh0.github.io/projects/btts/images.png" },
           { name: "Dreadhead Parkour", url: "https://gr4ys0n.github.io/public/assets/games/dreadhead-parkour/", image: "https://gr4ys0n.github.io/public/assets/images/dreadheadparkour.png" },
-          { name: "Going Balls", url: "https://block-blast-pro.github.io/lesson83/lesson-2122", image: "https://img.funox.com/cdn-cgi/image/q=78%2Cscq=50%2Cwidth=314%2Cheight=314%2Cfit=cover%2Cf=auto/78b5bb477a6f1bea30c9/going-balls.png" },
+          { name: "Going Balls", url: "https://block-blast-pro.github.io/lesson83/lesson-2122", image: "https://img.funox.com/cdn-cgi/image/searchQuery=78%2Cscq=50%2Cwidth=314%2Cheight=314%2Cfit=cover%2Cf=auto/78b5bb477a6f1bea30c9/going-balls.png" },
 
             { name: "Swingers", url: "https://block-blast-pro.github.io/lesson306/lesson-316", image: "https://block-blast-pro.github.io/lesson306/lesson-316/icon-256.png" },
           { name: "Jellotrix (Jelly Tetris)", url: "https://block-blast-pro.github.io/lesson85/lesson-2211/", image: "https://kbhgames.com/wp-content/uploads/2023/04/JelloTetrix.webp" },
             { name: "n-gon", url: "https://1kh0.github.io/projects/n-gon/index.html", image: "https://1kh0.github.io/projects/n-gon/bot.png" },
           { name: "OvO", url: "https://geography-lessons-16.pro/g4m3s/ovo/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo/ovo.png" },
           { name: "OvO Dimensions", url: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/game.html", image: "https://geography-lessons-16.pro/g4m3s/ovo-dimensions/logo.jpg" },
-      { name: "Vex 3", url: "https://gaming-escape.github.io/public/assets/games/vex-3/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7eD3wu6Fst8RaTT_EEMyPbrXWxg4IVqI0Vg&s" },
+      { name: "Vex 3", url: "https://gaming-escape.github.io/public/assets/games/vex-3/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcS7eD3wu6Fst8RaTT_EEMyPbrXWxg4IVqI0Vg&s" },
       { name: "Vex 4", url: "https://gaming-escape.github.io/public/assets/games/vex-4/index.html", image: "https://kizicdn.com/system/static/thumbs/tile_thumb/5372/thumb150_thumb150_80e6a5ae477f4d4fbcd1ea293d10087d-512x512.jpg?1586010289" },
-      { name: "Vex 5", url: "https://gaming-escape.github.io/public/assets/games/vex-5/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcw-Ys5zeLyq0iQrpbfux-rCQyA1aOux3fnw&s" },
-      { name: "Vex 6", url: "https://1kh0.github.io/projects/vex6/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWGZ2hTJsSTm1l1ur5lAXSchV4_wpuBKXQTQ&s", }, // resist
+      { name: "Vex 5", url: "https://gaming-escape.github.io/public/assets/games/vex-5/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRcw-Ys5zeLyq0iQrpbfux-rCQyA1aOux3fnw&s" },
+      { name: "Vex 6", url: "https://1kh0.github.io/projects/vex6/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRWGZ2hTJsSTm1l1ur5lAXSchV4_wpuBKXQTQ&s", }, // resist
       { name: "Vex 7", url: "https://gaming-escape.github.io/public/assets/games/vex-7/index.html", image: "https://vex7online.github.io/vex-7.png" }, // resist
       { name: "A Dance of Fire and Ice", url: "https://roblox-unblock.github.io/r8/a-dance-of-fire-and-ice/", image: "https://roblox-unblock.github.io/thumb/a-dance-of-fire-and-ice.png" },
       { name: "Burrito Bison", url: "https://roblox-unblock.github.io/r7/burrito-bison/", image: "https://roblox-unblock.github.io/thumb/burrito-bison.png" },
       { name: "Among Us", url: "https://classwork-heaven.pages.dev/among-us/", image: "https://img.utdstc.com/icon/015/d1c/015d1cecf14c3ef529e92d788304fe58aa571c4e3ebaf4d78d5eea44f693c844:200" }, 
-      { name: "Angry Birds", url: "https://gaming-escape.github.io/public/assets/games/angry-birds/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7iU_Mdwbo2YsBFDs_are4yc-wBRzSrmV7kA&s" },
+      { name: "Angry Birds", url: "https://gaming-escape.github.io/public/assets/games/angry-birds/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcT7iU_Mdwbo2YsBFDs_are4yc-wBRzSrmV7kA&s" },
       { name: "Flappy Bird", url: "https://roblox-unblock.github.io/r8/flappy-bird-origin/", image: "https://roblox-unblock.github.io/thumb/flappy-bird.png" },
       { name: "Slope", url: "https://gaming-escape.github.io/public/assets/games/slope/index.html", image: "https://slopegame-online.com/slope.webp", },  
       { name: "Slope 2 Multiplayer", url: "https://roblox-unblock.github.io/r7/slope-2-multiplayer/", image: "https://roblox-unblock.github.io/thumb/slope-2-multiplayer.png" },
-      { name: "Death Run 3D", url: "https://roblox-unblock.github.io/r7/death-run-3d", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsrvUvXoOUm4TLWH2s4SgR3EfWuFNyj9h1EQ&s" },
+      { name: "Death Run 3D", url: "https://roblox-unblock.github.io/r7/death-run-3d", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcTsrvUvXoOUm4TLWH2s4SgR3EfWuFNyj9h1EQ&s" },
       { name: "Subway Surfers", url: "https://geography-lessons-16.pro/g4m3s/subway-surfers/game.html", image: "https://geography-lessons-16.pro/g4m3s/subway-surfers/img/splash.jpg" },
-      { name: "Stickman Hook", url: "https://geography-lessons-16.pro/g4m3s/stickman-hook/game.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/99e090d154caf30f3625df7e456d5984/stickman-hook-logo.png" },
-      { name: "Blumgi Paintball", url: "https://gaming-escape.github.io/public/assets/games/blumgi-paintball/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/59e84a26f2a9b86580160539bd525c13/blumgi-paintball-logo.png" },
-      { name: "Blumgi Castle", url: "https://gaming-escape.github.io/public/assets/games/blumgi-castle/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/535793fb806824a12dfe0136c4208b51/blumgi-castle-logo.png" },
+      { name: "Stickman Hook", url: "https://geography-lessons-16.pro/g4m3s/stickman-hook/game.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/99e090d154caf30f3625df7e456d5984/stickman-hook-logo.png" },
+      { name: "Blumgi Paintball", url: "https://gaming-escape.github.io/public/assets/games/blumgi-paintball/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/59e84a26f2a9b86580160539bd525c13/blumgi-paintball-logo.png" },
+      { name: "Blumgi Castle", url: "https://gaming-escape.github.io/public/assets/games/blumgi-castle/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/535793fb806824a12dfe0136c4208b51/blumgi-castle-logo.png" },
       { name: "Sandspiel", url: "https://sandspiel.club", image: "https://lh3.googleusercontent.com/EvV7oJ5iYvdMj_NlGAmvUgiKYs4HXTJe3tGGgY2mSjis0Vpu1hpaJZjEAsBE5MNjZsa0aBG9VmJPm9-ADkDUT7dz6OyqVg" },
-      { name: "Tetris", url: "https://1kh0.github.io/projects/flashtetris/index.html", image: "https://tetris.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F145957%2F1744295598-tetris-firetv-appicon-728x728_728x728.png&w=2048&q=75", },
-      { name: "Worlds Hardest Game", url: "https://1kh0.github.io/projects/worlds-hardest-game/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAitjWxCWZeKzNg5wO6HLWJyKg5X34WClFKQ&s", },
+      { name: "Tetris", url: "https://1kh0.github.io/projects/flashtetris/index.html", image: "https://tetris.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F145957%2F1744295598-tetris-firetv-appicon-728x728_728x728.png&w=2048&searchQuery=75", },
+      { name: "Worlds Hardest Game", url: "https://1kh0.github.io/projects/worlds-hardest-game/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcSAitjWxCWZeKzNg5wO6HLWJyKg5X34WClFKQ&s", },
           { name: "Worlds Hardest Game 2", url: "https://1kh0.github.io/projects/worlds-hardest-game-2/index.html", image: "https://1kh0.github.io/projects/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg" },
           { name: "Retro Bowl", url: "https://1kh0.github.io/projects/retro-bowl/index.html", image: "https://1kh0.github.io/projects/retro-bowl/img/icon.jpg" },
-      { name: "Chicken Merge 2", url: "https://gaming-escape.github.io/public/assets/games/chicken-merge-2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/d607dd571ef6732de82621d1b29afbbb/chicken-merge-2-logo.png" },
+      { name: "Chicken Merge 2", url: "https://gaming-escape.github.io/public/assets/games/chicken-merge-2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/d607dd571ef6732de82621d1b29afbbb/chicken-merge-2-logo.png" },
             { name: "Bad Ice Cream", url: "http://genizymath.github.io/iframe/269-f.html", image: "https://static.wikia.nocookie.net/logopedia/images/7/71/Bad_Ice-Cream.png/revision/latest?cb=20221111012207" },
       { name: "Ultrakill", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", image: "https://assets-prd.ignimgs.com/2022/04/08/ultrakill-1649459578320.jpg" },
       { name: "Chrome Dino", url: "https://3kh0.bitbucket.io/projects/chrome-dino/index.html", image: "https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/img/chromedino.webp" },
@@ -1815,15 +1816,15 @@ strong:hover {
             { name: "Ultimate Car Driving Game", url: "https://html-online-game.github.io/ultimate-car-driving/", image: "https://lh3.googleusercontent.com/z2F4pXDs72oDlRtp27y1F_AE1npf025cRzSSsGFnTI49Ll4gHmmaHrVPaOomCCSjfTdIYG5sMu2K6DsqvZc21Fj94UA=s120" },
             
       { name: "Crazy Cars", url: "https://roblox-unblock.github.io/r4/crazy-cars/", image: "https://cdn-1.webcatalog.io/catalog/poki-crazy-cars/poki-crazy-cars-icon-filled-256.png?v=1714778275521" },
-      { name: "Happy Wheels", url: "https://block-blast-pro.github.io/lesson83/lesson-2128", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/bdeea6562dcab80a1905969266b0de38/happy-wheels-logo.png" },
+      { name: "Happy Wheels", url: "https://block-blast-pro.github.io/lesson83/lesson-2128", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/bdeea6562dcab80a1905969266b0de38/happy-wheels-logo.png" },
       { name: "Drive Mad", url: "https://www.swordslasher.com/games/drive-mad/game.html", image: "https://azgames.io/upload/imgs/drivemad.png" },
       { name: "Drive Mad (Poki)", url: "https://55gms.com/misc/drive-mad/", image: "https://play-lh.googleusercontent.com/vJwCnKoOl9hnyPOphqx0pXXQXRhcX9f747VaJ1GRUldEKTYclYEoZZC0pkgOw3hPXqM=w240-h480-rw" },
       { name: "Drive Mad Mod", url: "https://play.fancade.com/63BA239C20C40BF3", image: "https://i.imgur.com/P0ETZci.png" }, 
       { name: "Car Crash Test", url: "https://play.fancade.com/62164F1BE09DA5EB", image: "https://www.fancade.com/images/61E31654BF19D3D8.jpg" },
       { name: "Slow Roads", url: "https://slowroads.io", image: "https://images.rocketgames.io/uploads/games/s/slow-roads-io/slow-roads-io.adda0e.jpg?w=94&dpr=2" },
-      { name: "Monster Tracks", url: "https://mouse-practice.com/games/mp/mp08/g17/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/41c7ae4db13e7d7596bb0528f40a4012/monster-tracks.png" },
-      { name: "Google Snake", url: "https://googlesnakemods.com/v/current/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYjhE9-QdbaEoa8p569ovYbZjGx4VKJaXxzw&s" },
-      { name: "Stack", url: "https://gaming-escape.github.io/public/assets/games/stack/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFRVDgoaMaGy5x027j5hGrJ0PF4ofqyiko1A&s" },
+      { name: "Monster Tracks", url: "https://mouse-practice.com/games/mp/mp08/g17/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/41c7ae4db13e7d7596bb0528f40a4012/monster-tracks.png" },
+      { name: "Google Snake", url: "https://googlesnakemods.com/v/current/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcQYjhE9-QdbaEoa8p569ovYbZjGx4VKJaXxzw&s" },
+      { name: "Stack", url: "https://gaming-escape.github.io/public/assets/games/stack/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcSFRVDgoaMaGy5x027j5hGrJ0PF4ofqyiko1A&s" },
       { name: "Monkeytype Lite", url: "https://gaming-escape.github.io/public/assets/games/monkeytype-lite/index.html", image: "https://avatars.githubusercontent.com/u/104658077?s=280&v=4" },
       { name: "Tomb of the Mask", url: "https://gaming-escape.github.io/public/assets/games/tomb-of-the-mask/index.html", image: "https://m.media-amazon.com/images/M/MV5BNjY5YmY2ZTYtYjg1Ny00MzM5LWI5NmUtNzllNzJiZGZmOGIxXkEyXkFqcGc@._V1_.jpg" },
       { name: "There is no Game", url: "https://pisaucer.github.io/boredhtml/games/thereisnogame/repo/alternate/871000/test.html", image: "https://play-lh.googleusercontent.com/S5qXeNBqUyuEMUb4CjBABIhRxlhusZqpDA6ZzzYlW5OAPr993AMXhORpNXQ0hv8OZAs" },
@@ -1834,28 +1835,27 @@ strong:hover {
       { name: "Scrap Metal 4", url: "https://www.gamearter.com/game/scrap-metal-4/", image: "https://d.pacogames.com/images/webp/230x172/drift-cars.jpg.webp" },
       { name: "Scrap Metal 5", url: "https://www.gamearter.com/game/scrap-metal-5/", image: "https://d.pacogames.com/images/300x300/scrap-metal.jpg" },
       { name: "Scrap Metal 6", url: "https://www.gamearter.com/game/scrap-metal-6/", image: "https://d.pacogames.com/images/webp/230x172/scrap-metal-6.jpg.webp" },
-      { name: "Breaking the bank", url: "https://mountain658.github.io/zbreakingthebank.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/0f80f3388aabb6153981b749df08c7fc6048d5234a40e9e88d7afc73178b451e/breaking-the-bank.png" },
-      { name: "Escaping the prison", url: "https://gaming-escape.github.io/public/assets/games/escaping-the-prison/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUyoW3l_IEiKuVTnoNtp_Nu2GnuH0SL7i77g&s" },
-      { name: "Stealing the diamond", url: "https://gaming-escape.github.io/public/assets/games/stealing-the-diamond/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1sBudh3LoVRZAW9iHBnav7zNGKcssJv5DtA&s" },
-      { name: "Infiltrating the airship", url: "https://gaming-escape.github.io/public/assets/games/infiltrating-the-airship/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/680d89360540e68fb8d45babd5441c7d95e4879a1e9cd7d28399ff1f52616481/infiltrating-the-airship.png" },
-      { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Dz-SmA8n9GhnZqqHb9pRg4nmLoGWkH64Ig&s" },
+      { name: "Breaking the bank", url: "https://mountain658.github.io/zbreakingthebank.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/0f80f3388aabb6153981b749df08c7fc6048d5234a40e9e88d7afc73178b451e/breaking-the-bank.png" },
+      { name: "Escaping the prison", url: "https://gaming-escape.github.io/public/assets/games/escaping-the-prison/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcSUyoW3l_IEiKuVTnoNtp_Nu2GnuH0SL7i77g&s" },
+      { name: "Stealing the diamond", url: "https://gaming-escape.github.io/public/assets/games/stealing-the-diamond/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcT1sBudh3LoVRZAW9iHBnav7zNGKcssJv5DtA&s" },
+      { name: "Infiltrating the airship", url: "https://gaming-escape.github.io/public/assets/games/infiltrating-the-airship/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=314,height=314,fit=cover,f=auto/680d89360540e68fb8d45babd5441c7d95e4879a1e9cd7d28399ff1f52616481/infiltrating-the-airship.png" },
+      { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcS5Dz-SmA8n9GhnZqqHb9pRg4nmLoGWkH64Ig&s" },
         ];
 
         const LeApps = [
-       { name: "Windows 11 in React", url: "https://win11.blueedge.me/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL5JHjCwohEDVmMh5-SZ9wfCg-970803ZbKg&s" },
-      { name: "Turbowarp", url: "https://greentidestack.github.io/allassets/turbowarp.html", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSYptKVIoO4LgojBpG79fOq5S6nV_Aa-Gxg&s" },
+       { name: "Windows 11 in React", url: "https://win11.blueedge.me/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcQL5JHjCwohEDVmMh5-SZ9wfCg-970803ZbKg&s" },
+      { name: "Turbowarp", url: "https://greentidestack.github.io/allassets/turbowarp.html", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcTLSYptKVIoO4LgojBpG79fOq5S6nV_Aa-Gxg&s" },
       { name: "YouTube", url: "https://wea-f.github.io/Norepted/watch/", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/3840px-YouTube_full-color_icon_%282017%29.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" },
-      { name: "Youtube Shorts", url: "https://wea-f.github.io/Norepted/shorts/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhGHMrDsmsHdGO98LWafFRIbW8UKlCbjy4CFFPtWlbcw&s" },
+      { name: "Youtube Shorts", url: "https://wea-f.github.io/Norepted/shorts/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRhGHMrDsmsHdGO98LWafFRIbW8UKlCbjy4CFFPtWlbcw&s" },
       { name: "Soundboard", url: "https://myinstants.com", image: "https://play-lh.googleusercontent.com/v_5LsSgLe8lMcmmKc1uYMPkaOkM3JVVkl_IvQ8m9iim5Z8Pw80MgvMyA_zc2QvVs6zA" },
       { name: "Thirty Dollar Website", url: "https://thirtydollar.website", image: "https://symbl-cdn.com/i/webp/a1/bd21bc0d5c98bb21cbfe3ff871f2aa.webp" },
-      { name: "Windows 96", url: "https://windows96.net/", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaOwEzAfw2sELsugCx71Wo_AwamTI-oJDOlA&s" },
+      { name: "Windows 96", url: "https://windows96.net/", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcRaOwEzAfw2sELsugCx71Wo_AwamTI-oJDOlA&s" },
       { name: "ChatGPT", url: "https://www.easemate.ai/chat-gpt-free", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/3840px-ChatGPT_logo.svg.png" },
-            { name: "Calculator", url: "https://desmos.com/scientific", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrfbHqeENmOrBbcgWL65zzdt18Zmqn8Lwhb7AaR_bh-A&s=10" },
+            { name: "Calculator", url: "https://desmos.com/scientific", image: "https://encrypted-tbn0.gstatic.com/images?searchQuery=tbn:ANd9GcSrfbHqeENmOrBbcgWL65zzdt18Zmqn8Lwhb7AaR_bh-A&s=10" },
       { name: "Notepad", url: "https://notepad.js.org", image: "https://blogs.windows.com/wp-content/uploads/prod/sites/44/2021/12/Win-Notepad.png" },
       { name: "Github Search", url: "https://github-repository-search-two.vercel.app/", image: "https://i.imgur.com/jgWMcGK.png" },
         ];
 
-      // Keep the big All Games tile first, then sort the rest without worrying about capitalization.
       function sortGames(gamesToSort) {
     return [...gamesToSort].sort((firstGame, secondGame) => {
         if (firstGame.name === 'All Games') return -1;
@@ -1925,6 +1925,7 @@ strong:hover {
         "ForgivableTrapezoid8212 is your new name :)",
 ];
 
+      
 let lastSplashIndex = -1;
 
 function rollSplash() {
@@ -1960,8 +1961,7 @@ const ACCENT_LOGOS = {
     custom:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png'
 };
 
-// Nudge each RGB channel up or down while keeping it in the 0–255 range
-function shadeColor(hexColor, brightnessShift) {
+function SoftAccent(hexColor, brightnessShift) {
     const colorNumber = parseInt(hexColor.replace('#', ''), 16);
     let red = Math.min(255, Math.max(0, (colorNumber >> 16) + brightnessShift));
     let green = Math.min(255, Math.max(0, ((colorNumber >> 8) & 0xFF) + brightnessShift));
@@ -1972,7 +1972,6 @@ function shadeColor(hexColor, brightnessShift) {
 
 const gridsBuilt = { games: false, apps: false };
 
-// Basically just makes the ALl games be at the very top of the games list when the sort is a-z or default
 function goToView(viewName, clickEvent) {
     sonfineContextMenu?.classList.remove('visible');
     document.querySelectorAll('.view').forEach(viewSection => viewSection.classList.remove('active'));
@@ -2020,7 +2019,8 @@ document.addEventListener('keydown', (e) => {
     searchTarget.select();
 });
 
-function pickBackgroundDots(enabled, save = true) {
+function ToggleBgDots(enabled, save = true) {
+  // fix later - toggling this off and back on in settings might cause some dots to tweak out in their disappearing anim.
     backgroundDotsEnabled = enabled;
     const field = document.getElementById('bg-dots');
     if (field) field.style.display = enabled ? 'block' : 'none';
@@ -2062,24 +2062,23 @@ function pickConfirmClose(enabled, save = true) {
     if (save) persistSettings();
 }
 
-// builds the grid, this handles the opening urls from the game card and favoriting
-function buildGrid(itemsToDisplay, gridElementId) {
+function buildGrid(gamesList, gridElementId) {
     const gridHolder = document.getElementById(gridElementId);
     if (!gridHolder) return;
 
     gridHolder.innerHTML = '';
 
-    for (const gridItem of itemsToDisplay) {
+    for (const gameZone of gamesList) {
         const gameTile = document.createElement('div');
         gameTile.className = 'grid-card';
         gameTile.onclick = function () {
-            if (gridItem.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work');
-            openInFrame(gridItem.url, gridItem.name, gridItem.servers);
+            if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work');
+            LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
         };
 
 gameTile.innerHTML = `
-    <img src="${gridItem.image}" class="card-img" alt="${gridItem.name}" onerror="this.src='https://placeholder.com/' + encodeURIComponent(gridItem.name)">
-    <div class="card-title">${gridItem.name}</div>
+    <img src="${gameZone.image}" class="card-img" alt="${gameZone.name}" onerror="this.src='https://placeholder.com/' + encodeURIComponent(gameZone.name)">
+    <div class="card-title">${gameZone.name}</div>
 `;
 
         gridHolder.appendChild(gameTile);
@@ -2090,7 +2089,7 @@ function openRandomGame() {
     const availableGames = LeGames.filter(game => game.name !== 'All Games');
     if (!availableGames.length) return;
     const selectedGame = availableGames[Math.floor(Math.random() * availableGames.length)];
-    openInFrame(selectedGame.url, selectedGame.name, selectedGame.servers);
+    LoadEmbed(selectedGame.url, selectedGame.name, selectedGame.servers);
 }
 
         function filterGrid(itemsToFilter, gridElementId, searchText) {
@@ -2105,30 +2104,30 @@ let selectedSearchResult = 0;
 let currentSearchResults = [];
 
 function onSearchInput(e) {
-    const raw = e.target.value.trim();
-    const q = raw.toLowerCase();
-    const box = document.getElementById('search-suggestions');
-    if (!box) return;
+    const userText = e.target.value.trim();
+    const searchQuery = userText.toLowerCase();
+    const suggestionsList = document.getElementById('search-suggestions');
+    if (!suggestionsList) return;
 
-    if (!q) {
-        box.innerHTML = '';
+    if (!searchQuery) {
+          suggestionsList.innerHTML = '';
         currentSuggestions = [];
         currentSearchResults = [];
         selectedSearchResult = 0;
         return;
     }
 
-    const gameMatches = LeGames.filter(it => it.name.toLowerCase().includes(q)).map(it => ({ ...it, tag: 'Game', resultType: 'game' }));
-    const appMatches = LeApps.filter(it => it.name.toLowerCase().includes(q)).map(it => ({ ...it, tag: 'App', resultType: 'app' }));
+    const gameMatches = LeGames.filter(it => it.name.toLowerCase().includes(searchQuery)).map(it => ({ ...it, tag: 'Game', resultType: 'game' }));
+    const appMatches = LeApps.filter(it => it.name.toLowerCase().includes(searchQuery)).map(it => ({ ...it, tag: 'App', resultType: 'app' }));
     const settingMatches = [...document.querySelectorAll('#view-settings .settings-card')]
-        .filter(card => card.innerText.toLowerCase().includes(q))
+        .filter(card => card.innerText.toLowerCase().includes(searchQuery))
         .map(card => ({ name: card.querySelector('h3')?.innerText.trim() || 'Setting', tag: 'Setting', resultType: 'setting', card }));
 
-    // Makes sur e a search or url is always there in case a game/app/setting doesnt let you search or enter a url
-    const looksLikeUrl = /^https?:\/\//i.test(raw) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(raw);
+    // Makes sure a search or url is always there, in case a game/app/setting covers it up and doesnt let you search or enter the url user is trying to open"
+    const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
     const fallbackLabel = looksLikeUrl
-        ? `Enter URL: ${raw}`
-        : `Search Google for \"${raw}\"`;
+        ? `Enter URL: ${userText}`
+        : `Search Google for \"${userText}\"`;
     const matchingResults = [...settingMatches, ...gameMatches, ...appMatches];
     currentSearchResults = [
         ...matchingResults.slice(0, 7),
@@ -2141,9 +2140,9 @@ function onSearchInput(e) {
 
 // sonfine!
 function renderSonfineSearchResults() {
-    const box = document.getElementById('search-suggestions');
-    if (!box) return;
-    box.innerHTML = currentSearchResults.map((result, index) => `
+    const Results = document.getElementById('search-suggestions');
+    if (!Results) return;
+    Results.innerHTML = currentSearchResults.map((result, index) => `
         <div class="search-suggestion-item${index === selectedSearchResult ? ' selected' : ''}" onmousedown="chooseSearchResult(${index})">
             ${result.resultType === 'game' || result.resultType === 'app' ? `<img src="${result.image}" alt="" onerror="this.style.display='none'">` : `<i class="fa-solid ${result.resultType === 'setting' ? 'fa-gear' : result.resultType === 'fallback' ? 'fa-magnifying-glass' : 'fa-arrow-up-right-from-square'}" style="width:28px;text-align:center;color:var(--text-sub);flex-shrink:0"></i>`}
             <span class="suggestion-name">${result.name}</span>
@@ -2167,11 +2166,12 @@ function chooseSearchResult(index) {
         clearSuggestions();
         return;
     }
+  
     if (result.resultType === 'game' || result.resultType === 'app') {
         document.getElementById('search-input').value = '';
         clearSuggestions();
         closeSonfineSearch();
-        openInFrame(result.url, result.name, result.servers);
+        LoadEmbed(result.url, result.name, result.servers);
         return;
     }
     if (result.resultType === 'fallback') {
@@ -2186,34 +2186,34 @@ function chooseSuggestion(i) {
 function chooseFallback() {
     const input = document.getElementById('search-input');
     if (!input) return;
-    const raw = input.value.trim();
-    if (!raw) return;
+    const userText = input.value.trim();
+    if (!userText) return;
 
     input.value = '';
     clearSuggestions();
     closeSonfineSearch();
-// now.gg doesnt work, nor does nowgg.fun but nowgg.fun has a chance to 🤷
-    const normalized = raw.replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '').toLowerCase();
+// now.gg doesnt work so you get redirected to nowgg.fun, it might work on other blockers (not for goguardian unfortunately)
+    const normalized = userText.replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '').toLowerCase();
     if (normalized === 'now.gg') {
         alert("that one doesnt work, lemme take you to a better one");
-        openInFrame('https://nowgg.fun', 'nowgg.fun', undefined, true);
+        LoadEmbed('https://nowgg.fun', 'nowgg.fun', undefined, true);
         return;
     }
 
-    const looksLikeUrl = /^https?:\/\//i.test(raw) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(raw);
+    const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
     if (looksLikeUrl) {
-        const dest = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
+        const dest = /^https?:\/\//i.test(userText) ? userText : 'https://' + userText;
         let name = dest;
         try { name = new URL(dest).hostname; } catch (err) {}
-        openInFrame(dest, name, undefined, true);
+        LoadEmbed(dest, name, undefined, true);
     } else {
-        openInFrame('https://www.google.com/search?igu=1&q=' + encodeURIComponent(raw), 'Google: ' + raw, undefined, true);
+        LoadEmbed('https://www.google.com/search?igu=1&searchQuery=' + encodeURIComponent(userText), 'Google: ' + userText, undefined, true);
     }
 }
 
 function clearSuggestions() {
-    const box = document.getElementById('search-suggestions');
-    if (box) box.innerHTML = '';
+    const suggestions = document.getElementById('search-suggestions');
+    if (suggestions) suggestions.innerHTML = '';
     currentSuggestions = [];
     currentSearchResults = [];
     selectedSearchResult = 0;
@@ -2235,8 +2235,8 @@ function onSearchKey(e) {
         return;
     }
     if (e.key !== 'Enter') return;
-    const raw = e.target.value.trim();
-    if (!raw) return;
+    const userText = e.target.value.trim();
+    if (!userText) return;
     e.preventDefault();
     if (currentSearchResults.length) {
         chooseSearchResult(selectedSearchResult);
@@ -2258,6 +2258,8 @@ function onSearchKey(e) {
 function toggleNotLoadingPopup() {
     document.getElementById('not-loading-popup')?.classList.toggle('active');
 }
+
+      
 
 document.addEventListener('click', (e) => {
     const popup = document.getElementById('not-loading-popup');
@@ -2401,16 +2403,16 @@ function closeBrowserTab(tabId) {
 
 function handleBrowserAddressKey(e) {
     if (e.key !== 'Enter') return;
-    const raw = e.target.value.trim();
-    if (!raw) return;
+    const userText = e.target.value.trim();
+    if (!userText) return;
 
     const activeTab = browserTabs.find(item => item.id === activeBrowserTabId);
     if (!activeTab) return;
 
   
 
-    const looksLikeUrl = /^https?:\/\//i.test(raw) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(raw);
-    const dest = looksLikeUrl ? (/^https?:\/\//i.test(raw) ? raw : 'https://' + raw) : 'https://www.google.com/search?igu=1&q=' + encodeURIComponent(raw);
+    const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
+    const dest = looksLikeUrl ? (/^https?:\/\//i.test(userText) ? userText : 'https://' + userText) : 'https://www.google.com/search?igu=1&searchQuery=' + encodeURIComponent(userText);
     let name = dest;
     try { name = new URL(dest).hostname; } catch (err) {}
 
@@ -2425,7 +2427,14 @@ function handleBrowserAddressKey(e) {
     showBrowserTab(activeTab);
 }
 
-function openInFrame(dest, name, servers, browserTab = false) {
+function LoadEmbed(dest, name, servers, browserTab = false) {
+  // fix; some game links have scripts that crash the tab like itch.io when it sees its in an embed,  also gets rid of really long tracking links so the school proxy doesnt flag the link or the file
+if (dest.includes("break") || dest.length > 380) {
+    console.warn("blocked, ");
+    alert("yo this link is either broken or too long to load safely, try another server if there is one");
+    return;
+}
+
     if (browserTab) {
         openInBrowserTab(dest, name);
         return;
@@ -2484,6 +2493,7 @@ function openInFrame(dest, name, servers, browserTab = false) {
     const tab = document.getElementById('minimized-tab');
     if (tab) tab.style.display = 'none';
 }
+
 
 function onServerChange(indexStr) {
     const server = currentServers[parseInt(indexStr, 10)];
@@ -2581,13 +2591,7 @@ function wakeCloseBtn() {
     closeBtnTimer = setTimeout(() => btn.classList.remove('visible'), 2000);
 }
 
-function wakeCloseBtn() {
-    const btn = document.querySelector('.close-frame-btn');
-    if (!btn) return;
-    btn.classList.add('visible');
-    clearTimeout(closeBtnTimer);
-    closeBtnTimer = setTimeout(() => btn.classList.remove('visible'), 2000);
-}
+      
 
 function toggleInfoPopup(e) {
     e.stopPropagation();
@@ -2602,6 +2606,7 @@ document.addEventListener('click', (e) => {
     popup.classList.remove('active');
 });
 
+      
         function pickLoader(kind, save = true) {
             loaderMode = kind;
             document.getElementById('btn-load-object')?.classList.toggle('active', kind === 'object');
@@ -2609,7 +2614,8 @@ document.addEventListener('click', (e) => {
             if (save) persistSettings();
         }
 
-function pickSortMode(mode, save = true) {
+function ToggleAZ(mode, save = true) {
+  // fix me -optimize this later, too much lag
     sortMode = mode;
     document.getElementById('btn-sort-default')?.classList.toggle('active', mode === 'default');
     document.getElementById('btn-sort-alpha')?.classList.toggle('active', mode === 'alpha');
@@ -2621,7 +2627,7 @@ function pickSortMode(mode, save = true) {
     if (save) persistSettings();
 }
 
-function pickAccent(name, save = true, customHex) {
+function setAccentcolor(name, save = true, customHex) {
     accentMode = name;
     const logoUrl = ACCENT_LOGOS[name] || ACCENT_LOGOS.default;
 
@@ -2632,7 +2638,7 @@ document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
 
     if (name === 'custom') {
         base = customHex || customAccentHex;
-        soft = shadeColor(base, -80);
+        soft = SoftAccent(base, -80);
         customAccentHex = base;
     } else {
         const c = ACCENT_COLORS[name] || ACCENT_COLORS.default;
@@ -2753,6 +2759,7 @@ function launchAboutBlank() {
     window.location.replace('https://www.google.com');
 }
 
+
 function launchBlobTab() {
     const pageSource = '<!DOCTYPE html>' + document.documentElement.outerHTML;
     const blob = new Blob([pageSource], { type: 'text/html' });
@@ -2790,8 +2797,8 @@ function persistSettings() {
 function restoreSettings() {
     let saved = {};
     try {
-        const raw = localStorage.getItem('sonfine_config');
-        if (raw) saved = JSON.parse(raw);
+        const userText = localStorage.getItem('sonfine_config');
+        if (userText) saved = JSON.parse(userText);
     } catch (e) {
         console.warn('couldnt load settings', e);
     }
@@ -2802,10 +2809,10 @@ function restoreSettings() {
     const customInput = document.getElementById('accent-custom-input');
     if (customInput) customInput.value = customAccentHex;
 
-    pickAccent(saved.accent || 'default', false, customAccentHex);
+    setAccentcolor(saved.accent || 'default', false, customAccentHex);
     pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
-    pickSortMode(saved.sortMode || 'default', false);
-    pickBackgroundDots(saved.backgroundDotsEnabled !== false, false);
+    ToggleAZ(saved.sortMode || 'default', false);
+    ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
     if (saved.tabPreset && tabPresets[saved.tabPreset]) {
         pickTabPreset(saved.tabPreset, false);
@@ -2817,7 +2824,7 @@ function restoreSettings() {
 
 
 async function downloadLatestVersion() {
-    const latestSourceUrl = 'https://raw.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
+    const latestSourceUrl = 'https://userText.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
   // Star my github? yes no?
 
     try {
@@ -2911,8 +2918,8 @@ function resetSettings() {
 }
 
 function exportSettings() {
-    const raw = localStorage.getItem('sonfine_config') || '{}';
-    const blob = new Blob([raw], { type: 'application/json' });
+    const userText = localStorage.getItem('sonfine_config') || '{}';
+    const blob = new Blob([userText], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
@@ -2938,10 +2945,10 @@ function importSettings(e) {
             const customInput = document.getElementById('accent-custom-input');
             if (customInput) customInput.value = customAccentHex;
 
-            pickAccent(saved.accent || 'default', false, customAccentHex);
+            setAccentcolor(saved.accent || 'default', false, customAccentHex);
             pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
             
-            pickBackgroundDots(saved.backgroundDotsEnabled !== false, false);
+            ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
             if (saved.tabPreset && tabPresets[saved.tabPreset]) {
                 pickTabPreset(saved.tabPreset, false);
@@ -2995,6 +3002,7 @@ document.addEventListener('keydown', (event) => {
         sonfineContextMenu?.classList.remove('visible');
         closeSonfineSearch();
     }
+
 
     const pressedSpotlightShortcut = event.code === 'Space' && (event.metaKey || event.ctrlKey) && !event.altKey;
     const typingInField = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
@@ -3153,6 +3161,7 @@ function RenderRecentlyPlayed() {
 
         item.appendChild(image);
         item.appendChild(name);
+        
         recentList.appendChild(item);
     });
 }
@@ -3170,13 +3179,10 @@ function OpenRecentlyPlayedGame(gameName) {
     
   const game = RecentGames.find(savedGame => savedGame.name === gameName);
     if (!game) return;
-    openInFrame(game.url, game.name, game.servers);
+    LoadEmbed(game.url, game.name, game.servers);
 }
 
 </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-    </div> 
-        <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1,"spa":2}' crossorigin="anonymous"></script>
+</div>
 </body>
 </html>
