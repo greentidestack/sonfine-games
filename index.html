@@ -268,27 +268,40 @@
         }
 
         .card-img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            background-color: var(--bg-input);
-            transition: 0.2s all ease;
-        }
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    background-color: var(--bg-input);
+    transition: 0.2s all ease;
+}
 
         .card-img:hover {
               filter: blur(6px); 
               /* ig it looks cool? somewhat */
         }
 
-        .card-title {
+        .card-img-fallback {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 12px;
-            font-size: 0.95rem;
+            background-color: var(--bg-input);
+            color: var(--text-sub);
+            font-size: 0.9rem;
             text-align: center;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
+
+.card-title {
+    padding: 12px;
+    font-size: 0.95rem;
+    text-align: center;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
         .library-wrapper {
             width: 100%;
@@ -2082,15 +2095,35 @@ function buildGrid(gamesList, gridElementId) {
             LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
         };
 
-gameTile.innerHTML = `
-    <img src="${gameZone.image}" class="card-img" alt="${gameZone.name}" onerror="this.src='https://placeholder.com/' + encodeURIComponent(gameZone.name)">
-    <div class="card-title">${gameZone.name}</div>
-`;
+        const gameImage = document.createElement('img');
+        gameImage.className = 'card-img';
+        gameImage.alt = gameZone.name || 'Game image';
+        gameImage.addEventListener('error', function () {
+            if (gameImage.dataset.failed === 'true') return;
+            gameImage.dataset.failed = 'true';
+            const imageFallback = document.createElement('div');
+            imageFallback.className = 'card-img-fallback';
+            imageFallback.innerText = 'Image unavailable';
+            gameTile.insertBefore(imageFallback, gameNameText);
+            gameImage.remove();
+        });
 
+        const gameNameText = document.createElement('div');
+        gameNameText.className = 'card-title';
+        gameNameText.innerText = gameZone.name || 'Untitled';
+
+        gameTile.appendChild(gameImage);
+        gameTile.appendChild(gameNameText);
         gridHolder.appendChild(gameTile);
+
+        const imageAddress = typeof gameZone.image === 'string' ? gameZone.image.trim() : '';
+        if (imageAddress) {
+            gameImage.src = imageAddress;
+        } else {
+            gameImage.dispatchEvent(new Event('error'));
+        }
     }
 }
-
 function openRandomGame() {
     const availableGames = LeGames.filter(game => game.name !== 'All Games');
     if (!availableGames.length) return;
@@ -2149,7 +2182,7 @@ function renderSonfineSearchResults() {
     const Results = document.getElementById('search-suggestions');
     if (!Results) return;
     Results.innerHTML = currentSearchResults.map((result, index) => `
-        <div class="search-suggestion-item${index === selectedSearchResult ? ' selected' : ''}" onmousedown="chooseSearchResult(${index})">
+        <div class="search-suggestion-itemindex===selectedSearchResult?'selected':''"onmousedown="chooseSearchResult({index})">
             ${result.resultType === 'game' || result.resultType === 'app' ? `<img src="${result.image}" alt="" onerror="this.style.display='none'">` : `<i class="fa-solid ${result.resultType === 'setting' ? 'fa-gear' : result.resultType === 'fallback' ? 'fa-magnifying-glass' : 'fa-arrow-up-right-from-square'}" style="width:28px;text-align:center;color:var(--text-sub);flex-shrink:0"></i>`}
             <span class="suggestion-name">${result.name}</span>
             <span class="suggestion-tag">${result.tag}</span>
@@ -2280,9 +2313,8 @@ function renderBrowserTabs() {
     if (!tabsHolder) return;
 
     tabsHolder.innerHTML = browserTabs.map(tab => `
-        <div class="browser-tab ${tab.id === activeBrowserTabId ? 'active' : ''}" onclick="switchBrowserTab('${tab.id}')">
-            <img class="browser-tab-favicon" src="${tab.favicon}" alt="" onerror="this.style.display='none'">
-            <span class="browser-tab-title">${tab.title}</span>
+        <div class="browser-tab tab.id===activeBrowserTabId?'active':''"onclick="switchBrowserTab('{tab.id}')">
+            <img class="browser-tab-favicon" src="tab.favicon"alt=""onerror="this.style.display='none'"><spanclass="browser-tab-title">{tab.title}</span>
             <button class="browser-tab-close" onclick="event.stopPropagation(); closeBrowserTab('${tab.id}')" title="Close tab"><i class="fa-solid fa-xmark"></i></button>
         </div>
     `).join('') + `
@@ -2465,7 +2497,7 @@ if (dest.includes("break") || dest.length > 380) {
     const selectEl = document.getElementById('frame-server-select');
     if (selectEl) {
         if (currentServers.length > 1) {
-            selectEl.innerHTML = currentServers.map((s, i) => `<option value="${i}">${s.name}</option>`).join('');
+            selectEl.innerHTML = currentServers.map((s, i) => `<option value="i">{s.name}</option>`).join('');
             selectEl.value = '0';
             selectEl.style.display = 'inline-block';
         } else {
@@ -2753,10 +2785,7 @@ function launchAboutBlank() {
         <!DOCTYPE html>
         <html>
         <head>
-            <title>${document.title}</title>
-        </head>
-        <body style="margin:0;">
-            <iframe src="${currentPage}" style="width:100vw;height:100vh;border:0;"></iframe>
+            <title>document.title</title></head><bodystyle="margin:0;"><iframesrc="{currentPage}" style="width:100vw;height:100vh;border:0;"></iframe>
         </body>
         </html>
     `);
@@ -2830,7 +2859,7 @@ function restoreSettings() {
 
 
 async function downloadLatestVersion() {
-    const latestSourceUrl = 'https://userText.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
+    const latestSourceUrl = 'https://raw.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
   // Star my github? yes no?
 
     try {
@@ -2846,7 +2875,7 @@ async function downloadLatestVersion() {
         document.body.appendChild(downloadLink);
         downloadLink.click();
         downloadLink.remove();
-        URL.revokeObjectURL(sourceUrl);
+        setTimeout(() => URL.revokeObjectURL(sourceUrl), 1000);
     } catch (error) {
         alert('Could not download the latest version.');
     }
@@ -3192,3 +3221,6 @@ function OpenRecentlyPlayedGame(gameName) {
 </div>
 </body>
 </html>
+
+
+
