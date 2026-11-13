@@ -89,7 +89,7 @@
 
         .nav-item {
             background: none;
-            border: none;
+            border: 2px solid transparent;
             color: var(--text-sub);
             padding: 8px 16px;
             cursor: var(--sonfine-pointer-cursor);
@@ -98,9 +98,16 @@
             /*transition: all 0.2s ease;*/
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover {
             color: var(--text-main);
             background-color: var(--bg-input);
+            border:2px solid var(--bg-input);
+        }
+        
+        .nav-item.active {
+            background: color-mix(in srgb, var(--bg-card) 20%, transparent);
+            border: 2px solid var(--accent-soft);
+            backdrop-filter: blur(14px);
         }
 
         .view-container {
@@ -263,8 +270,9 @@
         }
 
         .grid-card:hover {
+            /*game-card hover*/
             transform: translateY(-4px);
-            background-color: #323232;
+            background-color: #383838;
         }
 
         .card-img {
@@ -282,8 +290,9 @@
 
         .card-img-fallback {
             width: 100%;
-            height: 180px;
+            height: 130px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 12px;
@@ -1572,7 +1581,7 @@ strong:hover {
             <div class="settings-card square">
                                 <div>
                                     <h3><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 5px;"></i>Tab Launch</h3>
-                                    <p>Launch the site in a blank tab to prevent this link/file from getting blocked</p>
+                                    <p>Launch the site in a cloaked tab with the URL about:blank or blob: to prevent this link/file from getting blocked or shared</p>
                                 </div>
                                 <div class="config-btn-group">
                                     <button class="config-toggle-btn" onclick="launchAboutBlank()">about:blank</button>
@@ -1601,8 +1610,8 @@ strong:hover {
                     <p>Shows a browser warning if you try to close or leave the tab so you don't lose game progress, or make your tab unable to be remotely closed</p>
                 </div>
                 <div class="config-btn-group">
-                    <button class="config-toggle-btn" id="btn-confirm-close-on" onclick="pickConfirmClose(true)">On</button>
-                    <button class="config-toggle-btn active" id="btn-confirm-close-off" onclick="pickConfirmClose(false)">Off</button>
+                    <button class="config-toggle-btn" id="btn-confirm-close-on" onclick="CloseConfirmation(true)">On</button>
+                    <button class="config-toggle-btn active" id="btn-confirm-close-off" onclick="CloseConfirmation(false)">Off</button>
                 </div>
             </div>
         </div>
@@ -2013,7 +2022,7 @@ function goToView(viewName, clickEvent) {
 
       let confirmCloseMode = false;
       
-function preventAccidentalClose(e) {
+function CloseConfirm(e) {
     e.preventDefault();
     e.returnValue = '';
 }
@@ -2066,13 +2075,13 @@ function ToggleBgDots(enabled, save = true) {
     if (save) persistSettings();
 }
 
-function pickConfirmClose(enabled, save = true) {
+function CloseConfirmation(enabled, save = true) {
     confirmCloseMode = enabled;
 
     if (enabled) {
-        window.addEventListener('beforeunload', preventAccidentalClose);
+        window.addEventListener('beforeunload', CloseConfirm);
     } else {
-        window.removeEventListener('beforeunload', preventAccidentalClose);
+        window.removeEventListener('beforeunload', CloseConfirm);
     }
 
     document.getElementById('btn-confirm-close-on')?.classList.toggle('active', enabled === true);
@@ -2103,7 +2112,7 @@ function buildGrid(gamesList, gridElementId) {
             gameImage.dataset.failed = 'true';
             const imageFallback = document.createElement('div');
             imageFallback.className = 'card-img-fallback';
-            imageFallback.innerText = 'Image unavailable';
+            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end, I need to replace with new images as the one meant to be here is broken.</h6>';
             gameTile.insertBefore(imageFallback, gameNameText);
             gameImage.remove();
         });
@@ -2111,14 +2120,13 @@ function buildGrid(gamesList, gridElementId) {
         const gameNameText = document.createElement('div');
         gameNameText.className = 'card-title';
         gameNameText.innerText = gameZone.name || 'Untitled';
-
         gameTile.appendChild(gameImage);
         gameTile.appendChild(gameNameText);
         gridHolder.appendChild(gameTile);
 
-        const imageAddress = typeof gameZone.image === 'string' ? gameZone.image.trim() : '';
-        if (imageAddress) {
-            gameImage.src = imageAddress;
+        const imageURL = typeof gameZone.image === 'string' ? gameZone.image.trim() : '';
+        if (imageURL && !imageURL.includes('encrypted-tbn0.gstatic.com')) {
+            gameImage.src = imageURL;
         } else {
             gameImage.dispatchEvent(new Event('error'));
         }
@@ -2497,7 +2505,13 @@ if (dest.includes("break") || dest.length > 380) {
     const selectEl = document.getElementById('frame-server-select');
     if (selectEl) {
         if (currentServers.length > 1) {
-            selectEl.innerHTML = currentServers.map((s, i) => `<option value="i">{s.name}</option>`).join('');
+            selectEl.replaceChildren();
+            currentServers.forEach((server, index) => {
+                const option = document.createElement('option');
+                option.value = String(index);
+                option.textContent = server.name || `Server ${index + 1}`;
+                selectEl.appendChild(option);
+            });
             selectEl.value = '0';
             selectEl.style.display = 'inline-block';
         } else {
@@ -2845,7 +2859,7 @@ function restoreSettings() {
     if (customInput) customInput.value = customAccentHex;
 
     setAccentcolor(saved.accent || 'default', false, customAccentHex);
-    pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
+    CloseConfirmation(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
     ToggleAZ(saved.sortMode || 'default', false);
     ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
@@ -2981,7 +2995,7 @@ function importSettings(e) {
             if (customInput) customInput.value = customAccentHex;
 
             setAccentcolor(saved.accent || 'default', false, customAccentHex);
-            pickConfirmClose(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
+            CloseConfirmation(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
             
             ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
@@ -3221,6 +3235,3 @@ function OpenRecentlyPlayedGame(gameName) {
 </div>
 </body>
 </html>
-
-
-
