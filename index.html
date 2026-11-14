@@ -35,6 +35,7 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
+            zoom: 0.9;
             flex-direction: column;
             overflow-x: hidden;
             user-select: none;
@@ -105,9 +106,9 @@
         }
         
         .nav-item.active {
-            background: color-mix(in srgb, var(--bg-card) 20%, transparent);
-            border: 2px solid var(--accent-soft);
-            backdrop-filter: blur(14px);
+            background: color-mix(in srgb, var(--bg-card) 10%, transparent);
+            border: 2px solid var(--accent);
+            backdrop-filter: blur(10px);
         }
 
         .view-container {
@@ -605,8 +606,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 111.12vw;
+    height: 111.12vh;
     background-color: #000;
     z-index: 2000;
     flex-direction: column;
@@ -1656,8 +1657,8 @@ strong:hover {
                         <li>Added this changelog</li>
                         <li>Fixed omnibox search results being broken and unclickable</li>
                         <li>Fixed game names, tab titles and more showing up as their variable names (might be more that are unfixed)</li>
-                        <li>Working on some of the game/app images, i dont know how they managed to change themselves</li>
-                        <li>Game cards are more square</li>
+                        <li>Finally fixed all the broken game/app images (i have no idea how they managed to change themselves last time)</li>
+                        <li>Game cards are more square, more image is visible and more zones fit in one row</li>
                         <li>Fixed Duck life 3 and Drift Hunters, added Angry Birds Space</li>
                         <li>A few splash messages</li>
                     </ul>
@@ -1995,7 +1996,7 @@ strong:hover {
           { name: "Retro Bowl", url: "https://1kh0.github.io/projects/retro-bowl/index.html", image: "https://1kh0.github.io/projects/retro-bowl/img/icon.jpg" },
       { name: "Chicken Merge 2", url: "https://gaming-escape.github.io/public/assets/games/chicken-merge-2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/d607dd571ef6732de82621d1b29afbbb/chicken-merge-2-logo.png" },
             { name: "Bad Ice Cream", url: "http://genizymath.github.io/iframe/269-f.html", image: "https://www4.minijuegosgratis.com/v3/games/thumbnails/16925_7_sq.jpg" },
-      { name: "Ultrakill", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", image: "https://assets-prd.ignimgs.com/2022/04/08/ultrakill-1649459578320.jpg" },
+      { name: "Ultrakill", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", image: "https://assets-prd.ignimgs.com/2022/04/08/ultrakill-1649459578320.jpg", servers: [ { name: "Server 1 (Default)", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", }, {name: "Server 2", url: "https://db.duckmath.org/html/ultrakill/"},],},
       { name: "Chrome Dino", url: "https://3kh0.bitbucket.io/projects/chrome-dino/index.html", image: "https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/img/chromedino.webp" },
       { name: "Buildnow.gg", url: "https://gr4ys0n.github.io/public/assets/games/BuildNowGG/index.html", image: "https://gr4ys0n.github.io/public/assets/images/buildnowgg.webp" },
       { name: "Stickman and Guns", url: "https://redtide-stack.github.io/zeroOS-assets/stickmanguns.html", image: "https://imgs.crazygames.com/stickman-and-guns_1x1/20250721145119/stickman-and-guns_1x1-cover?metadata=none&quality=60&width=138" },
@@ -2018,7 +2019,7 @@ strong:hover {
       { name: "Car Crash Test", url: "https://play.fancade.com/62164F1BE09DA5EB", image: "https://www.fancade.com/images/61E31654BF19D3D8.jpg" },
       { name: "Slow Roads", url: "https://slowroads.io", image: "https://images.rocketgames.io/uploads/games/s/slow-roads-io/slow-roads-io.adda0e.jpg?w=94&dpr=2" },
       { name: "Monster Tracks", url: "https://mouse-practice.com/games/mp/mp08/g17/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/41c7ae4db13e7d7596bb0528f40a4012/monster-tracks.png" },
-      { name: "Google Snake", url: "https://googlesnakemods.com/v/current/", image: "https://play-lh.googleusercontent.com/s4Xhc-H47izjjKfjDjgXsVC0WKwDyYvUetTodU4JoAYbUs7C0WjXwmuQXFGCvENjitdZN030mTld1G9-HFW14w=w480-h960" },
+      { name: "Google Snake Mods", url: "https://googlesnakemods.com/v/current/", image: "https://play-lh.googleusercontent.com/s4Xhc-H47izjjKfjDjgXsVC0WKwDyYvUetTodU4JoAYbUs7C0WjXwmuQXFGCvENjitdZN030mTld1G9-HFW14w=w480-h960" },
       { name: "Stack", url: "https://gaming-escape.github.io/public/assets/games/stack/index.html", image: "https://childrenandmedia.org.au/assets/images/app-reviews/Stack.png" },
       { name: "Monkeytype Lite", url: "https://gaming-escape.github.io/public/assets/games/monkeytype-lite/index.html", image: "https://avatars.githubusercontent.com/u/104658077?s=280&v=4" },
       { name: "Tomb of the Mask", url: "https://gaming-escape.github.io/public/assets/games/tomb-of-the-mask/index.html", image: "https://m.media-amazon.com/images/M/MV5BNjY5YmY2ZTYtYjg1Ny00MzM5LWI5NmUtNzllNzJiZGZmOGIxXkEyXkFqcGc@._V1_.jpg" },
@@ -2120,12 +2121,15 @@ strong:hover {
         "that sock is NOT human bro",
         "yo bro its SONfine site because its SON get it",
         "Pov me watching people beg for some 'sodium' ripoff",
+        "WE SLEPT ON GOGUARDIAN BRUH",
         "TEACHER HES ON HIS PHONE",
         "GNMATH FIX YOUR GOD DAMN SITE.",
         "Best site oat is GlacierOS",
         "POV you jailbreak your phone to play angry birds space and old granny",
         "Did you know that",
-        "Bruh what is this lame ahh movie",
+        "bro what is this lame ahh movie",
+        "ABDUL MALIK",
+        "I have abdul malik",
         "Epstein projectors are so warm I MEANT EPSON",
         "Hehe",
         "Indian phonk",
@@ -2281,7 +2285,7 @@ function buildGrid(gamesList, gridElementId) {
         const gameTile = document.createElement('div');
         gameTile.className = 'grid-card';
         gameTile.onclick = function () {
-            if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work');
+            if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work, unfortunately not much can be done about that :(');
             LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
         };
 
