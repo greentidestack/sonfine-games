@@ -19,7 +19,6 @@
             --radius-ui: 8px; 
             --accent: #4a90e2;
             --accent-soft: #254a75;
-            --sonfine-pointer-cursor: pointer;
         }
 
         * {
@@ -44,6 +43,11 @@
                 radial-gradient(ellipse at 82% 30%, color-mix(in srgb, var(--accent-soft) 38%, transparent) 0%, transparent 48%),
                 var(--bg-main);
             background-attachment: fixed;
+        }
+        
+        html.frame-open,
+        body.frame-open {
+            overflow: hidden !important;
         }
 
         .navbar {
@@ -93,7 +97,7 @@
             border: 2px solid transparent;
             color: var(--text-sub);
             padding: 8px 16px;
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             font-size: 1rem;
             border-radius: var(--radius-ui);
             /*transition: all 0.2s ease;*/
@@ -179,11 +183,15 @@
             z-index: 500;
             cursor: pointer;
         }
+        
+        .fa-download {
+            color: var(--accent);
+        }
 
         .download-latest-button:hover {
             color: var(--text-main);
             border-color: var(--accent);
-            background-color: var(--bg-input);
+            background-color: var(--accent-soft);
         }
 
         .github-home-button {
@@ -202,7 +210,7 @@
             font-size: 0.9rem;
             font-weight: bold;
             text-decoration: none;
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             transition: all 0.1s ease;
             z-index: 500;
         }
@@ -229,7 +237,9 @@
     gap: 8px;
     padding: 10px 16px;
     background: color-mix(in srgb, var(--bg-card) 58%, transparent);
-    border: 2px solid #39d353;
+    /*border: 2px solid #39d353;*/
+    border: none;
+    border-left: 3px solid #39d353 !important;
     color: var(--text-sub);
     border-radius: var(--radius-ui);
     font-size: 0.9rem;
@@ -484,8 +494,8 @@
 
         .settings-card {
           /* fahfah */
-            background: color-mix(in srgb, var(--bg-card) 58%, transparent);
-            border: 1px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+            background: color-mix(in srgb, var(--bg-card) 20%, transparent);
+            border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
             backdrop-filter: blur(8px);
             border-radius: var(--radius-ui);
             padding: 20px;
@@ -525,7 +535,7 @@
             padding: 10px;
             font-size: 0.95rem;
             font-weight: bold;
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             border-radius: var(--radius-ui);
             transition: all 0.1s ;
             display: flex;
@@ -564,12 +574,12 @@
             flex: 1;
             min-width: 80px;
             background-color: var(--bg-input);
-            color: var(--text-sub);
+            color: white;
             border: 2px solid transparent;
             padding: 10px;
             font-size: 0.95rem;
             font-weight: bold;
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             border-radius: var(--radius-ui);
             transition: all 0.2s ease;
             display: flex;
@@ -587,12 +597,18 @@
             border-color: var(--accent);
         }
         
+        .config-toggle-btn-cleard.cleared {
+    color: #fff;
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+        
         .accent-custom-swatch {
             width: 44px;
             height: 44px;
             border: 3px solid transparent;
             border-radius: var(--radius-ui);
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             background: none;
             padding: 0;
         }
@@ -669,7 +685,7 @@
     border: 1px solid transparent;
     border-bottom: none;
     border-radius: var(--radius-ui) var(--radius-ui) 0 0;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     user-select: none;
     flex-shrink: 0;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -703,7 +719,7 @@
     border: none;
     background: transparent;
     color: inherit;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     width: 24px;
     height: 24px;
     padding: 0;
@@ -778,7 +794,7 @@
     font-size: 0.78rem;
     font-weight: bold;
     white-space: nowrap;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -818,7 +834,7 @@
     color: var(--text-sub);
     border: none;
     border-radius: 6px;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     font-size: 1rem;
 }
 
@@ -882,7 +898,7 @@
     border-radius: var(--radius-ui);
     font-size: 0.9rem;
     font-weight: bold;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
 transition: 0.1s all;
 }
 
@@ -921,7 +937,7 @@ transition: 0.1s all;
     width: 36px;
     height: 36px;
     border-radius: var(--radius-ui);
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -942,6 +958,79 @@ transition: 0.1s all;
     width: 100%;
     flex: 1;
     min-height: 0;
+}
+
+.frame-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: var(--bg-main);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.frame-loading-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.frame-loading-spinner {
+    width: 54px;
+    height: 54px;
+    border: 4px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spinnn 0.85s linear infinite;
+}
+
+.frame-loading-label {
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+@keyframes spinnn {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.frame-loading-help {
+    display: none;
+    position: absolute;
+    z-index: 7;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #6b3838;
+    color: #ffdede;
+    border: 1px solid #915050;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.frame-loading-help.visible {
+    display: inline-flex;
+}
+
+.frame-loading-help:hover {
+    background: #874444;
 }
 
 .frame-element {
@@ -974,7 +1063,7 @@ transition: 0.1s all;
     padding: 12px 18px;
     border-radius: var(--radius-ui);
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     z-index: 1500;
     display: none;
     align-items: center;
@@ -1064,7 +1153,7 @@ transition: 0.1s all;
 .info-icon {
     color: var(--text-sub);
     font-size: 1.1rem;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     transition: color 0.2s ease;
 }
 
@@ -1137,7 +1226,7 @@ transition: 0.1s all;
     background-color: var(--bg-input);
     padding: 10px 14px;
     border-radius: var(--radius-ui);
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
@@ -1186,7 +1275,7 @@ transition: 0.1s all;
     border-radius: var(--radius-ui);
     padding: 6px 10px;
     font-size: 0.85rem;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     flex-shrink: 0;
     outline: none;
 }
@@ -1227,7 +1316,7 @@ transition: 0.1s all;
     background-color: var(--bg-input);
     border: 2px solid transparent;
     border-radius: var(--radius-ui);
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     box-sizing: border-box;
     transition: 0.1s all;
 }
@@ -1304,7 +1393,7 @@ transition: 0.1s all;
     color: var(--text-sub);
     font-size: 0.9rem;
     font-weight: bold;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     transition: color 0.2s ease;
 }
 
@@ -1326,7 +1415,7 @@ transition: 0.1s all;
     font-size: 0.78rem;
     font-weight: bold;
     line-height: 1;
-    cursor: var(--sonfine-pointer-cursor);
+    cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -1380,7 +1469,7 @@ transition: 0.1s all;
             background-color: var(--bg-input);
             border: 2px solid transparent;
             border-radius: var(--radius-ui);
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             transition: all 0.2s ease;
         }
 
@@ -1444,7 +1533,7 @@ strong:hover {
             color: var(--text-main);
             font-size: 0.9rem;
             text-align: left;
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
             transition: background-color 0.15s ease, color 0.15s ease;
         }
 
@@ -1516,7 +1605,7 @@ strong:hover {
             background: transparent;
             color: var(--text-sub);
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
-            cursor: var(--sonfine-pointer-cursor);
+            cursor: pointer;
         }
 
         .sonfine-search-dismiss:hover {
@@ -1565,6 +1654,35 @@ strong:hover {
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
+        
+        /* cool new button for anything, it has a left border now*/
+        /* i use if config-toggle-btn is boring or doesnt fit in*/
+        .universal-btn {
+            flex: 1;
+            min-width: 80px;
+            background-color: var(--bg-input);
+            color: white;
+            border: none;
+            border-left: 3px solid var(--accent) !important;
+            padding: 10px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: var(--radius-ui);
+            transition: all 0.1s ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .universal-btn:hover {
+            background-color: var(--accent-soft);
+        }
+
+        .universal-btn:active {
+            background-color: var(--accent-soft);
+        }
+        
 </style>
 </head>
 <body>
@@ -1640,7 +1758,7 @@ strong:hover {
         </button>
 
         <div class="updlog-overlay" id="updlog-overlay"
-             onclick="if (event.target === this) closeUpdatelog()">
+     onclick="if (event.target === this) closeUpdatelog()">
 
             <div class="updlog-panel">
                 <div class="updlog-header">
@@ -1650,9 +1768,26 @@ strong:hover {
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-
                 <div class="updlog-entry">
-                    <h3>November 13 2026</h3>
+                    <h3>November 14 2026</h3>
+                    <ul>
+                        <li>Changed around some more style of the site</li>
+                        <li>Added a loading spinner to games + apps, and a button with some info if the game doesn't load</li>
+                        <li>Changed how the clear all data setting works a little</li>
+                        <li>New game servers</li>
+                        <li>You can view the last update in this update log now</li>
+                        <li>The green sonfine logo is now fixed for accent color settings, and replaced all logos with imgur links that'll take much longer to expire</li>
+                        <li>Took a shit</li>
+                    </ul>
+                </div>
+                
+                <br>
+                
+                <details class="updlog-entry">
+                    <summary>
+                        <h3>Previous update: Nov 13 2026</h3>
+                        <div class="universal-btn" style="width: 200px;">Click to show details</div>
+                    </summary>
                     <ul>
                         <li>Added this changelog</li>
                         <li>Fixed omnibox search results being broken and unclickable</li>
@@ -1662,10 +1797,8 @@ strong:hover {
                         <li>Fixed Duck life 3 and Drift Hunters, added Angry Birds Space</li>
                         <li>A few splash messages</li>
                     </ul>
-                </div>
-                <br>
-                <h3>Previous update: There is no previous date lol</h3>
-
+                </details>
+        
             </div>
         </div>
     </div>
@@ -1863,15 +1996,25 @@ strong:hover {
   </div>
   </div>
  </div>
-  <div class="frame-wrapper" id="frame-canvas-wrapper"></div>
-</div>
+<div class="frame-wrapper" id="frame-canvas-wrapper">
+    <div class="frame-loading-overlay" id="frame-loading-overlay" aria-live="polite">
+        <div class="frame-loading-spinner"></div>
+        <div class="frame-loading-label">Loading...</div>
+    </div>
+
+    <button class="frame-loading-help" id="frame-loading-help"
+            onclick="toggleNotLoadingPopup()">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Not loading?
+    </button>
+</div></div>
 
 <div class="not-loading-popup" id="not-loading-popup">
     <button class="not-loading-popup-close" onclick="toggleNotLoadingPopup()" title="Close"><i class="fa-solid fa-xmark"></i></button>
     <div class="not-loading-popup-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-    <h3>Site isn't loading?</h3>
-    <p>This site may refuse to let other sites load it inside an embed, like youtube.com. Your school district may have this site in a blocked list that cannot be bypassed with Sonfine, or your wifi is being managed by your school.</p>
-    <p>Try an alternative link, switch your wifi, switch the Embed Loader setting, or simply wait and try again.</p>
+    <h3 id="not-loading-title">Game or app isn't loading?</h3>
+<p id="not-loading-message-1"></p>
+<p id="not-loading-message-2"></p>
 </div>
 
 <div class="minimized-tab" id="minimized-tab" onclick="restoreFrame()">
@@ -1883,7 +2026,7 @@ strong:hover {
       // i shouldnt have put the games at the top of the js 😭
         const LeGames = [
         { name: "All Games", url: "https://greentidestack.github.io/sonfine-games/gn-math.html", image: "https://lh3.googleusercontent.com/Mxl8996vzcWWRU5RyKdTDA76GEPj9jQpuYc02nPgtwKgdqpWidM5YVqu8DHBd-D1sZ3sP1AOYB-DlNhMEpaLJxQcTQ=s128-rj-sc0x00ffffff", servers: [ { name: "Server 1 (Default, gn-math)", url: "https://greentidestack.github.io/sonfine-games/gn-math.html" }, {name: "Server 2 (Lumin)", url: "https://greentidestack.github.io/ZeroOS/games.html"} ] },
-      {name: "Fancade", url: "https://play.fancade.com", image: "https://www.fancade.com/images/fancade.jpg" },
+      {name: "Fancade", url: "roblox.com", image: "https://www.fancade.com/images/fancade.jpg" },
             { name: "PolyTrack", url: "https://gaming-escape.github.io/public/assets/games/poly-track/index.html", image: "https://thaka.bing.com/th?id=OCGE.9n02lr0qrbm2_v3_main_webp&w=124&h=124&qlt=80&c=0&rs=1" },
               { name: "Granny", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop", image: "https://play-lh.googleusercontent.com/P8BbkQ6m0eCYYAx2tXTESBiIDQ2RESsSQp6oD8ZAP35rmEjmaXHMboYT6P807sAnfcuskKTdYbTyH5R0GCFk8Q", servers: [
                     { name: "Server 1 (Default)", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop" },
@@ -2111,6 +2254,7 @@ strong:hover {
           "'We have the utmost respect and transparency to district IT admins, and we do not provide any hidden features or workarounds.' Ok cut 🎬",
           "Dear Reddit pretty please unshadowban me with a cherry on top",
           "Is ts font tuff",
+          "Fun fact sonfine uses the font Rubik",
         "Yupp.",
         "*smells the larp*",
         "Oh",
@@ -2168,10 +2312,10 @@ const ACCENT_COLORS = {
     purple:  { base: '#9b5de5', soft: '#3a2a5c' }
 };
 const ACCENT_LOGOS = {
-    default: 'https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png',
-    purple:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png',
-    green:   'https://i.postimg.cc/ZYy1bP6m/green.png',
-    custom:  'https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png'
+    default: 'https://i.imgur.com/lC9TaCZ.png',
+    purple:  'https://i.imgur.com/gqyk3Do.png',
+    green:   'https://i.imgur.com/U85MfB9.png',
+    custom:  'https://i.imgur.com/lC9TaCZ.png' // for custom accent colors it makes it be the default blue, otherwise using css filters for it looks pretty bad
 };
 
 function SoftAccent(hexColor, brightnessShift) {
@@ -2523,17 +2667,85 @@ function onSearchKey(e) {
     document.getElementById('not-loading-button')?.classList.add('visible');
 }
 
+let frameLoadingIdleTimer = null;
+let frameLoadingHelpTimer = null;
+
+function startFrameLoading() {
+    clearTimeout(frameLoadingIdleTimer);
+    clearTimeout(frameLoadingHelpTimer);
+
+    const overlay = document.getElementById('frame-loading-overlay');
+    const helpButton = document.getElementById('frame-loading-help');
+
+    if (!overlay) return;
+
+    overlay.classList.remove('hidden');
+    helpButton?.classList.remove('visible');
+
+    frameLoadingHelpTimer = setTimeout(() => {
+        helpButton?.classList.add('visible');
+    }, 5000);
+
+    resetFrameLoadingIdleTimer();
+}
+
+function resetFrameLoadingIdleTimer() {
+    const overlay = document.getElementById('frame-loading-overlay');
+
+    if (!overlay || overlay.classList.contains('hidden')) return;
+
+    clearTimeout(frameLoadingIdleTimer);
+
+    frameLoadingIdleTimer = setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 10000);
+}
+
+function finishFrameLoading() {
+    clearTimeout(frameLoadingIdleTimer);
+    clearTimeout(frameLoadingHelpTimer);
+
+    document.getElementById('frame-loading-overlay')?.classList.add('hidden');
+    document.getElementById('frame-loading-help')?.classList.remove('visible');
+}
+
+['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart'].forEach(eventName => {
+    document.addEventListener(eventName, resetFrameLoadingIdleTimer, { passive: true });
+});
+
 function toggleNotLoadingPopup() {
     document.getElementById('not-loading-popup')?.classList.toggle('active');
 }
 
-      
+function setNotLoadingType(type) {
+    const title = document.getElementById('not-loading-title');
+    const message1 = document.getElementById('not-loading-message-1');
+    const message2 = document.getElementById('not-loading-message-2');
+
+    if (!title || !message1 || !message2) return;
+
+    if (type === 'url') {
+        title.textContent = "Website isn't loading?";
+        message1.textContent = "Some websites block themselves from being displayed inside embeds or your blocker or district has blocked this site.";
+        message2.textContent = "Check the URL (make sure it includes https://), try opening or searching for it through the homepage omnibox or Spotlight Search, switch wifi networks, or find an alternative link to try.";
+    } else {
+        title.textContent = "Game or app isn't loading?";
+        message1.textContent = "This game or app may be refusing to load inside an embed, the frame is blocked by your school district or blocker, or this server is unavailable.";
+        message2.textContent = "Try another server using the server selector if there is a selector for this game/app, or try to find an alternative URL to the game and load it using the site's omnibox (In the home page or in spotlight search through Google + Space or the right click menu).";
+    }
+}
 
 document.addEventListener('click', (e) => {
     const popup = document.getElementById('not-loading-popup');
     const button = document.getElementById('not-loading-button');
     if (!popup || !popup.classList.contains('active')) return;
-    if (popup.contains(e.target) || button?.contains(e.target)) return;
+    const loadingHelp = document.getElementById('frame-loading-help');
+    
+    if (
+        popup.contains(e.target) ||
+        button?.contains(e.target) ||
+        loadingHelp?.contains(e.target)
+    ) return;
     popup.classList.remove('active');
 });
 
@@ -2670,6 +2882,7 @@ function openInBrowserTab(dest, name) {
     document.getElementById('fullscreen-frame-view').classList.add('active');
     document.getElementById('minimized-tab').style.display = 'none';
     showNotLoadingButton();
+    setNotLoadingType('url');
 }
 
 function createBrowserTab() {
@@ -2734,6 +2947,11 @@ function handleBrowserAddressKey(e) {
     showBrowserTab(activeTab);
 }
 
+function setFrameScrollLock(locked) {
+    document.documentElement.classList.toggle('frame-open', locked);
+    document.body.classList.toggle('frame-open', locked);
+}
+
 function LoadEmbed(dest, name, servers, browserTab = false) {
   // fix; some game links have scripts that crash the tab like itch.io when it sees its in an embed,  also gets rid of really long tracking links so the school proxy doesnt flag the link or the file
 if (dest.includes("break") || dest.length > 380) {
@@ -2746,6 +2964,7 @@ if (dest.includes("break") || dest.length > 380) {
         openInBrowserTab(dest, name);
         return;
     }
+    setNotLoadingType('game');
 
     browserTabs = [];
     activeBrowserTabId = null;
@@ -2799,10 +3018,18 @@ if (dest.includes("break") || dest.length > 380) {
     }
     el.className = 'frame-element';
     el.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
-
+    
+    startFrameLoading();
+    
+    el.addEventListener('load', finishFrameLoading, { once: true });
+    
+    el.addEventListener('error', () => {
+        document.getElementById('frame-loading-help')?.classList.add('visible');
+    }, { once: true });
+    
     frameHolder.appendChild(el);
     document.getElementById('fullscreen-frame-view').classList.add('active');
-
+    setFrameScrollLock(true);  
     const tab = document.getElementById('minimized-tab');
     if (tab) tab.style.display = 'none';
 }
@@ -2829,12 +3056,22 @@ function onServerChange(indexStr) {
     }
     el.className = 'frame-element';
     el.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
-
+    
+    startFrameLoading();
+    
+    el.addEventListener('load', finishFrameLoading, { once: true });
+    
+    el.addEventListener('error', () => {
+        document.getElementById('frame-loading-help')?.classList.add('visible');
+    }, { once: true });
+    
     frameHolder.appendChild(el);
 }
 
        function closeFrame() {
     const frameHolder = document.getElementById('frame-canvas-wrapper');
+    finishFrameLoading();
+    setFrameScrollLock(false);
     if (frameHolder) {
         frameHolder.querySelectorAll('.frame-element').forEach(frameElement => frameElement.remove());
     }
@@ -2882,8 +3119,10 @@ function onServerChange(indexStr) {
 
         function restoreFrame() {
             document.getElementById('fullscreen-frame-view').classList.add('active');
+            
             const tab = document.getElementById('minimized-tab');
             if (tab) tab.style.display = 'none';
+            setFrameScrollLock(true);
         }
 
         function toggleFullscreen() {
@@ -3064,17 +3303,23 @@ function pickTabPreset(name, save = true) {
 }
 
 function launchAboutBlank() {
-    const newTab = window.open('about:blank', '_blank');
-    if (!newTab) return;
-
     const currentPage = window.location.href;
+    const newTab = window.open('about:blank', '_blank');
+
+    if (!newTab) return;
 
     newTab.document.open();
     newTab.document.write(`
         <!DOCTYPE html>
         <html>
         <head>
-            <title>document.title</title></head><bodystyle="margin:0;"><iframesrc="{currentPage}" style="width:100vw;height:100vh;border:0;"></iframe>
+            <title>${document.title}</title>
+        </head>
+        <body style="margin:0;">
+            <iframe
+                src="${currentPage}"
+                style="width:100vw;height:100vh;border:0;"
+            ></iframe>
         </body>
         </html>
     `);
@@ -3082,7 +3327,6 @@ function launchAboutBlank() {
 
     window.location.replace('https://www.google.com');
 }
-
 
 function launchBlobTab() {
     const pageSource = '<!DOCTYPE html>' + document.documentElement.outerHTML;
@@ -3223,7 +3467,7 @@ function resetSettings() {
     if (!resetConfirmPending) {
         resetConfirmPending = true;
         btn.textContent = 'Click again to confirm';
-        btn.classList.add('active');
+        // btn.classList.add('active');
 
         clearTimeout(resetConfirmTimer);
         resetConfirmTimer = setTimeout(() => {
@@ -3236,9 +3480,22 @@ function resetSettings() {
     }
 
     clearTimeout(resetConfirmTimer);
-    localStorage.removeItem('sonfine_config');
-    localStorage.clear(); // clear saved site data
-    location.reload();
+    resetConfirmPending = false;
+
+    localStorage.clear();
+
+    restoreSettings();
+    RenderRecentlyPlayed();
+
+    btn.innerHTML = '<h4><i class="fa-solid fa-check"></i> Cleared!</h4>';
+    btn.classList.remove('active');
+    btn.classList.add('cleared');
+
+    clearTimeout(resetConfirmTimer);
+    resetConfirmTimer = setTimeout(() => {
+        btn.textContent = 'Clear All Data';
+        btn.classList.remove('cleared');
+    }, 2000);
 }
 
 function exportSettings() {
