@@ -20,6 +20,7 @@
             --accent: #4a90e2;
             --accent-soft: #254a75;
         }
+      
 
         * {
             box-sizing: border-box;
@@ -2138,6 +2139,7 @@ strong:hover {
           { name: "Worlds Hardest Game 2", url: "https://1kh0.github.io/projects/worlds-hardest-game-2/index.html", image: "https://1kh0.github.io/projects/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg" },
           { name: "Retro Bowl", url: "https://1kh0.github.io/projects/retro-bowl/index.html", image: "https://1kh0.github.io/projects/retro-bowl/img/icon.jpg" },
       { name: "Chicken Merge 2", url: "https://gaming-escape.github.io/public/assets/games/chicken-merge-2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/d607dd571ef6732de82621d1b29afbbb/chicken-merge-2-logo.png" },
+      { name: "Bart Bash", url: "https://genizymath.github.io/iframe/775-fix.html", image: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/775.png" },
             { name: "Bad Ice Cream", url: "http://genizymath.github.io/iframe/269-f.html", image: "https://www4.minijuegosgratis.com/v3/games/thumbnails/16925_7_sq.jpg" },
       { name: "Ultrakill", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", image: "https://assets-prd.ignimgs.com/2022/04/08/ultrakill-1649459578320.jpg", servers: [ { name: "Server 1 (Default)", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", }, {name: "Server 2", url: "https://db.duckmath.org/html/ultrakill/"},],},
       { name: "Chrome Dino", url: "https://3kh0.bitbucket.io/projects/chrome-dino/index.html", image: "https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/img/chromedino.webp" },
@@ -2432,6 +2434,10 @@ function buildGrid(gamesList, gridElementId) {
             if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work, unfortunately not much can be done about that :(');
             LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
         };
+        // gameTile.onclick = function () {
+        //     if (gameZone.name === 'Bart Bash') alert('Takes a loooong time to load :(');
+        //     LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
+        // }
 
         const gameImage = document.createElement('img');
         gameImage.className = 'card-img';
@@ -2441,7 +2447,7 @@ function buildGrid(gamesList, gridElementId) {
             gameImage.dataset.failed = 'true';
             const imageFallback = document.createElement('div');
             imageFallback.className = 'card-img-fallback';
-            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end, I need to replace with new images as the one meant to be here is broken.</h6>';
+            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end, I need to replace this with a new image as the one meant to be here is broken.</h6>';
             gameTile.insertBefore(imageFallback, gameNameText);
             gameImage.remove();
         });
