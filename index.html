@@ -106,8 +106,8 @@
 
         .nav-item:hover {
             color: var(--text-main);
-            background-color: var(--bg-input);
-            border:2px solid var(--bg-input);
+            background-color: rgba(60, 60, 60, 0.5);
+            /*border:2px solid var(--bg-input);*/
         }
         
         .nav-item.active {
@@ -192,7 +192,7 @@
         .download-latest-button:hover {
             color: var(--text-main);
             border-color: var(--accent);
-            background-color: var(--accent-soft);
+            background-color: var(--bg-input);
         }
 
         .github-home-button {
@@ -385,7 +385,7 @@
             margin-bottom: 30px;
         }
 
-        .grid-card {
+        .game-zone {
             background-color: var(--bg-card);
             border-radius: var(--radius-ui);
             overflow: hidden;
@@ -396,10 +396,14 @@
             position: relative;
         }
 
-        .grid-card:hover {
-            /*game-card hover*/
-            transform: translateY(-4px);
-            background-color: #383838;
+        .game-zone:hover {
+            /*game-card hover */
+            /*used to be grid-card*/
+            transform: scale(1.05);
+            background-color: #444444;
+        }
+        .game-zone:active {
+            transform: scale(0.95);
         }
 
         .card-img {
@@ -495,7 +499,7 @@
 
         .settings-card {
           /* fahfah */
-            background: color-mix(in srgb, var(--bg-card) 20%, transparent);
+            background: color-mix(in srgb, var(--bg-card) 50%, transparent);
             border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
             backdrop-filter: blur(8px);
             border-radius: var(--radius-ui);
@@ -1194,7 +1198,7 @@ transition: 0.1s all;
     border-color: transparent transparent #3a3a3a transparent;
 }
 
-.fa-magnifying-glass, .fa-expand, .fa-graduation-cap, .fa-rotate-right {
+.fa-magnifying-glass, .fa-expand, .fa-graduation-cap, .fa-rotate-right, .fa-dice {
     color: var(--accent);
 }
 
@@ -1630,8 +1634,6 @@ strong:hover {
             transform: scale(0.9);
         }
 
-
-        /* Glass effect belongs on the input itself, not its layout wrapper. */
         .omnibox-container {
             background: none;
             border: 0;
@@ -1656,7 +1658,6 @@ strong:hover {
             -webkit-backdrop-filter: blur(14px);
         }
         
-        /* cool new button for anything, it has a left border now*/
         /* i use if config-toggle-btn is boring or doesnt fit in*/
         .universal-btn {
             flex: 1;
@@ -1684,6 +1685,64 @@ strong:hover {
             background-color: var(--accent-soft);
         }
         
+        
+.liquid-ass-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 11px 22px;
+    border-radius: 999999999999999999999999999999999999999999999999999999px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(10px) saturate(1.8);
+    margin-right: 5px;
+    color: var(--text-main);
+    font: inherit;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15) inset;
+    transition: all 0.2s ease;
+}
+
+.liquid-ass-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.55),
+        rgba(255, 255, 255, 0.16) 15%,
+        rgba(255, 255, 255, 0.08) 60%,
+        rgba(255, 255, 255, 0.38) 85%,
+        rgba(255, 255, 255, 0.18)
+    );
+    /*sorry its js a list but idk how else to do it*/
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    transition: all 0.4s ease;
+}
+
+.liquid-ass-btn:hover {
+    background: var(--accent);
+    color: var(--text-accent, #fff);
+    border-color: var(--border-accent, var(--accent));
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25) inset;
+    transform: translateY(-2px);
+}
+
+.liquid-ass-btn:active {
+    filter: brightness(0.85);
+    transform: scale(0.96);
+}
 </style>
 </head>
 <body>
@@ -1693,6 +1752,7 @@ strong:hover {
         <button class="sonfine-context-item" onclick="refreshSonfineSite()"><i class="fa-solid fa-rotate-right"></i><span>Refresh Site</span></button>
         <button class="sonfine-context-item" onclick="openSonfineSearch()"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
         <button class="sonfine-context-item" onclick="toggleSonfineFullscreen()"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
+        <button class="sonfine-context-item" onclick="openRandomGame()"><i class="fa-solid fa-dice"></i>Open Random Game</button>
         <button class="sonfine-context-item" onclick="quickClassroomCloak()"><i class="fa-solid fa-graduation-cap"></i><span>Quick Tab Cloak</span></button>
     </div>
 
@@ -1729,6 +1789,11 @@ strong:hover {
         <div class="omnibox-container">
             <input type="text" class="omnibox" id="search-input" placeholder="Press L or click here to enter a URL, search Google or Sonfine" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
             <div class="search-suggestions" id="search-suggestions"></div>
+        </div>
+        <div style="display: flex;">
+            <div class="liquid-ass-btn" onclick="openRandomGame()">Launch Random Game</div>
+            <div class="liquid-ass-btn" onclick="OpenFeaturedGm()">Launch Featured Game</div>
+            <!--<div class="liquid-ass-btn" onclick="OpenRandomApp()">Random App</div>-->
         </div>
         
         <button class="download-latest-button" onclick="downloadLatestVersion()"><i class="fa-solid fa-download"></i>Download Latest Version</button>
@@ -1770,7 +1835,25 @@ strong:hover {
                     </button>
                 </div>
                 <div class="updlog-entry">
-                    <h3>November 14 2026</h3>
+                    <h3>November 23 2026</h3>
+                    <ul>
+                        <li>More glassmorphism on the navbar</li>
+                        <li>Changed game zone animations</li>
+                        <li>Added 2 quick buttons to home (pls use)</li>
+                        <li>Fixed a few bugs (for example: nothing)</li>
+                        <li>Maybe 3 new splash messages</li>
+                        <li>Random game is now also in the right click menu</li>
+                        <li>Took yet another shit</li>
+                    </ul>
+                </div>
+                
+                <br>
+                
+                <details class="updlog-entry">
+                    <summary>
+                        <h3>Previous update: Nov 14 2026</h3>
+                        <div class="universal-btn" style="width: 200px;">Click to show details</div>
+                    </summary>
                     <ul>
                         <li>Changed around some more style of the site</li>
                         <li>Added a loading spinner to games + apps, and a button with some info if the game doesn't load</li>
@@ -1779,24 +1862,6 @@ strong:hover {
                         <li>You can view the last update in this update log now</li>
                         <li>The green sonfine logo is now fixed for accent color settings, and replaced all logos with imgur links that'll take much longer to expire</li>
                         <li>Took a shit</li>
-                    </ul>
-                </div>
-                
-                <br>
-                
-                <details class="updlog-entry">
-                    <summary>
-                        <h3>Previous update: Nov 13 2026</h3>
-                        <div class="universal-btn" style="width: 200px;">Click to show details</div>
-                    </summary>
-                    <ul>
-                        <li>Added this changelog</li>
-                        <li>Fixed omnibox search results being broken and unclickable</li>
-                        <li>Fixed game names, tab titles and more showing up as their variable names (might be more that are unfixed)</li>
-                        <li>Finally fixed all the broken game/app images (i have no idea how they managed to change themselves last time)</li>
-                        <li>Game cards are more square, more image is visible and more zones fit in one row</li>
-                        <li>Fixed Duck life 3 and Drift Hunters, added Angry Birds Space</li>
-                        <li>A few splash messages</li>
                     </ul>
                 </details>
         
@@ -2140,7 +2205,7 @@ strong:hover {
           { name: "Worlds Hardest Game 2", url: "https://1kh0.github.io/projects/worlds-hardest-game-2/index.html", image: "https://1kh0.github.io/projects/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg" },
           { name: "Retro Bowl", url: "https://1kh0.github.io/projects/retro-bowl/index.html", image: "https://1kh0.github.io/projects/retro-bowl/img/icon.jpg" },
       { name: "Chicken Merge 2", url: "https://gaming-escape.github.io/public/assets/games/chicken-merge-2/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/d607dd571ef6732de82621d1b29afbbb/chicken-merge-2-logo.png" },
-      { name: "Bart Bash", url: "https://genizymath.github.io/iframe/775-fix.html", image: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/775.png" },
+      { name: "Bart Bash", url: "https://genizymath.github.io/iframe/775-fix.html", image: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main/775.png",},
             { name: "Bad Ice Cream", url: "http://genizymath.github.io/iframe/269-f.html", image: "https://www4.minijuegosgratis.com/v3/games/thumbnails/16925_7_sq.jpg" },
       { name: "Ultrakill", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", image: "https://assets-prd.ignimgs.com/2022/04/08/ultrakill-1649459578320.jpg", servers: [ { name: "Server 1 (Default)", url: "https://classroomlesson.github.io/basic-ruffle-player/html/ultrakill/index.html", }, {name: "Server 2", url: "https://db.duckmath.org/html/ultrakill/"},],},
       { name: "Chrome Dino", url: "https://3kh0.bitbucket.io/projects/chrome-dino/index.html", image: "https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/img/chromedino.webp" },
@@ -2182,6 +2247,18 @@ strong:hover {
       { name: "Stealing the diamond", url: "https://gaming-escape.github.io/public/assets/games/stealing-the-diamond/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=80,height=80,fit=cover,f=auto/df942cb27fd6d1be99cbc496550825cb50a0a4c057476ce5cc350141b0ac7ada/stealing-the-diamond-logo.png" },
       { name: "Infiltrating the airship", url: "https://gaming-escape.github.io/public/assets/games/infiltrating-the-airship/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=314,height=314,fit=cover,f=auto/680d89360540e68fb8d45babd5441c7d95e4879a1e9cd7d28399ff1f52616481/infiltrating-the-airship.png" },
       { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/4e0cead7fe859cc9ce2a80ea46dd16c8c9be25f574ed2d0b82f27cb911d81b36/fleeing-the-complex-logo.png" },
+        ];
+        
+        const FeaturedGames = [
+            "PolyTrack",
+            "Granny",
+            "Google Snake Mods",
+            "Drive Mad",
+            "Tunnel Rush",
+            "Cluster Rush",
+            "Escape Road 2",
+            // "Bart Bash", RIP bart bash dont work on chromeboo :()
+            "Slope",
         ];
 
         const LeApps = [
@@ -2272,17 +2349,19 @@ strong:hover {
         "TEACHER HES ON HIS PHONE",
         "GNMATH FIX YOUR GOD DAMN SITE.",
         "Best site oat is GlacierOS",
-        "POV you jailbreak your phone to play angry birds space and old granny",
         "Did you know that",
         "bro what is this lame ahh movie",
         "ABDUL MALIK",
         "I have abdul malik",
+        "Real ones know this is a cookie stealer",
         "Epstein projectors are so warm I MEANT EPSON",
         "Hehe",
         "Indian phonk",
         "Hop on some escape road",
-        "'order pizza to the crib' son im dine",
         "the site cant stop FRICKING BREAKING",
+        "CLICK THE FRICKIN FEATURED GAME BUTTON BUDDY",
+        "Not me watching this in 2026",
+        "Ez game 🗣️",
 ];
 
       
@@ -2301,7 +2380,6 @@ function rollSplash() {
     el.textContent = splashMessages[i];
 }
 
-      // very simple ik 
         let loaderMode = 'object';
       let accentMode = 'default';
       let sortMode = 'default';
@@ -2430,7 +2508,7 @@ function buildGrid(gamesList, gridElementId) {
 
     for (const gameZone of gamesList) {
         const gameTile = document.createElement('div');
-        gameTile.className = 'grid-card';
+        gameTile.className = 'game-zone';
         gameTile.onclick = function () {
             if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work, unfortunately not much can be done about that :(');
             LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
@@ -2473,6 +2551,30 @@ function openRandomGame() {
     if (!availableGames.length) return;
     const selectedGame = availableGames[Math.floor(Math.random() * availableGames.length)];
     LoadEmbed(selectedGame.url, selectedGame.name, selectedGame.servers);
+}
+
+function OpenFeaturedGm() {
+    const availableFeaturedGames = LeGames.filter(game =>
+        FeaturedGames.includes(game.name)
+    );
+
+    if (!availableFeaturedGames.length) {
+        alert("No featured games have been added yet!");
+        return;
+    }
+
+    const selectedGame = availableFeaturedGames[
+        Math.floor(Math.random() * availableFeaturedGames.length)
+    ];
+
+    LoadEmbed(selectedGame.url, selectedGame.name, selectedGame.servers);
+}
+// abandoned function, i used to have it next to the launch random game btn
+function OpenRandomApp() {
+    const availableApps = LeApps;
+    if (!availableApps.length) return;
+    const selectedApp = availableApps[Math.floor(Math.random() * availableApps.length)];
+    LoadEmbed(selectedApp.url, selectedApp.name, selectedApp.servers);
 }
 
         function filterGrid(itemsToFilter, gridElementId, searchText) {
@@ -2961,7 +3063,7 @@ function setFrameScrollLock(locked) {
 
 function LoadEmbed(dest, name, servers, browserTab = false) {
   // fix; some game links have scripts that crash the tab like itch.io when it sees its in an embed,  also gets rid of really long tracking links so the school proxy doesnt flag the link or the file
-if (dest.includes("break") || dest.length > 380) {
+if (dest.length > 380) {
     console.warn("blocked, ");
     alert("yo this link is either broken or too long to load safely, try another server if there is one");
     return;
