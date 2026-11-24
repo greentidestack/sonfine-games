@@ -889,6 +889,47 @@
     max-width: none;
 }
 
+.games-source-row {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: -8px 0 20px;
+    flex-wrap: wrap;
+}
+
+.games-source-label {
+    color: var(--text-sub);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 3px;
+}
+
+.games-source-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid color-mix(in srgb, var(--text-main) 16%, transparent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+    color: var(--text-main);
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+.games-source-button:hover { border-color: var(--accent); }
+.games-source-button.active {
+    color: white;
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
 .random-game-button {
     display: inline-flex;
     align-items: center;
@@ -907,9 +948,15 @@
 transition: 0.1s all;
 }
 
-.random-game-button:hover {
+.random-game-button:hover:not(:disabled) {
     background: var(--bg-input);
     border-color: var(--accent);
+}
+
+.random-game-button:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+    filter: grayscale(1);
 }
 
 .game-frame-row {
@@ -1711,7 +1758,6 @@ strong:hover {
     border-radius: inherit;
     pointer-events: none;
     z-index: 1;
-
     background: linear-gradient(
         135deg,
         rgba(255, 255, 255, 0.55),
@@ -1721,13 +1767,11 @@ strong:hover {
         rgba(255, 255, 255, 0.18)
     );
     /*sorry its js a list but idk how else to do it*/
-
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-
     transition: all 0.4s ease;
 }
 
@@ -1739,9 +1783,33 @@ strong:hover {
     transform: translateY(-2px);
 }
 
+.liquid-ass-btn.active {
+    background:var(--accent);
+}
+
 .liquid-ass-btn:active {
     filter: brightness(0.85);
     transform: scale(0.96);
+}
+
+.notloading-hint {
+    display: none;
+    position: absolute;
+    z-index: 8;
+    bottom: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: min(90%, 360px);
+    font-size: 12px;
+    opacity: 0.75;
+    text-align: center;
+    color: var(--text-sub);
+    pointer-events: none;
+}
+
+.frame-loading-help.visible + .notloading-hint {
+    display: block;
 }
 </style>
 </head>
@@ -1835,15 +1903,16 @@ strong:hover {
                     </button>
                 </div>
                 <div class="updlog-entry">
-                    <h3>November 23 2026</h3>
+                    <h3>November 24 2026</h3>
                     <ul>
-                        <li>More glassmorphism on the navbar</li>
-                        <li>Changed game zone animations</li>
-                        <li>Added 2 quick buttons to home (pls use)</li>
-                        <li>Fixed a few bugs (for example: nothing)</li>
-                        <li>Maybe 3 new splash messages</li>
-                        <li>Random game is now also in the right click menu</li>
-                        <li>Took yet another shit</li>
+                        <li>Finally replaced the All Games with a game source selector!</li>
+                        <li>A ton of game sources</li>
+                        <li>Didnt take a shit</li>
+                        <li>Putting in a result with no sonfine results shows a game source change result</li>
+                        <li>I might add some easter eggs to the site later</li>
+                        <li>Previous update button expander is liquid ass now</li>
+                        <li>liquid<br>
+                            glass*</li>
                     </ul>
                 </div>
                 
@@ -1851,17 +1920,18 @@ strong:hover {
                 
                 <details class="updlog-entry">
                     <summary>
-                        <h3>Previous update: Nov 14 2026</h3>
-                        <div class="universal-btn" style="width: 200px;">Click to show details</div>
+                        <h3>Previous update: Nov 23 2026</h3>
+                        <div class="liquid-ass-btn" style="width: 205.9px;">Click to show details</div>
                     </summary>
                     <ul>
-                        <li>Changed around some more style of the site</li>
-                        <li>Added a loading spinner to games + apps, and a button with some info if the game doesn't load</li>
-                        <li>Changed how the clear all data setting works a little</li>
-                        <li>New game servers</li>
-                        <li>You can view the last update in this update log now</li>
-                        <li>The green sonfine logo is now fixed for accent color settings, and replaced all logos with imgur links that'll take much longer to expire</li>
-                        <li>Took a shit</li>
+                        <li>More glassmorphism on the navbar</li>
+                        <li>Changed game zone hover animations</li>
+                        <li>Added 2 quick buttons to home (pls use)</li>
+                        <li>Cooked on some new liquid (gl)ass btns</li>
+                        <li>Maybe 3 new splash messages</li>
+                        <li>Random game is now also in the right click menu</li>
+                        <li>very tiny upd :(</li>
+                        <li>Took yet another shit</li>
                     </ul>
                 </details>
         
@@ -1873,8 +1943,20 @@ strong:hover {
     <h2 class="section-header">Games</h2>
 
     <div class="games-search-row">
-        <input type="text" class="omnibox" id="games-search" placeholder="Search games..." oninput="filterGrid(LeGames, 'recommended-games-grid', this.value)">
+        <input type="text" class="omnibox" id="games-search" placeholder="Search games..." oninput="filterGamesBySource(this.value)">
         <button class="random-game-button" onclick="openRandomGame()" title="Open a random game"><i class="fa-solid fa-dice"></i>Random Game</button>
+    </div>
+    <div class="games-source-row">
+        <span class="games-source-label">Game Sources</span>
+        <button type="button" class="liquid-ass-btn active" data-source="sonfine" onclick="selectGameSource('sonfine')">Sonfine</button>
+        <button type="button" class="liquid-ass-btn" data-source="1kh0" onclick="selectGameSource('1kh0')">1kh0</button>
+        <button type="button" class="liquid-ass-btn" data-source="lumin" onclick="selectGameSource('lumin')">Lumin *huge*</button>
+        <button type="button" class="liquid-ass-btn" data-source="quasar" onclick="selectGameSource('quasar')">Quasar</button>
+        <button type="button" class="liquid-ass-btn" data-source="ckv" onclick="selectGameSource('ckv')">CKV</button>
+        <button type="button" class="liquid-ass-btn" data-source="ugs" onclick="selectGameSource('ugs')">UGS *huge*</button>
+        <button type="button" class="liquid-ass-btn" data-source="selenite" onclick="selectGameSource('selenite')">Selenite</button>
+        <button type="button" class="liquid-ass-btn" data-source="truffled" onclick="selectGameSource('truffled')">Truffled</button>
+        <button type="button" class="liquid-ass-btn" data-source="seraph" onclick="selectGameSource('seraph')">Seraph</button>
     </div>
     <div class="grid-container" id="recommended-games-grid"></div>
 </div>
@@ -2069,11 +2151,17 @@ strong:hover {
     </div>
 
     <button class="frame-loading-help" id="frame-loading-help"
-            onclick="toggleNotLoadingPopup()">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        Not loading?
-    </button>
-</div></div>
+        onclick="toggleNotLoadingPopup()">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Not loading?
+</button>
+
+<p class="notloading-hint">
+    The game may still be loading from an unofficial source, this button doesn't mean it failed
+</p>
+
+</div>
+</div> <!-- end div for frameview not frame row -->
 
 <div class="not-loading-popup" id="not-loading-popup">
     <button class="not-loading-popup-close" onclick="toggleNotLoadingPopup()" title="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -2088,11 +2176,14 @@ strong:hover {
     <img class="minimized-site-favicon" id="minimized-site-favicon" alt="" onerror="this.style.display='none'">
     <span id="minimized-tab-name"></span>
 </div>
+    <script src="https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"></script>
     <script>
       // i shouldnt have put the games at the top of the js 😭
         const LeGames = [
-        { name: "All Games", url: "https://greentidestack.github.io/sonfine-games/gn-math.html", image: "https://lh3.googleusercontent.com/Mxl8996vzcWWRU5RyKdTDA76GEPj9jQpuYc02nPgtwKgdqpWidM5YVqu8DHBd-D1sZ3sP1AOYB-DlNhMEpaLJxQcTQ=s128-rj-sc0x00ffffff", servers: [ { name: "Server 1 (Default, gn-math)", url: "https://greentidestack.github.io/sonfine-games/gn-math.html" }, {name: "Server 2 (Lumin)", url: "https://greentidestack.github.io/ZeroOS/games.html"} ] },
       {name: "Fancade", url: "https://play.fancade.com", image: "https://www.fancade.com/images/fancade.jpg" },
+      { name: "Slope", url: "https://gaming-escape.github.io/public/assets/games/slope/index.html", image: "https://slopegame-online.com/slope.webp", },  
+      { name: "Slope 2 Multiplayer", url: "https://roblox-unblock.github.io/r7/slope-2-multiplayer/", image: "https://roblox-unblock.github.io/thumb/slope-2-multiplayer.png" },
+      { name: "Death Run 3D", url: "https://roblox-unblock.github.io/r7/death-run-3d", image: "https://play-lh.googleusercontent.com/h2uFBJ2Tw8vjcOoHti8diG9OA_ujp36VlXloC1ijOEecT1r5a0s46TizyAb0RwsvYqRSCEk1jTbyjystXSkHNYQ" },
             { name: "PolyTrack", url: "https://gaming-escape.github.io/public/assets/games/poly-track/index.html", image: "https://thaka.bing.com/th?id=OCGE.9n02lr0qrbm2_v3_main_webp&w=124&h=124&qlt=80&c=0&rs=1" },
               { name: "Granny", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop", image: "https://play-lh.googleusercontent.com/P8BbkQ6m0eCYYAx2tXTESBiIDQ2RESsSQp6oD8ZAP35rmEjmaXHMboYT6P807sAnfcuskKTdYbTyH5R0GCFk8Q", servers: [
                     { name: "Server 1 (Default)", url: "https://app-259805.games.s3.yandex.net/259805/fadb3yakgje68vxwmy7a1khmb3vj9vxc_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.97c96d6acac215f69e1d.js#origin=https%3A%2F%2Fyandex.com&app-id=259805&device-type=desktop" },
@@ -2192,9 +2283,7 @@ strong:hover {
       { name: "Angry Birds", url: "https://gaming-escape.github.io/public/assets/games/angry-birds/", image: "https://upload.wikimedia.org/wikipedia/en/2/2d/Angry_Birds_promo_art.png" },
       { name: "Angry Birds Space", url: "https://en.gameslol.net/data/ruffle/ruffleplay.php?g=76.swf", image: "https://i.imgur.com/JW5j1IU.png", servers: [ { name: "Server 1 (Default)", url: "https://en.gameslol.net/data/ruffle/ruffleplay.php?g=76.swf" }, { name: "Server 2", url: "https://www.gameflare.com/embed/angry-birds-space-hd/" }, ], },
       { name: "Flappy Bird", url: "https://roblox-unblock.github.io/r8/flappy-bird-origin/", image: "https://roblox-unblock.github.io/thumb/flappy-bird.png" },
-      { name: "Slope", url: "https://gaming-escape.github.io/public/assets/games/slope/index.html", image: "https://slopegame-online.com/slope.webp", },  
-      { name: "Slope 2 Multiplayer", url: "https://roblox-unblock.github.io/r7/slope-2-multiplayer/", image: "https://roblox-unblock.github.io/thumb/slope-2-multiplayer.png" },
-      { name: "Death Run 3D", url: "https://roblox-unblock.github.io/r7/death-run-3d", image: "https://play-lh.googleusercontent.com/h2uFBJ2Tw8vjcOoHti8diG9OA_ujp36VlXloC1ijOEecT1r5a0s46TizyAb0RwsvYqRSCEk1jTbyjystXSkHNYQ" },
+      
       { name: "Subway Surfers", url: "https://geography-lessons-16.pro/g4m3s/subway-surfers/game.html", image: "https://geography-lessons-16.pro/g4m3s/subway-surfers/img/splash.jpg" },
       { name: "Stickman Hook", url: "https://geography-lessons-16.pro/g4m3s/stickman-hook/game.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/99e090d154caf30f3625df7e456d5984/stickman-hook-logo.png" },
       { name: "Blumgi Paintball", url: "https://gaming-escape.github.io/public/assets/games/blumgi-paintball/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/searchQuery=78,scq=50,width=1200,height=1200,fit=cover,f=png/59e84a26f2a9b86580160539bd525c13/blumgi-paintball-logo.png" },
@@ -2249,6 +2338,10 @@ strong:hover {
       { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/4e0cead7fe859cc9ce2a80ea46dd16c8c9be25f574ed2d0b82f27cb911d81b36/fleeing-the-complex-logo.png" },
         ];
         
+        // External catalogs are converted into Sonfine's normal game format.
+        let ImportedGames = [];
+        let AllGames = [...LeGames];
+
         const FeaturedGames = [
             "PolyTrack",
             "Granny",
@@ -2276,11 +2369,9 @@ strong:hover {
         ];
 
       function sortGames(gamesToSort) {
-    return [...gamesToSort].sort((firstGame, secondGame) => {
-        if (firstGame.name === 'All Games') return -1;
-        if (secondGame.name === 'All Games') return 1;
-        return firstGame.name.localeCompare(secondGame.name, undefined, { sensitivity: 'base' });
-    });
+    return [...gamesToSort].sort((firstGame, secondGame) =>
+        firstGame.name.localeCompare(secondGame.name, undefined, { sensitivity: 'base' })
+    );
 }
 
       const splashMessages = [
@@ -2410,6 +2501,301 @@ function SoftAccent(hexColor, brightnessShift) {
 
 const gridsBuilt = { games: false, apps: false };
 
+const GAME_SOURCE_URLS = {
+    oneKh0: 'https://1kh0.github.io/config/games.json',
+    quasar: 'https://api.spf50krem.com/games/v1/providers/quasar',
+    ckv: 'https://api.spf50krem.com/games/v1/providers/ckv',
+    ugs: 'https://api.spf50krem.com/games/v1/providers/ugs',
+    selenite: 'https://api.spf50krem.com/games/v1/providers/selenite',
+    truffled: 'https://api.spf50krem.com/games/v1/providers/truffled',
+    seraph: 'https://api.spf50krem.com/games/v1/providers/seraph'
+};
+
+const ACHROMA_BASE_URL = 'https://api.spf50krem.com/';
+const achromaProviders = {
+    quasar: { name: 'Quasar', games: [], loadPromise: null, searchRequest: 0 },
+    ckv: { name: 'CKV', games: [], loadPromise: null, searchRequest: 0 },
+    ugs: { name: 'UGS', games: [], loadPromise: null, searchRequest: 0 },
+    selenite: { name: 'Selenite', games: [], loadPromise: null, searchRequest: 0 },
+    truffled: { name: 'Truffled', games: [], loadPromise: null, searchRequest: 0 },
+    seraph: { name: 'Seraph', games: [], loadPromise: null, searchRequest: 0 }
+};
+let selectedGameSource = 'sonfine';
+let luminInitialized = false;
+let luminInitializing = false;
+let luminSearchRequest = 0;
+
+function normalizeImportedGame(name, url, image) {
+    if (!name || !url) return null;
+    return {
+        name: String(name).trim(),
+        url: String(url).trim(),
+        image: typeof image === 'string' ? image.trim() : ''
+    };
+}
+
+function getSelectedGameList() {
+    if (selectedGameSource === '1kh0') return [...ImportedGames];
+    if (achromaProviders[selectedGameSource]) return [...achromaProviders[selectedGameSource].games];
+    return [...LeGames];
+}
+
+function selectGameSource(source) {
+    if (!['sonfine', '1kh0', 'lumin', ...Object.keys(achromaProviders)].includes(source)) return;
+    selectedGameSource = source;
+
+    document.querySelectorAll('.liquid-ass-btn[data-source]').forEach(button => {
+        button.classList.toggle('active', button.dataset.source === source);
+    });
+
+    const searchInput = document.getElementById('games-search');
+    const randomButton = document.querySelector('.games-search-row .random-game-button');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.placeholder = source === 'lumin'
+            ? 'Search Lumin games...'
+            : achromaProviders[source] ? `Search ${achromaProviders[source].name} games...` : 'Search games...';
+    }
+    if (randomButton) randomButton.disabled = source === 'lumin';
+
+    if (source === 'lumin') {
+        initializeLuminGames('');
+    } else if (achromaProviders[source]) {
+        initializeAchromaGames(source, '');
+    } else if (gridsBuilt.games) {
+        const games = getSelectedGameList();
+        buildGrid(sortMode === 'alpha' ? sortGames(games) : games, 'recommended-games-grid');
+    }
+}
+
+function filterGamesBySource(query) {
+    if (selectedGameSource === 'lumin') {
+        renderLuminGames(query);
+        return;
+    }
+    if (achromaProviders[selectedGameSource]) {
+        initializeAchromaGames(selectedGameSource, query);
+        return;
+    }
+    filterGrid(getSelectedGameList(), 'recommended-games-grid', query);
+}
+
+async function initializeLuminGames(query = '') {
+    if (!window.Lumin || typeof window.Lumin.init !== 'function') {
+        console.error('Lumin SDK did not load. Check the lumin.min.js request in the Network tab.');
+        return;
+    }
+
+    if (!luminInitialized && !luminInitializing) {
+        luminInitializing = true;
+        try {
+            await window.Lumin.init({ headless: true });
+            luminInitialized = true;
+        } catch (error) {
+            console.error('Could not initialize Lumin in headless mode:', error);
+            return;
+        } finally {
+            luminInitializing = false;
+        }
+    } else if (luminInitializing) {
+        while (luminInitializing) await new Promise(resolve => setTimeout(resolve, 50));
+    }
+
+    if (luminInitialized && selectedGameSource === 'lumin') {
+        await renderLuminGames(query);
+    }
+}
+
+async function renderLuminGames(query = '') {
+    if (!luminInitialized || !window.Lumin) return;
+    const grid = document.getElementById('recommended-games-grid');
+    if (!grid) return;
+
+    const requestId = ++luminSearchRequest;
+    grid.innerHTML = '<div style="color:var(--text-sub);padding:16px;">Loading Lumin games...</div>';
+
+    try {
+        const result = await window.Lumin.getGames({ page: 1, limit: 1000, q: query.trim() });
+        if (requestId !== luminSearchRequest || selectedGameSource !== 'lumin') return;
+        const games = Array.isArray(result?.games) ? result.games : [];
+        grid.innerHTML = '';
+
+        if (!games.length) {
+            grid.innerHTML = '<div style="color:var(--text-sub);padding:16px;">No Lumin games found.</div>';
+            return;
+        }
+
+        const imageUrls = await Promise.all(games.map(async game => {
+            try { return game.image_token ? await window.Lumin.getImageUrl(game.image_token) : ''; }
+            catch (error) { console.warn('Could not load Lumin thumbnail:', game.name, error); return ''; }
+        }));
+        if (requestId !== luminSearchRequest || selectedGameSource !== 'lumin') return;
+
+        games.forEach((game, index) => {
+            const tile = document.createElement('div');
+            tile.className = 'game-zone';
+            tile.tabIndex = 0;
+            tile.setAttribute('role', 'button');
+            tile.setAttribute('aria-label', 'Play ' + (game.name || 'game'));
+            const play = () => window.Lumin.loadGame(game.id).catch(error => console.error('Could not launch Lumin game:', error));
+            tile.addEventListener('click', play);
+            tile.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); play(); }
+            });
+
+            const image = document.createElement('img');
+            image.className = 'card-img';
+            image.alt = game.name || 'Game image';
+            if (imageUrls[index]) image.src = imageUrls[index];
+            else image.style.display = 'none';
+
+            const title = document.createElement('div');
+            title.className = 'card-title';
+            title.textContent = game.name || 'Untitled';
+            if (imageUrls[index]) tile.appendChild(image);
+            tile.appendChild(title);
+            grid.appendChild(tile);
+        });
+    } catch (error) {
+        if (requestId !== luminSearchRequest) return;
+        console.error('Could not load Lumin games:', error);
+        grid.innerHTML = '<div style="color:var(--text-sub);padding:16px;">Could not load Lumin games. Check the console for details.</div>';
+    }
+}
+
+async function initializeAchromaGames(provider, query = '') {
+    const providerData = achromaProviders[provider];
+    const grid = document.getElementById('recommended-games-grid');
+    if (!providerData || !grid) return;
+
+    const requestId = ++providerData.searchRequest;
+    grid.innerHTML = `<div style="color:var(--text-sub);padding:16px;">Loading ${providerData.name} games...</div>`;
+
+    try {
+        if (!providerData.loadPromise) {
+            providerData.loadPromise = fetch(GAME_SOURCE_URLS[provider])
+                .then(response => {
+                    if (!response.ok) throw new Error(`${providerData.name} returned ${response.status}`);
+                    return response.json();
+                })
+                .then(catalog => {
+                    if (!Array.isArray(catalog)) {
+                        throw new Error(`The ${providerData.name} response was not a JSON array.`);
+                    }
+
+                    const imported = [];
+                    catalog.forEach(game => {
+                        if (!game || typeof game !== 'object') return;
+
+                        let launchUrl = '';
+                        let imageUrl = '';
+                        try {
+                            launchUrl = game.launch_url
+                                ? new URL(game.launch_url, ACHROMA_BASE_URL).href
+                                : '';
+                            imageUrl = game.image
+                                ? new URL(game.image, ACHROMA_BASE_URL).href
+                                : '';
+                        } catch (error) {
+                            console.warn(`Skipping ${providerData.name} game with an invalid URL:`, game.name, error);
+                            return;
+                        }
+
+                        const normalized = normalizeImportedGame(game.name, launchUrl, imageUrl);
+                        if (normalized) imported.push(normalized);
+                    });
+
+                    const knownNames = new Set([
+                        ...LeGames.map(game => game.name.toLowerCase()),
+                        ...ImportedGames.map(game => game.name.toLowerCase())
+                    ]);
+                    providerData.games = imported.filter(game => {
+                        const key = game.name.toLowerCase();
+                        if (knownNames.has(key)) return false;
+                        knownNames.add(key);
+                        return true;
+                    });
+
+                    AllGames = [
+                        ...LeGames,
+                        ...ImportedGames,
+                        ...Object.values(achromaProviders).flatMap(item => item.games)
+                    ];
+                    console.log(`Loaded ${providerData.name} games:`, providerData.games.length, 'from', catalog.length, 'catalog entries');
+                    return providerData.games;
+                })
+                .catch(error => {
+                    providerData.loadPromise = null;
+                    throw error;
+                });
+        }
+
+        await providerData.loadPromise;
+        if (requestId !== providerData.searchRequest || selectedGameSource !== provider) return;
+
+        const normalizedSearch = query.trim().toLowerCase();
+        let matchingGames = normalizedSearch
+            ? providerData.games.filter(game => game.name.toLowerCase().includes(normalizedSearch))
+            : providerData.games;
+        if (sortMode === 'alpha') matchingGames = sortGames(matchingGames);
+
+        buildGrid(matchingGames, 'recommended-games-grid');
+
+        const homeSearch = document.getElementById('search-input');
+        if (homeSearch?.value.trim()) onSearchInput({ target: homeSearch });
+    } catch (error) {
+        if (requestId !== providerData.searchRequest || selectedGameSource !== provider) return;
+        console.error(`Could not load the ${providerData.name} game catalog:`, error);
+        grid.innerHTML = `<div style="color:var(--text-sub);padding:16px;">Could not load ${providerData.name} games. The API may be unavailable or may block requests from this site (CORS). Check the console for details.</div>`;
+    }
+}
+
+async function LoadOtherGameSource() {
+    const [oneKh0Result] = await Promise.allSettled([
+        fetch(GAME_SOURCE_URLS.oneKh0).then(response => {
+            if (!response.ok) throw new Error('1kh0 returned ' + response.status);
+            return response.json();
+        }),
+    ]);
+
+    if (oneKh0Result.status === 'fulfilled') {
+        const catalog = oneKh0Result.value;
+        const imported = [];
+        if (Array.isArray(catalog)) {
+            catalog.forEach(game => {
+                const url = game.link ? new URL(game.link, 'https://1kh0.github.io/').href : '';
+                const image = game.imgSrc ? new URL(game.imgSrc, 'https://1kh0.github.io/').href : '';
+                const normalized = normalizeImportedGame(game.title, url, image);
+                if (normalized) imported.push(normalized);
+            });
+        }
+        const knownNames = new Set(LeGames.map(game => game.name.toLowerCase()));
+        ImportedGames = imported.filter(game => {
+            const key = game.name.toLowerCase();
+            if (knownNames.has(key)) return false;
+            knownNames.add(key);
+            return true;
+        });
+        console.log('Loaded 1kh0 games:', ImportedGames.length);
+    } else {
+        console.warn('Could not load the 1kh0 game catalog:', oneKh0Result.reason);
+    }
+
+    AllGames = [
+        ...LeGames,
+        ...ImportedGames,
+        ...Object.values(achromaProviders).flatMap(item => item.games)
+    ];
+
+    if (gridsBuilt.games && selectedGameSource !== 'lumin') {
+        const searchText = document.getElementById('games-search')?.value || '';
+        filterGrid(getSelectedGameList(), 'recommended-games-grid', searchText);
+    }
+
+    const homeSearch = document.getElementById('search-input');
+    if (homeSearch?.value.trim()) onSearchInput({ target: homeSearch });
+}
+
 function goToView(viewName, clickEvent) {
     sonfineContextMenu?.classList.remove('visible');
     document.querySelectorAll('.view').forEach(viewSection => viewSection.classList.remove('active'));
@@ -2420,7 +2806,7 @@ function goToView(viewName, clickEvent) {
     if (clickEvent && clickEvent.currentTarget) clickEvent.currentTarget.classList.add('active');
 
     if (viewName === 'games' && !gridsBuilt.games) {
-        buildGrid(sortMode === 'alpha' ? sortGames(LeGames) : LeGames, 'recommended-games-grid');
+        buildGrid(sortMode === 'alpha' ? sortGames(getSelectedGameList()) : getSelectedGameList(), 'recommended-games-grid');
         gridsBuilt.games = true;
     }
 
@@ -2510,7 +2896,6 @@ function buildGrid(gamesList, gridElementId) {
         const gameTile = document.createElement('div');
         gameTile.className = 'game-zone';
         gameTile.onclick = function () {
-            if (gameZone.name === 'All Games') alert('if it says its blocked, switch the server (top left next to the All Games name) to the second server. the games in the second server might also be blocked, both versions are sometimes blocked and sometimes work, unfortunately not much can be done about that :(');
             LoadEmbed(gameZone.url, gameZone.name, gameZone.servers);
         };
         // gameTile.onclick = function () {
@@ -2522,11 +2907,16 @@ function buildGrid(gamesList, gridElementId) {
         gameImage.className = 'card-img';
         gameImage.alt = gameZone.name || 'Game image';
         gameImage.addEventListener('error', function () {
+            if (gameZone.imageFallback && gameImage.dataset.triedFallback !== 'true') {
+                gameImage.dataset.triedFallback = 'true';
+                gameImage.src = gameZone.imageFallback;
+                return;
+            }
             if (gameImage.dataset.failed === 'true') return;
             gameImage.dataset.failed = 'true';
             const imageFallback = document.createElement('div');
             imageFallback.className = 'card-img-fallback';
-            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end, I need to replace this with a new image as the one meant to be here is broken.</h6>';
+            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end if the selected source is Sonfine, otherwise the game source needs to add an image URL for this game</h6>';
             gameTile.insertBefore(imageFallback, gameNameText);
             gameImage.remove();
         });
@@ -2547,7 +2937,8 @@ function buildGrid(gamesList, gridElementId) {
     }
 }
 function openRandomGame() {
-    const availableGames = LeGames.filter(game => game.name !== 'All Games');
+    if (selectedGameSource === 'lumin') return;
+    const availableGames = getSelectedGameList();
     if (!availableGames.length) return;
     const selectedGame = availableGames[Math.floor(Math.random() * availableGames.length)];
     LoadEmbed(selectedGame.url, selectedGame.name, selectedGame.servers);
@@ -2614,8 +3005,14 @@ function onSearchInput(e) {
         ? `Enter URL: ${userText}`
         : `Search Google for \"${userText}\"`;
     const matchingResults = [...settingMatches, ...gameMatches, ...appMatches];
+
     currentSearchResults = [
         ...matchingResults.slice(0, 7),
+        ...(gameMatches.length === 0 ? [{
+            name: 'No Sonfine results found, browse other game sources',
+            tag: 'Game Sources',
+            resultType: 'game-sources'
+        }] : []),
         { tag: looksLikeUrl ? 'URL' : 'Web', resultType: 'fallback', name: fallbackLabel }
     ];
     currentSuggestions = currentSearchResults;
@@ -2644,9 +3041,11 @@ function renderSonfineSearchResults() {
         } else {
             const icon = document.createElement('i');
             const iconName = result.resultType === 'setting'
-                ? 'fa-gear'
-                : result.resultType === 'fallback'
-                    ? 'fa-magnifying-glass'
+            ? 'fa-gear'
+            : result.resultType === 'fallback'
+                ? 'fa-magnifying-glass'
+                : result.resultType === 'game-sources'
+                    ? 'fa-layer-group'
                     : 'fa-arrow-up-right-from-square';
             icon.className = `fa-solid ${iconName}`;
             icon.style.cssText = 'width:28px;text-align:center;color:var(--text-sub);flex-shrink:0';
@@ -2686,6 +3085,30 @@ function chooseSearchResult(index) {
         });
         clearSuggestions();
         return;
+    }
+    
+    if (result.resultType === 'game-sources') {
+    clearSuggestions();
+    closeSonfineSearch();
+    goToView('games');
+
+    requestAnimationFrame(() => {
+        const sourceRow = document.querySelector('.games-source-row');
+        if (!sourceRow) return;
+
+        sourceRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        sourceRow.style.outline = '2px solid var(--accent)';
+        sourceRow.style.outlineOffset = '6px';
+        sourceRow.style.borderRadius = '12px';
+        sourceRow.style.transition = 'outline-color 0.3s ease';
+
+        setTimeout(() => {
+            sourceRow.style.outline = '';
+            sourceRow.style.outlineOffset = '';
+        }, 2000);
+    });
+     return;
     }
   
     if (result.resultType === 'game' || result.resultType === 'app') {
@@ -3082,7 +3505,7 @@ if (dest.length > 380) {
     document.getElementById('not-loading-popup')?.classList.remove('active');
     document.getElementById('game-frame-row')?.style.setProperty('display', 'flex');
 
-    const matchingGame = [...LeGames, ...LeApps].find(it => it.name === name);
+    const matchingGame = [...AllGames, ...LeApps].find(it => it.name === name);
     if (matchingGame) addRecentlyPlayed(matchingGame);
 
     currentGameName = name || 'Untitled';
@@ -3296,7 +3719,7 @@ function ToggleAZ(mode, save = true) {
     document.getElementById('btn-sort-alpha')?.classList.toggle('active', mode === 'alpha');
 
     if (gridsBuilt.games) {
-        buildGrid(sortMode === 'alpha' ? sortGames(LeGames) : LeGames, 'recommended-games-grid');
+        buildGrid(sortMode === 'alpha' ? sortGames(getSelectedGameList()) : getSelectedGameList(), 'recommended-games-grid');
     }
 
     if (save) persistSettings();
@@ -3871,6 +4294,10 @@ function OpenRecentlyPlayedGame(gameName) {
     if (!game) return;
     LoadEmbed(game.url, game.name, game.servers);
 }
+// plis dont delete this
+// shoot dr seuss might have some competition
+// dont miss
+LoadOtherGameSource();
 
 </script>
 </div>
