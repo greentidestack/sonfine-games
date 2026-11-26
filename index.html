@@ -1905,7 +1905,8 @@ strong:hover {
                     <ul>
                         <li>Rebranded the site to Kernel</li>
                         <li>Sonfine sounded weird and really doesnt sound like just another ubg site, also I previously made this to remake and enhance a different site that cant be found anymore called Sunfine Site from memory but Sonfine is completely its own thing now</li>
-                        <li>New logos, css fix and added a massive game source (Prenite)</li>
+                        <li>New logos, css fix, added a second server to Bacon May Die and added a massive game source (Prenite)</li>
+                        <li>Added gn-math as a "source", it just opens gn-maths games page since i couldnt figure out how to get it to fetch and it doesnt work on chromebooks either when i did it before</li>
                         <li>Dont forget last upd was the source selector</li>
                     </ul>
                 </div>
@@ -1952,6 +1953,7 @@ strong:hover {
         <button type="button" class="liquid-ass-btn" data-source="truffled" onclick="selectGameSource('truffled')">Truffled</button>
         <button type="button" class="liquid-ass-btn" data-source="seraph" onclick="selectGameSource('seraph')">Seraph</button>
         <button type="button" class="liquid-ass-btn" data-source="prenite" onclick="selectGameSource('prenite')">Prenite *HUGE*</button>
+        <button type="button" class="liquid-ass-btn" onclick="LoadEmbed('https://gn-math.dev/games.html', 'GN-Math');">gn-math *likely broken*</button>
         
         
         <div class="info-icon-wrap">
@@ -2221,7 +2223,7 @@ strong:hover {
             { name: "Wordle Unlimited", url: "https://mikhad.github.io/wordle/", image: "https://www.nytimes.com/games-assets/v2/assets/wordle/wordle_logo_32x32.png" },
       { name: "Gameing", url: "https://windows96.net/system/apps/gameing/", image: "https://i.imgur.com/geqTaWH.png" },
       { name: "Level Devil", url: "https://gaming-escape.github.io/public/assets/games/level-devil/index.html", image: "https://play-lh.googleusercontent.com/1zTWXjwCUeRmOVeqNnmrb-oR-KELGQMOLjrcZ2cXkQby8pQRpD5Wrng7Z8JPuWrsqQ=w240-h480-rw" },
-            { name: "Bacon May Die", url: "http://genizymath.github.io/iframe/268-f.html", image: "https://play-lh.googleusercontent.com/70mRpAms5QRNqOGjxCtS-yt8PoMzB9BblzUp5koocjqD8wnHakF6Zr_1rOg5cEqnPCs07TYq8r_4GjPbQqY42w" },
+            { name: "Bacon May Die", url: "https://genizymath.github.io/iframe/268-f.html", image: "https://play-lh.googleusercontent.com/70mRpAms5QRNqOGjxCtS-yt8PoMzB9BblzUp5koocjqD8wnHakF6Zr_1rOg5cEqnPCs07TYq8r_4GjPbQqY42w", servers: [{ name: "Server 1 (Default)", url: "https://genizymath.github.io/iframe/268-f.html" }, { name: "Server 2", url: "https://baconmay-die.github.io/file/index.html" },], },
             { name: "Escape Road", url: "https://escaperoadx.github.io/escaperoad/index.html", image: "https://escaperoad.io/cache/data/image/game/escape-road-game-sr1-f240x240.webp" },
                   { name: "Escape Road 2", url: "https://1games.io/game/escape-road-2", image: "https://azgames.io/upload/cache/upload/imgs/escaperoad21-m200x200.webp" },
             { name: "BitLife", url: "https://geography-lessons-16.pro/g4m3s/bl/game.html", image: "https://geography-lessons-16.pro/g4m3s/bl/logo.png" },
@@ -3230,6 +3232,11 @@ function chooseFallback() {
     }
     if (normalized === 'google') {
         alert("are you a grandpa trying to navigate internet explorer");
+    }
+    if (normalized === 'gn-math') {
+        alert("lemme take you to the real link")
+        LoadEmbed('https://gn-math.dev/games.html', 'GN-Math');
+        return;
     }
 
     const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
