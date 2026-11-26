@@ -1,4 +1,4 @@
-# Sonfine Games
+# Kernel Games
 
 This is a simple gaming website with the essentials. The site includes an omnibox that can search the site's settings, games + apps, open a URL or search Google, the site has a games page with over 100 popular web and PC games, apps, and settings such as accent color, alphabetical sorting, tab close prevention, many tab cloaks and more. There are no ads or bloat, though it does not use a real web proxy (meaning it's faster, I don't need to pay for server costs, but less URL support)  
 Some of the games included:   
