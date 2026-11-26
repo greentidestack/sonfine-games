@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonfine Site</title>
-  <link rel="icon" id="site-favicon" href="https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png">
+    <title>Kernel!</title>
+  <link rel="icon" id="site-favicon" href="https://i.imgur.com/QCcql0D.png">
 
   <script src="https://kit.fontawesome.com/686a5a8044.js" crossorigin="anonymous"></script>
     <style>
@@ -72,7 +72,7 @@
         .brand {
             font-weight: 500;
             font-size: 1.2rem;
-            letter-spacing: 1px;
+            letter-spacing: 0.7px;
             color: var(--text-main);
         }
 
@@ -84,8 +84,8 @@
 }
 
 .brand-group img {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
 }
 .nav-links {
@@ -281,8 +281,9 @@
     max-height: 75vh;
     overflow-y: auto;
     padding: 24px;
-    background: var(--bg-card);
-    border: 1px solid color-mix(in srgb, var(--text-main) 15%, transparent);
+    background: rgba(45, 45, 45, 0.8);
+    /*why does it blur without the blur filter? idk*/
+    border: 2px solid color-mix(in srgb, var(--text-main) 15%, transparent);
     border-radius: var(--radius-ui);
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
     color: var(--text-main);
@@ -1557,7 +1558,7 @@ strong:hover {
     color: var(--accent);
 }
 
-        .sonfine-context-menu {
+        .context-menu {
             position: fixed;
             display: none;
             min-width: 220px;
@@ -1569,11 +1570,11 @@ strong:hover {
             z-index: 99999;
         }
 
-        .sonfine-context-menu.visible {
+        .context-menu.visible {
             display: block;
         }
 
-        .sonfine-context-item {
+        .context-button {
             width: 100%;
             display: flex;
             align-items: center;
@@ -1589,19 +1590,19 @@ strong:hover {
             transition: background-color 0.15s ease, color 0.15s ease;
         }
 
-        .sonfine-context-item:hover {
+        .context-button:hover {
             background: var(--accent-soft);
             color: var(--text-main);
         }
 
-        .sonfine-context-item i {
+        .context-button i {
             width: 18px;
             color: var(--accent);
             text-align: center;
         }
 
 
-        .sonfine-search-overlay {
+        .kernel-search-overlay {
             position: fixed;
             inset: 0;
             z-index: 99998;
@@ -1611,14 +1612,13 @@ strong:hover {
             padding: min(18vh, 150px) 20px 30px;
             background: rgba(0, 0, 0, 0.28);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
         }
 
-        .sonfine-search-overlay.visible {
+        .kernel-search-overlay.visible {
             display: flex;
         }
 
-        .sonfine-search-panel {
+        .kernel-search-panel {
             position: relative;
             width: min(720px, 100%);
             padding: 0;
@@ -1626,10 +1626,10 @@ strong:hover {
             border: 0;
             border-radius: 0;
             box-shadow: none;
-            animation: sonfine-search-arrive 0.16s ease-out;
+            animation: kernel-search-arrive 0.16s ease-out;
         }
 
-        .sonfine-search-heading {
+        .kernel-search-heading {
             width: fit-content;
             margin: 0 0 14px 2px;
             color: var(--text-main);
@@ -1637,18 +1637,18 @@ strong:hover {
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
         }
 
-        .sonfine-search-panel .omnibox-container {
+        .kernel-search-panel .omnibox-container {
             width: 100%;
             max-width: none;
             margin: 0;
         }
 
-        .sonfine-search-panel .omnibox {
+        .kernel-search-panel .omnibox {
             width: 100%;
             box-sizing: border-box;
         }
 
-        .sonfine-search-dismiss {
+        .kernel-search-dismiss {
             display: block;
             margin: 12px 0 0 auto;
             padding: 7px 10px;
@@ -1660,11 +1660,11 @@ strong:hover {
             cursor: pointer;
         }
 
-        .sonfine-search-dismiss:hover {
+        .kernel-search-dismiss:hover {
             color: var(--text-main);
         }
 
-        @keyframes sonfine-search-arrive {
+        @keyframes kernel-search-arrive {
             from { opacity: 0; transform: translateY(-8px) scale(0.985); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
@@ -1685,13 +1685,11 @@ strong:hover {
             background: none;
             border: 0;
             backdrop-filter: none;
-            -webkit-backdrop-filter: none;
         }
         .omnibox {
             background: color-mix(in srgb, var(--bg-card) 58%, transparent);
             border: 2px solid color-mix(in srgb, var(--text-main) 16%, transparent);
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             box-shadow: inset 0 1px 0 color-mix(in srgb, white 5%, transparent);
         }
         .omnibox:focus {
@@ -1702,7 +1700,6 @@ strong:hover {
             background: color-mix(in srgb, var(--bg-card) 20%, transparent);
             border: 2px solid color-mix(in srgb, var(--text-main) 12%, transparent);
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
         }
         
         /* i use if config-toggle-btn is boring or doesnt fit in*/
@@ -1817,28 +1814,28 @@ strong:hover {
 <body>
   <div class="bg-dots" id="bg-dots"></div>
 
-    <div class="sonfine-context-menu" id="sonfine-context-menu">
-        <button class="sonfine-context-item" onclick="refreshSonfineSite()"><i class="fa-solid fa-rotate-right"></i><span>Refresh Site</span></button>
-        <button class="sonfine-context-item" onclick="openSonfineSearch()"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
-        <button class="sonfine-context-item" onclick="toggleSonfineFullscreen()"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
-        <button class="sonfine-context-item" onclick="openRandomGame()"><i class="fa-solid fa-dice"></i>Open Random Game</button>
-        <button class="sonfine-context-item" onclick="quickClassroomCloak()"><i class="fa-solid fa-graduation-cap"></i><span>Quick Tab Cloak</span></button>
+    <div class="context-menu" id="context-menu">
+        <button class="context-button" onclick="Refresh()"><i class="fa-solid fa-rotate-right"></i><span>Refresh Site</span></button>
+        <button class="context-button" onclick="openKernelSearch()"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+        <button class="context-button" onclick="toggleKernelFullscreen()"><i class="fa-solid fa-expand"></i><span>Fullscreen</span></button>
+        <button class="context-button" onclick="openRandomGame()"><i class="fa-solid fa-dice"></i>Open Random Game</button>
+        <button class="context-button" onclick="quickClassroomCloak()"><i class="fa-solid fa-graduation-cap"></i><span>Quick Tab Cloak</span></button>
     </div>
 
 
-    <div class="sonfine-search-overlay" id="sonfine-search-overlay" onclick="if (event.target === this) closeSonfineSearch()">
-        <div class="sonfine-search-panel" role="dialog" aria-modal="true" aria-label="Search Sonfine">
-            <h2 class="sonfine-search-heading"><i class="fa-solid fa-magnifying-glass"></i> Search Sonfine</h2>
-            <div id="sonfine-search-home-slot"></div>
-            <button class="sonfine-search-dismiss" onclick="closeSonfineSearch()">Close <span>(Esc)</span></button>
+    <div class="kernel-search-overlay" id="kernel-search-overlay" onclick="if (event.target === this) closeKernelSearch()">
+        <div class="kernel-search-panel" role="dialog" aria-modal="true" aria-label="Search Kernel">
+            <h2 class="kernel-search-heading"><i class="fa-solid fa-magnifying-glass"></i> Search Kernel</h2>
+            <div id="kernel-search-home-slot"></div>
+            <button class="kernel-search-dismiss" onclick="closeKernelSearch()">Close <span>(Esc)</span></button>
         </div>
     </div>
 
     <nav class="navbar">
         <div class="brand-group">
-    <img src="https://i.postimg.cc/QM6Qb3Qr/Sonfine-new-logo-design.png"
-         alt="Sonfine logo" class="brandimg-hover">
-    <div class="brand">Sonfine Site</div>
+    <img src="https://i.imgur.com/QCcql0D.png"
+         alt="Kernel logo" class="brandimg-hover">
+    <div class="brand">Kernel!</div>
 </div>
         <div class="nav-links">
             <button class="nav-item active" onclick="goToView('home', event)"><i class="fa-solid fa-house" style="margin-right: 5px;"></i>Home</button>
@@ -1853,10 +1850,10 @@ strong:hover {
         
     <div id="view-home" class="view active">
         <div class="home-content">
-            <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i><strong>Sonfine</strong> Search</h1>
+            <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i>Welcome to <strong>Kernel</strong></h1>
             <div class="splash-msg" id="splash-msg" onclick="rollSplash()"></div>
         <div class="omnibox-container">
-            <input type="text" class="omnibox" id="search-input" placeholder="Press L or click here to enter a URL, search Google or Sonfine" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
+            <input type="text" class="omnibox" id="search-input" placeholder="Press L or click here to search Kernel/Google or enter a URL" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
             <div class="search-suggestions" id="search-suggestions"></div>
         </div>
         <div style="display: flex;">
@@ -1865,8 +1862,8 @@ strong:hover {
             <!--<div class="liquid-ass-btn" onclick="OpenRandomApp()">Random App</div>-->
         </div>
         
-        <button class="download-latest-button" onclick="downloadLatestVersion()"><i class="fa-solid fa-download"></i>Download Latest Version</button>
-        <a class="github-home-button" href="https://github.com/greentidestack/sonfine-games" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+        <button class="download-latest-button" onclick="DownloadLatest()"><i class="fa-solid fa-download"></i>Download Latest Version</button>
+        <a class="github-home-button" href="https://github.com/greentidestack/kernel-games" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
         <div class="info-icon-wrap">
             <i class="fa-solid fa-circle-info info-icon" id="info-icon" onclick="toggleInfoPopup(event)"></i>
             <div class="info-popup" id="info-popup">
@@ -1904,16 +1901,12 @@ strong:hover {
                     </button>
                 </div>
                 <div class="updlog-entry">
-                    <h3>November 24 2026</h3>
+                    <h3>November 25 2026</h3>
                     <ul>
-                        <li>Finally replaced the All Games with a game source selector!</li>
-                        <li>A ton of game sources</li>
-                        <li>Didnt take a shit</li>
-                        <li>Putting in a result with no sonfine results shows a game source change result</li>
-                        <li>I might add some easter eggs to the site later</li>
-                        <li>Previous update button expander is liquid ass now</li>
-                        <li>liquid<br>
-                            glass*</li>
+                        <li>Rebranded the site to Kernel</li>
+                        <li>Sonfine sounded weird and really doesnt sound like just another ubg site, also I previously made this to remake and enhance a different site that cant be found anymore called Sunfine Site from memory but Sonfine is completely its own thing now</li>
+                        <li>New logos, css fix and added a massive game source (Prenite)</li>
+                        <li>Dont forget last upd was the source selector</li>
                     </ul>
                 </div>
                 
@@ -1921,18 +1914,18 @@ strong:hover {
                 
                 <details class="updlog-entry">
                     <summary>
-                        <h3>Previous update: Nov 23 2026</h3>
+                        <h3>Previous update: Nov 24 2026</h3>
                         <div class="liquid-ass-btn" style="width: 205.9px;">Click to show details</div>
                     </summary>
                     <ul>
-                        <li>More glassmorphism on the navbar</li>
-                        <li>Changed game zone hover animations</li>
-                        <li>Added 2 quick buttons to home (pls use)</li>
-                        <li>Cooked on some new liquid (gl)ass btns</li>
-                        <li>Maybe 3 new splash messages</li>
-                        <li>Random game is now also in the right click menu</li>
-                        <li>very tiny upd :(</li>
-                        <li>Took yet another shit</li>
+                        <li>Finally replaced the All Games with a game source selector!</li>
+                        <li>A ton of game sources</li>
+                        <li>Didnt take a shit</li>
+                        <li>Putting in a result with no kernel results shows a game source change result</li>
+                        <li>I might add some easter eggs to the site later</li>
+                        <li>Previous update button expander is liquid ass now</li>
+                        <li>liquid<br>
+                            glass*</li>
                     </ul>
                 </details>
         
@@ -1949,7 +1942,7 @@ strong:hover {
     </div>
     <div class="games-source-row">
         <span class="games-source-label">Game Sources</span>
-        <button type="button" class="liquid-ass-btn active" data-source="sonfine" onclick="selectGameSource('sonfine')">Sonfine</button>
+        <button type="button" class="liquid-ass-btn active" data-source="kernel" onclick="selectGameSource('kernel')">Kernel</button>
         <button type="button" class="liquid-ass-btn" data-source="1kh0" onclick="selectGameSource('1kh0')">1kh0</button>
         <button type="button" class="liquid-ass-btn" data-source="lumin" onclick="selectGameSource('lumin')">Lumin *huge*</button>
         <button type="button" class="liquid-ass-btn" data-source="quasar" onclick="selectGameSource('quasar')">Quasar</button>
@@ -2021,8 +2014,8 @@ strong:hover {
                                     <input type="text" class="tab-name-input" id="site-name-input" placeholder="Enter a tab name" maxlength="40" oninput="changeSiteName(this.value)">
                                     <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
                                     <div class="tab-presets">
-                                        <button class="tab-preset active" id="preset-sonfine" onclick="pickTabPreset('sonfine')" title="Sonfine">
-                                            <img src="https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png" alt="Sonfine">
+                                        <button class="tab-preset active" id="preset-kernel" onclick="pickTabPreset('kernel')" title="Kernel">
+                                            <img src="https://i.imgur.com/QCcql0D.png">
                                         </button>
                                         <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
                                             <img src="https://www.google.com/favicon.ico" alt="Google">
@@ -2090,10 +2083,10 @@ strong:hover {
             <div class="settings-card square">
                 <div>
                     <h3><i class="fa-regular fa-circle-question" style="margin-right: 5px;"></i>Looking for a game?</h3>
-                    <p>Can't find a game you'd like to play? Make an issue in the Sonfine GitHub repository and suggest it. Feel free to also report any bugs here</p>
+                    <p>Can't find a game you'd like to play? Make an issue in the Kernel GitHub repository and suggest it. Feel free to also report any bugs here</p>
                 </div>
                 <div class="config-btn-group">
-                    <a class="config-toggle-btn" href="https://github.com/greentidestack/sonfine-games/issues" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+                    <a class="config-toggle-btn" href="https://github.com/greentidestack/kernel-games/issues" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
                         <i class="fa-brands fa-github" style="margin-right:6px;"></i>Make an Issue
                     </a>
                 </div>
@@ -2348,7 +2341,7 @@ strong:hover {
       { name: "Fleeing the complex", url: "https://gaming-escape.github.io/public/assets/games/fleeing-the-complex/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/4e0cead7fe859cc9ce2a80ea46dd16c8c9be25f574ed2d0b82f27cb911d81b36/fleeing-the-complex-logo.png" },
         ];
         
-        // External catalogs are converted into Sonfine's normal game format.
+        // External catalogs are converted into Kernel's normal game format.
         let ImportedGames = [];
         let AllGames = [...LeGames];
 
@@ -2435,7 +2428,7 @@ strong:hover {
           "'We have the utmost respect and transparency to district IT admins, and we do not provide any hidden features or workarounds.' Ok cut 🎬",
           "Dear Reddit pretty please unshadowban me with a cherry on top",
           "Is ts font tuff",
-          "Fun fact sonfine uses the font Rubik",
+          "Fun fact kernel uses the font Rubik",
         "Yupp.",
         "*smells the larp*",
         "Oh",
@@ -2444,8 +2437,8 @@ strong:hover {
         "michael jackSON 😂😂😂 leSONade 😂😂😂",
         "ForgivableTrapezoid8212 is your new name :)",
         "that sock is NOT human bro",
-        "yo bro its SONfine site because its SON get it",
         "Pov me watching people beg for some 'sodium' ripoff",
+        "this used to be called sonfine but i changed it, yk",
         "WE SLEPT ON GOGUARDIAN BRUH",
         "TEACHER HES ON HIS PHONE",
         "GNMATH FIX YOUR GOD DAMN SITE.",
@@ -2494,10 +2487,10 @@ const ACCENT_COLORS = {
     purple:  { base: '#9b5de5', soft: '#3a2a5c' }
 };
 const ACCENT_LOGOS = {
-    default: 'https://i.imgur.com/lC9TaCZ.png',
-    purple:  'https://i.imgur.com/gqyk3Do.png',
-    green:   'https://i.imgur.com/U85MfB9.png',
-    custom:  'https://i.imgur.com/lC9TaCZ.png' // for custom accent colors it makes it be the default blue, otherwise using css filters for it looks pretty bad
+    default: 'https://i.imgur.com/QCcql0D.png',
+    purple:  'https://i.imgur.com/3Eb1OWG.png',
+    green:   'https://i.imgur.com/Ka2RsLi.png',
+    custom:  'https://i.imgur.com/lC9TaCZ.png' // for custom accent colors the image in the top left willl be the default blue, bc using css filters for it looks pretty bad
 };
 
 function SoftAccent(hexColor, brightnessShift) {
@@ -2511,9 +2504,9 @@ function SoftAccent(hexColor, brightnessShift) {
 
 const gridsBuilt = { games: false, apps: false };
 
-const GAME_SOURCE_URLS = {
+const source_urls = {
     oneKh0: 'https://1kh0.github.io/config/games.json',
-    prenite: 'https://raw.githubusercontent.com/greentidestack/sonfine-games/main/game-sources/prenite.json',
+    prenite: 'https://raw.githubusercontent.com/greentidestack/kernel-games/main/game-sources/prenite.json',
     quasar: 'https://api.spf50krem.com/games/v1/providers/quasar',
     ckv: 'https://api.spf50krem.com/games/v1/providers/ckv',
     ugs: 'https://api.spf50krem.com/games/v1/providers/ugs',
@@ -2531,7 +2524,7 @@ const achromaProviders = {
     truffled: { name: 'Truffled', games: [], loadPromise: null, searchRequest: 0 },
     seraph: { name: 'Seraph', games: [], loadPromise: null, searchRequest: 0 }
 };
-let selectedGameSource = 'sonfine';
+let selectedGameSource = 'kernel';
 let preniteGames = [];
 let preniteLoadPromise = null;
 let preniteSearchRequest = 0;
@@ -2557,7 +2550,7 @@ function getSelectedGameList() {
 }
 
 function selectGameSource(source) {
-    if (!['sonfine', '1kh0', 'lumin', 'prenite', ...Object.keys(achromaProviders)].includes(source)) return;
+    if (!['kernel', '1kh0', 'lumin', 'prenite', ...Object.keys(achromaProviders)].includes(source)) return;
     selectedGameSource = source;
 
     document.querySelectorAll('.liquid-ass-btn[data-source]').forEach(button => {
@@ -2696,7 +2689,7 @@ async function initializeAchromaGames(provider, query = '') {
 
     try {
         if (!providerData.loadPromise) {
-            providerData.loadPromise = fetch(GAME_SOURCE_URLS[provider])
+            providerData.loadPromise = fetch(source_urls[provider])
                 .then(response => {
                     if (!response.ok) throw new Error(`${providerData.name} returned ${response.status}`);
                     return response.json();
@@ -2782,7 +2775,7 @@ async function initializePreniteGames(query = '') {
 
     try {
         if (!preniteLoadPromise) {
-            preniteLoadPromise = fetch(GAME_SOURCE_URLS.prenite)
+            preniteLoadPromise = fetch(source_urls.prenite)
                 .then(response => {
                     if (!response.ok) throw new Error('Prenite returned ' + response.status);
                     return response.json();
@@ -2840,7 +2833,7 @@ async function initializePreniteGames(query = '') {
 
 async function LoadOtherGameSource() {
     const [oneKh0Result] = await Promise.allSettled([
-        fetch(GAME_SOURCE_URLS.oneKh0).then(response => {
+        fetch(source_urls.oneKh0).then(response => {
             if (!response.ok) throw new Error('1kh0 returned ' + response.status);
             return response.json();
         }),
@@ -2885,7 +2878,7 @@ async function LoadOtherGameSource() {
 }
 
 function goToView(viewName, clickEvent) {
-    sonfineContextMenu?.classList.remove('visible');
+    kernelContextMenu?.classList.remove('visible');
     document.querySelectorAll('.view').forEach(viewSection => viewSection.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(navButton => navButton.classList.remove('active'));
 
@@ -3004,7 +2997,7 @@ function buildGrid(gamesList, gridElementId) {
             gameImage.dataset.failed = 'true';
             const imageFallback = document.createElement('div');
             imageFallback.className = 'card-img-fallback';
-            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end if the selected source is Sonfine, otherwise the other game server needs to add an image URL for this game</h6>';
+            imageFallback.innerHTML = '<h4 style="font-weight: normal;">Image unavailable</h4><br><br><h6 style="font-weight: normal;">This is a problem on my end if the selected source is Kernel, otherwise the other game server needs to add an image URL for this game</h6>';
             gameTile.insertBefore(imageFallback, gameNameText);
             gameImage.remove();
         });
@@ -3096,20 +3089,21 @@ function onSearchInput(e) {
 
     currentSearchResults = [
         ...matchingResults.slice(0, 7),
+        { tag: looksLikeUrl ? 'URL' : 'Web', resultType: 'fallback', name: fallbackLabel },
         ...(gameMatches.length === 0 ? [{
-            name: 'No Sonfine results found, browse other game sources',
-            tag: 'Game Sources',
+            name: 'No Kernel results found, browse other game sources',
+            tag: 'Games',
             resultType: 'game-sources'
-        }] : []),
-        { tag: looksLikeUrl ? 'URL' : 'Web', resultType: 'fallback', name: fallbackLabel }
+        }] : [])
     ];
+
     currentSuggestions = currentSearchResults;
     selectedSearchResult = 0;
-    renderSonfineSearchResults();
+    renderKernelSearchResults();
 }
 
-// sonfine!
-function renderSonfineSearchResults() {
+// kernel!
+function renderKernelSearchResults() {
     const resultsHolder = document.getElementById('search-suggestions');
     if (!resultsHolder) return;
 
@@ -3163,7 +3157,7 @@ function chooseSearchResult(index) {
     const result = currentSearchResults[index];
     if (!result) return;
     if (result.resultType === 'setting') {
-        closeSonfineSearch();
+        closeKernelSearch();
         goToView('settings');
         requestAnimationFrame(() => {
             result.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -3177,7 +3171,7 @@ function chooseSearchResult(index) {
     
     if (result.resultType === 'game-sources') {
     clearSuggestions();
-    closeSonfineSearch();
+    closeKernelSearch();
     goToView('games');
 
     requestAnimationFrame(() => {
@@ -3202,7 +3196,7 @@ function chooseSearchResult(index) {
     if (result.resultType === 'game' || result.resultType === 'app') {
         document.getElementById('search-input').value = '';
         clearSuggestions();
-        closeSonfineSearch();
+        closeKernelSearch();
         LoadEmbed(result.url, result.name, result.servers);
         return;
     }
@@ -3223,13 +3217,19 @@ function chooseFallback() {
 
     input.value = '';
     clearSuggestions();
-    closeSonfineSearch();
+    closeKernelSearch();
 // now.gg doesnt work so you get redirected to nowgg.fun, it might work on other blockers (not for goguardian unfortunately)
     const normalized = userText.replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '').toLowerCase();
     if (normalized === 'now.gg') {
         alert("that one doesnt work, lemme take you to a better one");
         LoadEmbed('https://nowgg.fun', 'nowgg.fun', undefined, true);
         return;
+    }
+    if (normalized === 'roblox') {
+        alert("YOURE BANNED");
+    }
+    if (normalized === 'google') {
+        alert("are you a grandpa trying to navigate internet explorer");
     }
 
     const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
@@ -3253,7 +3253,7 @@ function clearSuggestions() {
 
 function hideSuggestionsDelayed() {
     setTimeout(() => {
-        if (!document.getElementById('sonfine-search-overlay')?.classList.contains('visible')) clearSuggestions();
+        if (!document.getElementById('kernel-search-overlay')?.classList.contains('visible')) clearSuggestions();
     }, 150);
 }
 
@@ -3263,7 +3263,7 @@ function onSearchKey(e) {
         e.preventDefault();
         const direction = e.key === 'ArrowDown' ? 1 : -1;
         selectedSearchResult = (selectedSearchResult + direction + currentSearchResults.length) % currentSearchResults.length;
-        renderSonfineSearchResults();
+        renderKernelSearchResults();
         return;
     }
     if (e.key !== 'Enter') return;
@@ -3855,9 +3855,9 @@ document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
         }
 
 const tabPresets = {
-    sonfine: {
-        name: 'Sonfine Site',
-        icon: 'https://i.postimg.cc/3Rp5NZ3R/Sonfine-new-logo-design.png'
+    kernel: {
+        name: 'Kernel',
+        icon: 'https://i.postimg.cc/3Rp5NZ3R/Kernel-new-logo-design.png'
     },
     // fahhhhhhhhhhhhhhhh
     google: {
@@ -3874,13 +3874,13 @@ const tabPresets = {
     }
 };
 
-let siteName = 'Sonfine Site';
-let siteIcon = tabPresets.sonfine.icon;
-let selectedTabPreset = 'sonfine';
+let siteName = 'Kernel';
+let siteIcon = tabPresets.kernel.icon;
+let selectedTabPreset = 'kernel';
 let customSiteIconUrl = '';
 
 function applySiteIdentity(name, icon, save = true) {
-    siteName = typeof name === 'string' ? name : 'Sonfine Site';
+    siteName = typeof name === 'string' ? name : 'Kernel';
     if (icon !== undefined) siteIcon = icon;
     document.title = siteName;
 
@@ -3910,7 +3910,7 @@ function changeSiteIcon(url) {
     if (customSiteIconUrl) {
         applySiteIdentity(siteName, customSiteIconUrl);
     } else {
-        applySiteIdentity(siteName, tabPresets.sonfine.icon);
+        applySiteIdentity(siteName, tabPresets.kernel.icon);
     }
 }
 
@@ -3968,7 +3968,7 @@ function launchBlobTab() {
 
 function persistSettings() {
     try {
-        localStorage.setItem('sonfine_config', JSON.stringify({
+        localStorage.setItem('kernel_config', JSON.stringify({
             loader: loaderMode,
             accent: accentMode,
             customAccent: customAccentHex,
@@ -3989,7 +3989,7 @@ function persistSettings() {
 function restoreSettings() {
     let saved = {};
     try {
-        const userText = localStorage.getItem('sonfine_config');
+        const userText = localStorage.getItem('kernel_config');
         if (userText) saved = JSON.parse(userText);
     } catch (e) {
         console.warn('couldnt load settings', e);
@@ -4010,13 +4010,13 @@ function restoreSettings() {
         pickTabPreset(saved.tabPreset, false);
     } else {
         customSiteIconUrl = saved.customSiteIconUrl || '';
-        applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Sonfine Site', saved.siteIcon || tabPresets.sonfine.icon, false);
+        applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Kernel', saved.siteIcon || tabPresets.kernel.icon, false);
     }
 }
 
 
-async function downloadLatestVersion() {
-    const latestSourceUrl = 'https://raw.githubusercontent.com/greentidestack/sonfine-games/refs/heads/main/index.html';
+async function DownloadLatest() {
+    const latestSourceUrl = 'https://raw.githubusercontent.com/greentidestack/kernel-games/refs/heads/main/index.html';
   // Star my github? yes no?
 
     try {
@@ -4046,7 +4046,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let RecentGames = [];
     try {
-        RecentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+        RecentGames = JSON.parse(localStorage.getItem('kernelRecentlyPlayed') || '[]');
     } catch (e) {
         RecentGames = [];
     }
@@ -4123,13 +4123,13 @@ function resetSettings() {
 }
 
 function exportSettings() {
-    const userText = localStorage.getItem('sonfine_config') || '{}';
+    const userText = localStorage.getItem('kernel_config') || '{}';
     const blob = new Blob([userText], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'sonfine-settings.json';
+    a.download = 'kernel-settings.json';
     a.click();
 
     URL.revokeObjectURL(url);
@@ -4160,7 +4160,7 @@ function importSettings(e) {
             } else {
                 selectedTabPreset = '';
                 customSiteIconUrl = saved.customSiteIconUrl || '';
-                applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Sonfine Site', saved.siteIcon || tabPresets.sonfine.icon, false);
+                applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Kernel', saved.siteIcon || tabPresets.kernel.icon, false);
             }
 
             persistSettings();
@@ -4176,36 +4176,36 @@ function importSettings(e) {
     </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1}' crossorigin="anonymous"></script>
 <script>
-const sonfineContextMenu = document.getElementById('sonfine-context-menu');
+const kernelContextMenu = document.getElementById('context-menu');
 
 document.addEventListener('contextmenu', (event) => {
     event.preventDefault();
-    if (!sonfineContextMenu) return;
+    if (!kernelContextMenu) return;
 
     const menuWidth = 220;
     const menuHeight = 190;
     const left = Math.min(event.clientX, window.innerWidth - menuWidth - 8);
     const top = Math.min(event.clientY, window.innerHeight - menuHeight - 8);
 
-    sonfineContextMenu.style.left = Math.max(8, left) + 'px';
-    sonfineContextMenu.style.top = Math.max(8, top) + 'px';
-    sonfineContextMenu.classList.add('visible');
+    kernelContextMenu.style.left = Math.max(8, left) + 'px';
+    kernelContextMenu.style.top = Math.max(8, top) + 'px';
+    kernelContextMenu.classList.add('visible');
 });
 
 document.addEventListener('click', () => {
-    sonfineContextMenu?.classList.remove('visible');
+    kernelContextMenu?.classList.remove('visible');
 });
 
 document.addEventListener('pointerdown', (event) => {
     if (event.target.closest('.game-card, .app-card, .game-item, .app-item')) {
-        sonfineContextMenu?.classList.remove('visible');
+        kernelContextMenu?.classList.remove('visible');
     }
 });
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        sonfineContextMenu?.classList.remove('visible');
-        closeSonfineSearch();
+        kernelContextMenu?.classList.remove('visible');
+        closeKernelSearch();
     }
 
 
@@ -4213,32 +4213,32 @@ document.addEventListener('keydown', (event) => {
     const typingInField = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
     if (pressedSpotlightShortcut && !typingInField) {
         event.preventDefault();
-        openSonfineSearch();
+        openKernelSearch();
     }
 });
 
-function refreshSonfineSite() {
+function Refresh() {
     window.location.reload();
 }
 
-let sonfineSearchHomeSlot = null;
-let sonfineSearchOriginalParent = null;
-let sonfineSearchOriginalNext = null;
+let kernelSearchHomeSlot = null;
+let kernelSearchOriginalParent = null;
+let kernelSearchOriginalNext = null;
 
-function openSonfineSearch() {
-    const searchOverlay = document.getElementById('sonfine-search-overlay');
+function openKernelSearch() {
+    const searchOverlay = document.getElementById('kernel-search-overlay');
     const searchContainer = document.querySelector('#view-home .omnibox-container');
-    sonfineSearchHomeSlot = document.getElementById('sonfine-search-home-slot');
-    if (!searchOverlay || !searchContainer || !sonfineSearchHomeSlot) return;
+    kernelSearchHomeSlot = document.getElementById('kernel-search-home-slot');
+    if (!searchOverlay || !searchContainer || !kernelSearchHomeSlot) return;
 
-    if (!sonfineSearchOriginalParent) {
-        sonfineSearchOriginalParent = searchContainer.parentNode;
-        sonfineSearchOriginalNext = searchContainer.nextSibling;
+    if (!kernelSearchOriginalParent) {
+        kernelSearchOriginalParent = searchContainer.parentNode;
+        kernelSearchOriginalNext = searchContainer.nextSibling;
     }
 
-    sonfineSearchHomeSlot.appendChild(searchContainer);
+    kernelSearchHomeSlot.appendChild(searchContainer);
     searchOverlay.classList.add('visible');
-    sonfineContextMenu?.classList.remove('visible');
+    kernelContextMenu?.classList.remove('visible');
     setTimeout(() => {
         const searchInput = document.getElementById('search-input');
         searchInput?.focus();
@@ -4246,16 +4246,16 @@ function openSonfineSearch() {
     }, 30);
 }
 
-function closeSonfineSearch() {
-    const searchOverlay = document.getElementById('sonfine-search-overlay');
-    const searchContainer = document.querySelector('.sonfine-search-panel .omnibox-container');
+function closeKernelSearch() {
+    const searchOverlay = document.getElementById('kernel-search-overlay');
+    const searchContainer = document.querySelector('.kernel-search-panel .omnibox-container');
     if (!searchOverlay || !searchContainer) return;
 
-    if (sonfineSearchOriginalParent) {
-        if (sonfineSearchOriginalNext && sonfineSearchOriginalNext.parentNode === sonfineSearchOriginalParent) {
-            sonfineSearchOriginalParent.insertBefore(searchContainer, sonfineSearchOriginalNext);
+    if (kernelSearchOriginalParent) {
+        if (kernelSearchOriginalNext && kernelSearchOriginalNext.parentNode === kernelSearchOriginalParent) {
+            kernelSearchOriginalParent.insertBefore(searchContainer, kernelSearchOriginalNext);
         } else {
-            sonfineSearchOriginalParent.appendChild(searchContainer);
+            kernelSearchOriginalParent.appendChild(searchContainer);
         }
     }
 
@@ -4263,7 +4263,7 @@ function closeSonfineSearch() {
     clearSuggestions();
 }
 
-function toggleSonfineFullscreen() {
+function toggleKernelFullscreen() {
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen?.();
     } else {
@@ -4280,7 +4280,7 @@ function addRecentlyPlayed(game) {
 
     let RecentGames = [];
     try {
-        RecentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+        RecentGames = JSON.parse(localStorage.getItem('kernelRecentlyPlayed') || '[]');
     } catch (e) {
         RecentGames = [];
     }
@@ -4294,7 +4294,7 @@ function addRecentlyPlayed(game) {
     });
 
     try {
-        localStorage.setItem('sonfineRecentlyPlayed', JSON.stringify(withoutCurrent.slice(0, 5)));
+        localStorage.setItem('kernelRecentlyPlayed', JSON.stringify(withoutCurrent.slice(0, 5)));
     } catch (e) {}
 
     RenderRecentlyPlayed();
@@ -4311,7 +4311,7 @@ function toggleRecentlyPlayed() {
 
 function ClearRecentlyPlayed() {
     try {
-        localStorage.removeItem('sonfineRecentlyPlayed');
+        localStorage.removeItem('kernelRecentlyPlayed');
     } catch (e) {}
     const content = document.getElementById('recently-played-content');
     const chevron = document.getElementById('recently-played-chevron');
@@ -4328,7 +4328,7 @@ function RenderRecentlyPlayed() {
 
     let RecentGames = [];
     try {
-        RecentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+        RecentGames = JSON.parse(localStorage.getItem('kernelRecentlyPlayed') || '[]');
     } catch (e) {
         RecentGames = [];
     }
@@ -4376,7 +4376,7 @@ function RenderRecentlyPlayed() {
 function OpenRecentlyPlayedGame(gameName) {
     let RecentGames = [];
     try {
-        RecentGames = JSON.parse(localStorage.getItem('sonfineRecentlyPlayed') || '[]');
+        RecentGames = JSON.parse(localStorage.getItem('kernelRecentlyPlayed') || '[]');
     } catch (e) {
         RecentGames = [];
     }
