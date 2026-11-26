@@ -2014,7 +2014,7 @@ strong:hover {
                                     <input type="text" class="tab-name-input" id="site-name-input" placeholder="Enter a tab name" maxlength="40" oninput="changeSiteName(this.value)">
                                     <input type="text" class="tab-custom-icon" id="site-icon-url" placeholder="Enter an image URL" oninput="changeSiteIcon(this.value)">
                                     <div class="tab-presets">
-                                        <button class="tab-preset active" id="preset-kernel" onclick="pickTabPreset('kernel')" title="Kernel">
+                                        <button class="tab-preset active" id="preset-kernel" onclick="pickTabPreset('kernel')" title="Kernel!">
                                             <img src="https://i.imgur.com/QCcql0D.png">
                                         </button>
                                         <button class="tab-preset" id="preset-google" onclick="pickTabPreset('google')" title="Google">
@@ -3874,7 +3874,7 @@ const tabPresets = {
     }
 };
 
-let siteName = 'Kernel';
+let siteName = 'Kernel!';
 let siteIcon = tabPresets.kernel.icon;
 let selectedTabPreset = 'kernel';
 let customSiteIconUrl = '';
@@ -4010,7 +4010,7 @@ function restoreSettings() {
         pickTabPreset(saved.tabPreset, false);
     } else {
         customSiteIconUrl = saved.customSiteIconUrl || '';
-        applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Kernel', saved.siteIcon || tabPresets.kernel.icon, false);
+        applySiteIdentity(saved.siteName !== undefined ? saved.siteName : 'Kernel!', saved.siteIcon || tabPresets.kernel.icon, false);
     }
 }
 
