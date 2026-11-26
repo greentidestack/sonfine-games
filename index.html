@@ -1732,13 +1732,12 @@ strong:hover {
         
 .liquid-ass-btn {
     position: relative;
-    isolation: isolate;
-    overflow: hidden;
     padding: 11px 22px;
-    border-radius: 999999999999999999999999999999999999999999999999999999px;
+    border-radius: 9999px;
     border: 1px solid transparent;
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(10px) saturate(1.8);
+    -webkit-backdrop-filter: blur(10px) saturate(1.8);
     margin-right: 5px;
     color: var(--text-main);
     font: inherit;
@@ -1755,7 +1754,6 @@ strong:hover {
     padding: 1px;
     border-radius: inherit;
     pointer-events: none;
-    z-index: 1;
     background: linear-gradient(
         135deg,
         rgba(255, 255, 255, 0.55),
@@ -1764,16 +1762,13 @@ strong:hover {
         rgba(255, 255, 255, 0.38) 85%,
         rgba(255, 255, 255, 0.18)
     );
-    /*sorry its js a list but idk how else to do it*/
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    transition: all 0.4s ease;
 }
 
-.liquid-ass-btn:hover {
+.liquid-ass-btn:hover,
+.liquid-ass-btn.active {
     background: var(--accent);
     color: var(--text-accent, #fff);
     border-color: var(--border-accent, var(--accent));
@@ -1781,14 +1776,11 @@ strong:hover {
     transform: translateY(-2px);
 }
 
-.liquid-ass-btn.active {
-    background:var(--accent);
-}
-
 .liquid-ass-btn:active {
     filter: brightness(0.85);
     transform: scale(0.96);
 }
+
 
 .notloading-hint {
     display: none;
@@ -1832,9 +1824,9 @@ strong:hover {
     </div>
 
     <nav class="navbar">
-        <div class="brand-group">
-    <img src="https://i.imgur.com/QCcql0D.png"
-         alt="Kernel logo" class="brandimg-hover">
+<div class="brand-group">
+    <img src="https://i.imgur.com/QCcql0D.png.com"
+         alt="Kernel logo" class="brandimg-hover" onclick="DefNotEasterEgg()">
     <div class="brand">Kernel!</div>
 </div>
         <div class="nav-links">
@@ -1865,7 +1857,7 @@ strong:hover {
         <button class="download-latest-button" onclick="DownloadLatest()"><i class="fa-solid fa-download"></i>Download Latest Version</button>
         <a class="github-home-button" href="https://github.com/greentidestack/kernel-games" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
         <div class="info-icon-wrap">
-            <i class="fa-solid fa-circle-info info-icon" id="info-icon" onclick="toggleInfoPopup(event)"></i>
+            <i class="fa-solid fa-circle-info info-icon" id="info-icon" onclick="toggleInfoPopup(event, 'info-popup')"></i>
             <div class="info-popup" id="info-popup">
                 Some sites will not work because they don't allow other sites to embed them, your district is blocking them or your schools' wifi is blocking it. To fix this, try opening an alternative link, use your own wifi or simply wait.
             </div>
@@ -1907,6 +1899,7 @@ strong:hover {
                         <li>Sonfine sounded weird and really doesnt sound like just another ubg site, also I previously made this to remake and enhance a different site that cant be found anymore called Sunfine Site from memory but Sonfine is completely its own thing now</li>
                         <li>New logos, css fix, added a second server to Bacon May Die and added a massive game source (Prenite)</li>
                         <li>Added gn-math as a "source", it just opens gn-maths games page since i couldnt figure out how to get it to fetch and it doesnt work on chromebooks either when i did it before</li>
+                        <li>Added some easter eggs to omnibox if you search certain things, also dont click the image in the top left</li>
                         <li>Dont forget last upd was the source selector</li>
                     </ul>
                 </div>
@@ -1957,7 +1950,7 @@ strong:hover {
         
         
         <div class="info-icon-wrap">
-            <i class="fa-solid fa-circle-info info-icon" id="info-icon2" onclick="toggleInfoPopup(event)"></i>
+            <i class="fa-solid fa-circle-info info-icon" id="info-icon2" onclick="toggleInfoPopup(event, 'info-popup2')"></i>
             <div class="info-popup" id="info-popup2">
                 Game sources that say *huge* have a massive game library, they can take a while to load or just not work at all. Low end devices have this and I recommend switching to another smaller game source
             </div>
@@ -2458,6 +2451,7 @@ strong:hover {
         "CLICK THE FRICKIN FEATURED GAME BUTTON BUDDY",
         "Not me watching this in 2026",
         "Ez game 🗣️",
+        "-4º",
 ];
 
       
@@ -2907,27 +2901,43 @@ function CloseConfirm(e) {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() !== 'l') return;
+    // closes spotlight search and right click menu
+    if (e.key === 'Escape') {
+        closeUpdatelog();
+        kernelContextMenu?.classList.remove('visible');
+        closeKernelSearch();
+        return;
+    }
+// Cancels all shortcuts if typing inside smth
+    const tag = document.activeElement?.tagName;
+    const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable;
+    if (isTyping) return;
+// spotlight search shortcut
+    if (e.code === 'Space' && (e.metaKey || e.ctrlKey) && !e.altKey) {
+        e.preventDefault();
+        openKernelSearch();
+        return;
+    }
+    // L focuses on the omnibox/search bar
+    if (e.key.toLowerCase() === 'l') {
+        const activeView = document.querySelector('.view.active');
+        if (!activeView) return;
 
-    const tag = document.activeElement.tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement.isContentEditable) return;
+        let searchTarget = null;
+        if (activeView.id === 'view-home') searchTarget = document.getElementById('search-input');
+        if (activeView.id === 'view-games') searchTarget = document.getElementById('games-search');
+        if (activeView.id === 'view-apps') searchTarget = document.getElementById('apps-search');
 
-    const activeView = document.querySelector('.view.active');
-    if (!activeView) return;
-
-    let searchTarget = null;
-    if (activeView.id === 'view-home') searchTarget = document.getElementById('search-input');
-    if (activeView.id === 'view-games') searchTarget = document.getElementById('games-search');
-    if (activeView.id === 'view-apps') searchTarget = document.getElementById('apps-search');
-
-    if (!searchTarget) return;
-    e.preventDefault();
-    searchTarget.focus();
-    searchTarget.select();
+        if (searchTarget) {
+            e.preventDefault();
+            searchTarget.focus();
+            searchTarget.select();
+        }
+    }
 });
 
+
 function ToggleBgDots(enabled, save = true) {
-  // fix later - toggling this off and back on in settings might cause some dots to tweak out in their disappearing anim.
     backgroundDotsEnabled = enabled;
     const field = document.getElementById('bg-dots');
     if (field) field.style.display = enabled ? 'block' : 'none';
@@ -3104,6 +3114,31 @@ function onSearchInput(e) {
     renderKernelSearchResults();
 }
 
+let logoClicks = 0;
+let logoClickReset;
+
+function DefNotEasterEgg() {
+    logoClicks++;
+    clearTimeout(logoClickReset);
+    logoClickReset = setTimeout(() => { logoClicks = 0; }, 1500);
+
+    if (logoClicks === 10) {
+        alert("stop spamming me >:(");
+    }
+    if (logoClicks === 25) {
+        alert("why are you so obsessed with a png");
+    }
+    if (logoClicks === 100) {
+        alert("Youll never get to the next message 😈");
+    }
+    if (logoClicks === 1000) {
+        alert("At least work at mcdonalds atp buddy");
+        // Ik you didnt get to this message stop looking at the code
+        // I see you
+    }
+}
+
+
 // kernel!
 function renderKernelSearchResults() {
     const resultsHolder = document.getElementById('search-suggestions');
@@ -3246,7 +3281,9 @@ function chooseFallback() {
         try { name = new URL(dest).hostname; } catch (err) {}
         LoadEmbed(dest, name, undefined, true);
     } else {
-        LoadEmbed('https://www.google.com/search?igu=1&searchQuery=' + encodeURIComponent(userText), 'Google: ' + userText, undefined, true);
+       const googleSearchUrl = 'https://www.google.' + 'com/search?igu=1&q=' + encodeURIComponent(userText);
+LoadEmbed(googleSearchUrl, 'Google: ' + userText, undefined, true);
+
     }
 }
 
@@ -3294,12 +3331,12 @@ function onSearchKey(e) {
     document.getElementById('not-loading-button')?.classList.add('visible');
 }
 
-let frameLoadingIdleTimer = null;
-let frameLoadingHelpTimer = null;
+let IdleTimer = null;
+let HelpTimer = null;
 
 function startFrameLoading() {
-    clearTimeout(frameLoadingIdleTimer);
-    clearTimeout(frameLoadingHelpTimer);
+    clearTimeout(IdleTimer);
+    clearTimeout(HelpTimer);
 
     const overlay = document.getElementById('frame-loading-overlay');
     const helpButton = document.getElementById('frame-loading-help');
@@ -3309,35 +3346,35 @@ function startFrameLoading() {
     overlay.classList.remove('hidden');
     helpButton?.classList.remove('visible');
 
-    frameLoadingHelpTimer = setTimeout(() => {
+    HelpTimer = setTimeout(() => {
         helpButton?.classList.add('visible');
     }, 5000);
 
-    resetFrameLoadingIdleTimer();
+    resetIdleTimer();
 }
 
-function resetFrameLoadingIdleTimer() {
+function resetIdleTimer() {
     const overlay = document.getElementById('frame-loading-overlay');
 
     if (!overlay || overlay.classList.contains('hidden')) return;
 
-    clearTimeout(frameLoadingIdleTimer);
+    clearTimeout(IdleTimer);
 
-    frameLoadingIdleTimer = setTimeout(() => {
+    IdleTimer = setTimeout(() => {
         overlay.classList.add('hidden');
     }, 10000);
 }
 
 function finishFrameLoading() {
-    clearTimeout(frameLoadingIdleTimer);
-    clearTimeout(frameLoadingHelpTimer);
+    clearTimeout(IdleTimer);
+    clearTimeout(HelpTimer);
 
     document.getElementById('frame-loading-overlay')?.classList.add('hidden');
     document.getElementById('frame-loading-help')?.classList.remove('visible');
 }
 
 ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart'].forEach(eventName => {
-    document.addEventListener(eventName, resetFrameLoadingIdleTimer, { passive: true });
+    document.addEventListener(eventName, resetIdleTimer, { passive: true });
 });
 
 function toggleNotLoadingPopup() {
@@ -3559,7 +3596,9 @@ function handleBrowserAddressKey(e) {
   
 
     const looksLikeUrl = /^https?:\/\//i.test(userText) || /^[a-z0-9-]+(\.[a-z0-9-]+)+([\/?#].*)?$/i.test(userText);
-    const dest = looksLikeUrl ? (/^https?:\/\//i.test(userText) ? userText : 'https://' + userText) : 'https://www.google.com/search?igu=1&searchQuery=' + encodeURIComponent(userText);
+    const googleSearchUrl = 'https://www.google.' + 'com/search?igu=1&q=' + encodeURIComponent(userText);
+    const dest = looksLikeUrl ? (/^https?:\/\//i.test(userText) ? userText : 'https://' + userText) : googleSearchUrl;
+
     let name = dest;
     try { name = new URL(dest).hostname; } catch (err) {}
 
@@ -3780,29 +3819,26 @@ function closeUpdatelog() {
     document.getElementById('updlog-overlay')?.classList.remove('active');
 }
 
-document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-        closeUpdatelog();
-    }
-});
 
-function toggleInfoPopup(e) {
+function toggleInfoPopup(e, popupId) {
     e.stopPropagation();
-    document.getElementById('info-popup')?.classList.toggle('active');
-    document.getElementById('info-popup2')?.classList.toggle('active');
+    const targetPopup = document.getElementById(popupId);
+    if (!targetPopup) return;
+    document.querySelectorAll('.info-popup.active').forEach(p => {
+        if (p !== targetPopup) p.classList.remove('active');
+    });
+    targetPopup.classList.toggle('active');
 }
 
+
 document.addEventListener('click', (e) => {
-    const popup = document.getElementById('info-popup');
-    const popup2 = document.getElementById('info-popup2');
-    const icon = document.getElementById('info-icon');
-    if (!popup || !popup.classList.contains('active')) return;
-    if (e.target === icon || popup.contains(e.target)) return;
-    popup.classList.remove('active');
-    if (e.target === icon2 || popup.contains(e.target)) return;
-    popup.classList.remove('active');
+    if (e.target.closest('.info-icon-wrap')) return;
+    document.querySelectorAll('.info-popup.active').forEach(p => p.classList.remove('active'));
 });
 
+
+
+// AEEEEEEEEEEEEEEEEEEEEEe 👶
       
         function pickLoader(kind, save = true) {
             loaderMode = kind;
@@ -3973,35 +4009,42 @@ function launchBlobTab() {
     window.location.replace('https://www.google.com');
 }
 
-function persistSettings() {
+function loadData(key, fallback) {
     try {
-        localStorage.setItem('kernel_config', JSON.stringify({
-            loader: loaderMode,
-            accent: accentMode,
-            customAccent: customAccentHex,
-            confirmClose: confirmCloseMode,
-            confirmCloseSettingVersion: 1,
-            sortMode: sortMode,
-            backgroundDotsEnabled: backgroundDotsEnabled,
-            siteName: siteName,
-            siteIcon: siteIcon,
-            tabPreset: selectedTabPreset,
-            customSiteIconUrl: customSiteIconUrl
-        }));
-    } catch (e) {
-        console.warn('couldnt save settings', e);
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch {
+        return fallback;
     }
 }
 
-function restoreSettings() {
-    let saved = {};
+function saveData(key, value) {
     try {
-        const userText = localStorage.getItem('kernel_config');
-        if (userText) saved = JSON.parse(userText);
+        localStorage.setItem(key, JSON.stringify(value));
     } catch (e) {
-        console.warn('couldnt load settings', e);
+        console.warn('Storage failed:', e);
     }
+}
 
+
+function persistSettings() {
+    saveData('kernel_config', {
+        loader: loaderMode,
+        accent: accentMode,
+        customAccent: customAccentHex,
+        confirmClose: confirmCloseMode,
+        confirmCloseSettingVersion: 1,
+        sortMode: sortMode,
+        backgroundDotsEnabled: backgroundDotsEnabled,
+        siteName: siteName,
+        siteIcon: siteIcon,
+        tabPreset: selectedTabPreset,
+        customSiteIconUrl: customSiteIconUrl
+    });
+}
+
+function restoreSettings() {
+        const saved = loadData('kernel_config', {});
     pickLoader(saved.loader || 'object', false);
     customAccentHex = saved.customAccent || '#4a90e2';
 
@@ -4009,7 +4052,7 @@ function restoreSettings() {
     if (customInput) customInput.value = customAccentHex;
 
     setAccentcolor(saved.accent || 'default', false, customAccentHex);
-    CloseConfirmation(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
+    CloseConfirmation(saved.confirmCloseVersion === 1 && saved.confirmClose === true, false);
     ToggleAZ(saved.sortMode || 'default', false);
     ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
@@ -4158,7 +4201,7 @@ function importSettings(e) {
             if (customInput) customInput.value = customAccentHex;
 
             setAccentcolor(saved.accent || 'default', false, customAccentHex);
-            CloseConfirmation(saved.confirmCloseSettingVersion === 1 && saved.confirmClose === true, false);
+            CloseConfirmation(saved.confirmCloseVersion === 1 && saved.confirmClose === true, false);
             
             ToggleBgDots(saved.backgroundDotsEnabled !== false, false);
 
@@ -4181,7 +4224,6 @@ function importSettings(e) {
     e.target.value = '';
 }
     </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"94c79d4d951745d085049dd7f2bbd8f8","r":1}' crossorigin="anonymous"></script>
 <script>
 const kernelContextMenu = document.getElementById('context-menu');
 
@@ -4209,28 +4251,13 @@ document.addEventListener('pointerdown', (event) => {
     }
 });
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-        kernelContextMenu?.classList.remove('visible');
-        closeKernelSearch();
-    }
-
-
-    const pressedSpotlightShortcut = event.code === 'Space' && (event.metaKey || event.ctrlKey) && !event.altKey;
-    const typingInField = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
-    if (pressedSpotlightShortcut && !typingInField) {
-        event.preventDefault();
-        openKernelSearch();
-    }
-});
-
 function Refresh() {
     window.location.reload();
 }
 
 let kernelSearchHomeSlot = null;
-let kernelSearchOriginalParent = null;
-let kernelSearchOriginalNext = null;
+let SearchParent = null;
+let SearchNext = null;
 
 function openKernelSearch() {
     const searchOverlay = document.getElementById('kernel-search-overlay');
@@ -4238,9 +4265,9 @@ function openKernelSearch() {
     kernelSearchHomeSlot = document.getElementById('kernel-search-home-slot');
     if (!searchOverlay || !searchContainer || !kernelSearchHomeSlot) return;
 
-    if (!kernelSearchOriginalParent) {
-        kernelSearchOriginalParent = searchContainer.parentNode;
-        kernelSearchOriginalNext = searchContainer.nextSibling;
+    if (!SearchParent) {
+        SearchParent = searchContainer.parentNode;
+        SearchNext = searchContainer.nextSibling;
     }
 
     kernelSearchHomeSlot.appendChild(searchContainer);
@@ -4258,17 +4285,18 @@ function closeKernelSearch() {
     const searchContainer = document.querySelector('.kernel-search-panel .omnibox-container');
     if (!searchOverlay || !searchContainer) return;
 
-    if (kernelSearchOriginalParent) {
-        if (kernelSearchOriginalNext && kernelSearchOriginalNext.parentNode === kernelSearchOriginalParent) {
-            kernelSearchOriginalParent.insertBefore(searchContainer, kernelSearchOriginalNext);
+    if (SearchParent) {
+        if (SearchNext && SearchNext.parentNode === SearchParent) {
+            SearchParent.insertBefore(searchContainer, SearchNext);
         } else {
-            kernelSearchOriginalParent.appendChild(searchContainer);
+            SearchParent.appendChild(searchContainer);
         }
     }
 
     searchOverlay.classList.remove('visible');
     clearSuggestions();
 }
+
 
 function toggleKernelFullscreen() {
     if (!document.fullscreenElement) {
