@@ -16,5 +16,6 @@ Some of the games included:
 * wea-f on GitHub for norepted (youtube and yt shorts on the site)
 * RicardoMarioSonic123 on GitHub for ideas, previous motivation and code from Links123 for some features
 * breadbb for web ports of games on the site
+* tsParticles for the constellation background
 
 **__I don't own any of the games in the site.__** If you are the owner of one of the games and would like it removed from the site, please make an issue in this repository (with proof of you owning or working for the game). I will remove it from the site compliantly.
