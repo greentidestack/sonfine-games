@@ -128,6 +128,15 @@
             border: 2px solid var(--accent);
             backdrop-filter: blur(10px);
         }
+        
+        .nav-item i, .nav-item svg {
+            display:inline-block;
+            transition: all 0.14s ease;
+        }
+        
+        .nav-item:hover i, .nav-item:hover svg {
+            transform: rotate(-20deg);
+        }
 
         .view-container {
             margin-top: 120px;
@@ -207,6 +216,13 @@
             border-color: var(--accent);
             background-color: var(--bg-input);
         }
+        
+        .download-latest-button svg {
+            transition: transform 0.14s ease;
+        }
+        .download-latest-button:hover i, .download-latest-button:hover svg {
+            transform: rotate(-20deg);
+        }
 
         .github-home-button {
             position: fixed;
@@ -233,6 +249,12 @@
             color: var(--text-main);
             border-color: var(--accent);
             background-color: var(--bg-input);
+        }
+        .github-home-button svg {
+            transition: transform 0.14s ease;
+        }
+        .github-home-button:hover svg{
+            transform: rotate(-20deg);
         }
 
         @media (max-width: 600px) {
@@ -1775,6 +1797,12 @@ strong:hover {
 .frame-loading-help.visible + .notloading-hint {
     display: block;
 }
+.fa-wand-magic-sparkles {
+    transition: all 0.30s;
+}
+.fa-wand-magic-sparkles:hover {
+    transform: rotate(360deg);
+}
 </style>
 </head>
 <body>
@@ -1816,15 +1844,15 @@ strong:hover {
         
     <div id="view-home" class="view active">
         <div class="home-content">
-            <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i>Welcome to <strong>Kernel</strong></h1>
+            <h1 class="home-title"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i>Welcome to <strong>Kernel!</strong></h1>
             <div class="splash-msg" id="splash-msg" onclick="rollSplash()"></div>
         <div class="omnibox-container">
             <input type="text" class="omnibox" id="search-input" placeholder="Press L or click here to search Kernel/Google or enter a URL" oninput="onSearchInput(event)" onkeydown="onSearchKey(event)" onblur="hideSuggestionsDelayed()" autocomplete="off">
             <div class="search-suggestions" id="search-suggestions"></div>
         </div>
         <div style="display: flex;">
-            <div class="liquid-ass-btn" onclick="openRandomGame()">Launch Random Game</div>
-            <div class="liquid-ass-btn" onclick="OpenFeaturedGm()">Launch Featured Game</div>
+            <div class="liquid-ass-btn" onclick="openRandomGame()"><i class="fa-solid fa-dice" style="margin-right: 5px; color: white"></i>Launch Random Game</div>
+            <div class="liquid-ass-btn" onclick="OpenFeaturedGm()"><i class="fa-solid fa-star" style="margin-right: 5px; color: white"></i>Launch Featured Game</div>
             <!--<div class="liquid-ass-btn" onclick="OpenRandomApp()">Random App</div>-->
         </div>
         
@@ -1867,14 +1895,12 @@ strong:hover {
                     </button>
                 </div>
                 <div class="updlog-entry">
-                    <h3>November 25 2026</h3>
+                    <h3>November 27 2026</h3>
                     <ul>
-                        <li>Rebranded the site to Kernel</li>
-                        <li>Sonfine sounded weird and really doesnt sound like just another ubg site, also I previously made this to remake and enhance a different site that cant be found anymore called Sunfine Site from memory but Sonfine is completely its own thing now</li>
-                        <li>New logos, css fix, added a second server to Bacon May Die and added a massive game source (Prenite)</li>
-                        <li>Added gn-math as a "source", it just opens gn-maths games page since i couldnt figure out how to get it to fetch and it doesnt work on chromebooks either when i did it before</li>
-                        <li>Added some easter eggs to omnibox if you search certain things, also dont click the image in the top left</li>
-                        <li>Dont forget last upd was the source selector</li>
+                        <li>New gradient background on the top and bottom corner of the site</li>
+                        <li>Replaced the bg dots with constellations</li>
+                        <li>Icons in the navbar spinnnnnn</li>
+                        <li>Added back 3dash</li>
                     </ul>
                 </div>
                 
@@ -1882,18 +1908,16 @@ strong:hover {
                 
                 <details class="updlog-entry">
                     <summary>
-                        <h3>Previous update: Nov 24 2026</h3>
+                        <h3>Previous update: Nov 25 2026</h3>
                         <div class="liquid-ass-btn" style="width: 205.9px;">Click to show details</div>
                     </summary>
                     <ul>
-                        <li>Finally replaced the All Games with a game source selector!</li>
-                        <li>A ton of game sources</li>
-                        <li>Didnt take a shit</li>
-                        <li>Putting in a result with no kernel results shows a game source change result</li>
-                        <li>I might add some easter eggs to the site later</li>
-                        <li>Previous update button expander is liquid ass now</li>
-                        <li>liquid<br>
-                            glass*</li>
+                        <li>Rebranded the site to Kernel</li>
+                        <li>Sonfine sounded weird and really doesnt sound like just another ubg site, also I previously made this to remake and enhance a different site that cant be found anymore called Sunfine Site from memory but Sonfine is completely its own thing now</li>
+                        <li>New logos, css fix, added a second server to Bacon May Die and added a massive game source (Prenite)</li>
+                        <li>Added gn-math as a "source", it just opens gn-maths games page since i couldnt figure out how to get it to fetch and it doesnt work on chromebooks either when i did it before</li>
+                        <li>Added some easter eggs to omnibox if you search certain things, also dont click the image in the top left</li>
+                        <li>Dont forget last upd was the source selector</li>
                     </ul>
                 </details>
         
@@ -1949,7 +1973,7 @@ strong:hover {
             <div class="settings-card square">
                 <div>
                     <h3><i class="fa-solid fa-palette" style="margin-right: 5px;"></i>Accent Color</h3>
-                    <p>Change the accent color used for buttons, background dots and more</p>
+                    <p>Change the accent color used for buttons, outlines, the background and more</p>
                 </div>
                 <div class="config-btn-group">
                     <button class="config-toggle-btn swatch-btn active" id="btn-accent-default" style="background-color:#4a90e2;" onclick="setAccentcolor('default')"></button>
@@ -1960,8 +1984,8 @@ strong:hover {
             </div>
             <div class="settings-card square">
                 <div>
-                    <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Dots</h3>
-                    <p>Toggle the floating dots on or off if they cause lag</p>
+                    <h3><i class="fa-solid fa-circle-dot" style="margin-right: 5px;"></i>Background Effects</h3>
+                    <p>Toggle the constellations on or off if they cause lag (their interactive effect may not be as smooth but that doesn't mean it's laggy, zooming the page in can lessen the lag)</p>
                 </div>
                 <div class="config-btn-group">
                     <button class="config-toggle-btn active" id="btn-bg-dots-on" onclick="ToggleBgDots(true)">On</button>
@@ -4006,7 +4030,7 @@ function persistSettings() {
         accent: accentMode,
         customAccent: customAccentHex,
         confirmClose: confirmCloseMode,
-        confirmCloseSettingVersion: 1,
+        ConfirmCloseVersion: 1,
         sortMode: sortMode,
         backgroundDotsEnabled: backgroundDotsEnabled,
         siteName: siteName,
@@ -4137,17 +4161,27 @@ async function initConstellationBG() {
                 interactivity: {
                     detectsOn: 'window',
                     events: {
-                        onHover: { enable: true, mode: 'repulse' },
+                        onHover: { 
+                            enable: true, 
+                            mode: ['grab', 'repulse']
+                        },
                         resize: { enable: true }
                     },
                     modes: {
+                        grab: {
+                            distance: 180,
+                            links: {
+                                opacity: 0.45
+                            }
+                        },
                         repulse: {
-                            distance: 145,
-                            duration: 0.45,
-                            speed: 1.4
+                            distance: 110,
+                            duration: 0.4,
+                            speed: 1.8,
                         }
                     }
                 }
+
             }
         });
 
@@ -4482,7 +4516,10 @@ function OpenRecentlyPlayedGame(gameName) {
 // dont miss
 LoadOtherGameSource();
 
+
+
 </script>
 </div>
 </body>
 </html>
+
