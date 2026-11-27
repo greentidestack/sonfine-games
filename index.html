@@ -40,8 +40,21 @@
             overflow-x: hidden;
             user-select: none;
             background:
-                radial-gradient(ellipse at 18% 42%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 48%),
-                radial-gradient(ellipse at 82% 30%, color-mix(in srgb, var(--accent-soft) 38%, transparent) 0%, transparent 48%),
+                radial-gradient(
+                    ellipse 75% 55% at 12% 12%,
+                    color-mix(in srgb, var(--accent) 22%, transparent),
+                    transparent 72%
+                ),
+                radial-gradient(
+                    ellipse 60% 65% at 90% 85%,
+                    color-mix(in srgb, var(--accent) 13%, transparent),
+                    transparent 70%
+                ),
+                radial-gradient(
+                    ellipse 45% 40% at 75% 5%,
+                    color-mix(in srgb, var(--accent) 8%, transparent),
+                    transparent 75%
+                ),
                 var(--bg-main);
             background-attachment: fixed;
         }
@@ -70,7 +83,7 @@
             border: 2px solid rgba(130, 130, 130, 0.2);
         }
         .brand {
-            font-weight: 500;
+            font-weight: 450;
             font-size: 1.2rem;
             letter-spacing: 0.7px;
             color: var(--text-main);
@@ -1153,49 +1166,10 @@ transition: 0.1s all;
     pointer-events: none;
 }
 
-.bg-dot {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
-    animation: dotFloat 7s ease-in-out forwards;
-}
-
-.bg-dot-fading {
-    animation: dotFadeOut 1s ease-in-out forwards !important;
-}
-
-@keyframes dotFadeOut {
-    0% {
-        transform: scale(0.5);
-        opacity: 0.4;
-    }
-    100% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
-}
-
-@keyframes dotFloat {
-    0% {
-        transform: translate(0, 0) scale(0.4);
-        opacity: 0;
-    }
-    
-    20% {
-        opacity: 0.25;
-    }
-    50% {
-        transform: translate(20px, -15px) scale(0.5);
-        opacity: 0.4;
-    }
-    80% {
-        opacity: 0.2;
-    }
-    100% {
-        transform: translate(-15px, 20px) scale(0.3);
-        opacity: 0;
-    }
+.bg-dots canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .info-icon-wrap {
@@ -1804,7 +1778,7 @@ strong:hover {
 </style>
 </head>
 <body>
-  <div class="bg-dots" id="bg-dots"></div>
+  <div class="bg-dots" id="bg-dots" aria-hidden="true"></div>
 
     <div class="context-menu" id="context-menu">
         <button class="context-button" onclick="Refresh()"><i class="fa-solid fa-rotate-right"></i><span>Refresh Site</span></button>
@@ -2174,6 +2148,8 @@ strong:hover {
     <img class="minimized-site-favicon" id="minimized-site-favicon" alt="" onerror="this.style.display='none'">
     <span id="minimized-tab-name"></span>
 </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/engine@4/tsparticles.engine.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@4/tsparticles.slim.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"></script>
     <script>
       // i shouldnt have put the games at the top of the js 😭
@@ -2248,6 +2224,7 @@ strong:hover {
       { name: "Glass City", url: "https://cdn.ubgames.app/glass-city/", image: "https://i.imgur.com/AMXvwDi.png" },
       { name: "Basketball Stars", url: "https://1kh0.github.io/projects/basketball-stars/index.html", image: "https://1kh0.github.io/projects/basketball-stars/assets/images/basketball-stars.png" },
           { name: "Geometry Dash Web Port", url: "https://gd-webport.pages.dev/", image: "https://play-lh.googleusercontent.com/tF6siCn3bM7JmXqB_iLqZm17DCI-C2h5X8I_n1-bqmkMJrN1sm2ZDrj8IAqSFtQcF85QX1Puvhsi_vcnSmmzAOk=s96" },
+          { name: "3Dash", url: "https://theorytest.help/gm/sunivbgaw98s2nmvao60lhqyhjh0es3f/index.html", image: "https://theorytest.help/images/gd3d.jpg" },
       { name: "Web Dashers", url: "https://web-dashers.github.io", image: "https://avatars.githubusercontent.com/u/273732217?s=280&v=4" },
       { name: "Geometry Dash Lite", url: "https://gaming-escape.github.io/public/assets/games/geometry-dash/index.html", image: "https://play-lh.googleusercontent.com/StEbdIF-rV4EoYfIdaP07zClA50KSs-i9o12kceyecfw8R0nwYfzqV64h3UlEzh_fCqxyNCj7Bb7ro86pfYDsSU=s96", },
       { name: "Crossy Road", url: "https://gaming-escape.github.io/public/assets/games/crossy-road/index.html", image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=80,height=80,fit=cover,f=auto/76fc1b000203faf71b77a75b10022142/crossy-road-logo.png", },
@@ -2475,7 +2452,6 @@ function rollSplash() {
       let sortMode = 'default';
       let customAccentHex = '#4a90e2';
 let backgroundDotsEnabled = true;
-let backgroundDotsTimer = null;
 let notLoadingTimer = null;
 const ACCENT_COLORS = {
     default: { base: '#4a90e2', soft: '#254a75' },
@@ -2937,30 +2913,26 @@ document.addEventListener('keydown', (e) => {
 });
 
 
+// Toggle the background. im too lazy to rename it, its not bg dots anymore
 function ToggleBgDots(enabled, save = true) {
     backgroundDotsEnabled = enabled;
+
     const field = document.getElementById('bg-dots');
-    if (field) field.style.display = enabled ? 'block' : 'none';
+    if (field) field.style.visibility = enabled ? 'visible' : 'hidden';
+
     document.getElementById('btn-bg-dots-on')?.classList.toggle('active', enabled);
     document.getElementById('btn-bg-dots-off')?.classList.toggle('active', !enabled);
 
-    if (!enabled && backgroundDotsTimer) {
-        clearInterval(backgroundDotsTimer);
-        backgroundDotsTimer = null;
+    if (enabled) {
+        if (constellationContainer) {
+            constellationContainer.play();
+        } else {
+            initConstellationBG();
+        }
+    } else if (constellationContainer) {
+        constellationContainer.pause();
     }
 
-    if (!enabled && field) {
-        field.querySelectorAll('.bg-dot').forEach(dot => dot.classList.add('bg-dot-fading'));
-        setTimeout(() => {
-            if (!backgroundDotsEnabled && field) field.style.display = 'none';
-        }, 1000);
-    }
-
-    if (enabled && field) {
-        field.style.display = 'block';
-    }
-
-    if (enabled && !backgroundDotsTimer) spawnDots();
     if (save) persistSettings();
 }
 
@@ -3881,6 +3853,7 @@ document.querySelectorAll('.brand-group img, #site-logo').forEach(img => {
 
     document.documentElement.style.setProperty('--accent', base);
     document.documentElement.style.setProperty('--accent-soft', soft);
+    refreshConstellationColor();
 
     document.getElementById('btn-accent-default')?.classList.toggle('active', name === 'default');
     document.getElementById('btn-accent-green')?.classList.toggle('active', name === 'green');
@@ -4092,7 +4065,7 @@ window.addEventListener('DOMContentLoaded', () => {
     rollSplash();
     restoreSettings();
     RenderRecentlyPlayed();
-    spawnDots();
+    initConstellationBG();
 
     let RecentGames = [];
     try {
@@ -4110,26 +4083,109 @@ window.addEventListener('DOMContentLoaded', () => {
     // } for now the recently played being expanded by default clutters the home page a little
 });
 
-      function spawnDots() {
+let constellationContainer = null;
+let constellationLoading = false;
+
+async function initConstellationBG() {
     const field = document.getElementById('bg-dots');
-    if (!field || !backgroundDotsEnabled || backgroundDotsTimer) return;
+    if (!field || !backgroundDotsEnabled || constellationContainer || constellationLoading) return;
+    if (!window.tsParticles || typeof window.loadSlim !== 'function') return;
 
-    field.style.display = 'block';
-    backgroundDotsTimer = setInterval(() => {
+    constellationLoading = true;
+    field.style.visibility = 'visible';
+
+    try {
+        await window.loadSlim(window.tsParticles);
         if (!backgroundDotsEnabled) return;
-        const dot = document.createElement('div');
-        const size = 6 + Math.random() * 18;
 
-        dot.className = 'bg-dot';
-        dot.style.width = size + 'px';
-        dot.style.height = size + 'px';
-        dot.style.left = Math.random() * 100 + '%';
-        dot.style.top = Math.random() * 100 + '%';
+        const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#9b5de5';
 
-        field.appendChild(dot);
-        setTimeout(() => dot.remove(), 7000);
-    }, 250);
+        constellationContainer = await window.tsParticles.load({
+            id: 'bg-dots',
+            options: {
+                fullScreen: { enable: false, zIndex: -1 },
+                background: { color: { value: 'transparent' } },
+                fpsLimit: 30,
+                pauseOnBlur: true,
+                pauseOnOutsideViewport: true,
+                detectRetina: true,
+                particles: {
+                    color: { value: accent },
+                    links: {
+                        enable: true,
+                        color: accent,
+                        distance: 155,
+                        opacity: 0.19,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 0.45,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        outModes: { default: 'bounce' }
+                    },
+                    number: {
+                        value: 62,
+                        density: { enable: true, width: 1200, height: 850 }
+                    },
+                    opacity: { value: { min: 0.22, max: 0.48 } },
+                    shape: { type: 'circle' },
+                    size: { value: { min: 1.2, max: 2.5 } }
+                },
+                interactivity: {
+                    detectsOn: 'window',
+                    events: {
+                        onHover: { enable: true, mode: 'repulse' },
+                        resize: { enable: true }
+                    },
+                    modes: {
+                        repulse: {
+                            distance: 145,
+                            duration: 0.45,
+                            speed: 1.4
+                        }
+                    }
+                }
+            }
+        });
+
+        if (!backgroundDotsEnabled && constellationContainer) {
+    constellationContainer.pause();
+    field.style.visibility = 'hidden';
 }
+    } catch (error) {
+        console.warn('Could not start the constellation background:', error);
+    } finally {
+        constellationLoading = false;
+    }
+}
+
+
+async function refreshConstellationColor() {
+    if (!backgroundDotsEnabled) return;
+
+    const accent = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent').trim() || '#9b5de5';
+
+    if (!constellationContainer) {
+        if (!constellationLoading) {
+            await initConstellationBG();
+        }
+        return;
+    }
+
+    constellationContainer.options.load({
+        particles: {
+            color: { value: accent },
+            links: { color: accent }
+        }
+    });
+
+    await constellationContainer.refresh();
+}
+
 
 let resetConfirmPending = false;
 let resetConfirmTimer;
